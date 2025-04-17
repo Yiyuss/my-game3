@@ -1,61 +1,36 @@
-import { playerPos, player, container, showVideo, hitSound, enemies } from './game.js';
+import { playerPos, player, enemies, hitSound, showVideo } from './game.js';
 
-export function moveEnemy(enemyObj) {
-  const dx = playerPos.x - enemyObj.pos.x;
-  const dy = playerPos.y - enemyObj.pos.y;
-  const angle = Math.atan2(dy, dx);
-
-  const vx = Math.cos(angle) * enemyObj.speed;
-  const vy = Math.sin(angle) * enemyObj.speed;
-
-  enemyObj.pos.x += vx;
-  enemyObj.pos.y += vy;
-
-  const maxX = container.clientWidth - 50;
-  const maxY = container.clientHeight - 50;
-
-  enemyObj.pos.x = Math.max(0, Math.min(enemyObj.pos.x, maxX));
-  enemyObj.pos.y = Math.max(0, Math.min(enemyObj.pos.y, maxY));
-
-  enemyObj.element.style.left = enemyObj.pos.x + 'px';
-  enemyObj.element.style.top = enemyObj.pos.y + 'px';
-}
-
-export function checkCollision(enemyObj) {
-  const rect1 = player.getBoundingClientRect();
-  const rect2 = enemyObj.element.getBoundingClientRect();
-
-  const isColliding = !(
-    rect1.right < rect2.left ||
-    rect1.left > rect2.right ||
-    rect1.bottom < rect2.top ||
-    rect1.top > rect2.bottom
-  );
-
-  if (isColliding) {
-    hitSound.play();
-    showVideo();
+export function moveEnemy(enemy) {
+  const dx = playerPos.x - enemy.pos.x;
+  const dy = playerPos.y - enemy.pos.y;
+  const dist = Math.hypot(dx, dy);
+  if (dist > 0) {
+    enemy.pos.x += (dx / dist) * enemy.speed;
+    enemy.pos.y += (dy / dist) * enemy.speed;
+    enemy.element.style.left = enemy.pos.x + 'px';
+    enemy.element.style.top = enemy.pos.y + 'px';
   }
 }
 
-export function avoidEnemyCollision(current) {
+export function avoidEnemyCollision(currentEnemy) {
   enemies.forEach(other => {
-    if (other === current) return;
-
-    const dx = other.pos.x - current.pos.x;
-    const dy = other.pos.y - current.pos.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    const minDistance = 50;
-
-    if (distance < minDistance && distance > 0) {
-      const angle = Math.atan2(dy, dx);
-      const overlap = minDistance - distance;
-
-      current.pos.x -= Math.cos(angle) * overlap;
-      current.pos.y -= Math.sin(angle) * overlap;
-      current.element.style.left = current.pos.x + 'px';
-      current.element.style.top = current.pos.y + 'px';
+    if (other === currentEnemy) return;
+    const dx = currentEnemy.pos.x - other.pos.x;
+    const dy = currentEnemy.pos.y - other.pos.y;
+    const dist = Math.hypot(dx, dy);
+    if (dist < 50 && dist > 0) {
+      currentEnemy.pos.x += (dx / dist) * 2;
+      currentEnemy.pos.y += (dy / dist) * 2;
     }
   });
+}
+
+export function checkCollision(enemy) {
+  const dx = playerPos.x - enemy.pos.x;
+  const dy = playerPos.y - enemy.pos.y;
+  const dist = Math.hypot(dx, dy);
+  if (dist < 40) {
+    hitSound.play();
+    showVideo();
+  }
 }
