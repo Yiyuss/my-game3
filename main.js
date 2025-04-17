@@ -1,24 +1,20 @@
-import { startGame } from './game.js';
-import { setPlayerCharacter } from './player.js';
+import { setupEventHandlers } from './events.js';
+import { initGame, startGame } from './game.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+let selectedCharacter = null;
+
+window.addEventListener('DOMContentLoaded', () => {
   const characterSelect = document.getElementById('character-select');
-  const gameContainer = document.getElementById('game-container');
-  
-  const character1 = document.getElementById('character1');
-  const character2 = document.getElementById('character2');
-  
-  character1.addEventListener('click', () => {
-    setPlayerCharacter('https://i.imgur.com/JFTxfva.png'); // 角色1圖片
-    startGame();
-    characterSelect.style.display = 'none';
-    gameContainer.style.display = 'block';
+  const characterImages = document.querySelectorAll('.character');
+
+  // 點選角色圖片進入遊戲
+  characterImages.forEach(img => {
+    img.addEventListener('click', () => {
+      selectedCharacter = img.getAttribute('data-character');
+      characterSelect.style.display = 'none';
+      startGame(selectedCharacter); // 根據角色開始遊戲
+    });
   });
 
-  character2.addEventListener('click', () => {
-    setPlayerCharacter('https://i.imgur.com/NPnmEtr.png'); // 角色2圖片
-    startGame();
-    characterSelect.style.display = 'none';
-    gameContainer.style.display = 'block';
-  });
+  initGame(); // 初始化遊戲畫面與邏輯
 });
