@@ -1,0 +1,68 @@
+import { playerPos, player, container, showVideo, hitSound, enemies } from './game.js';
+
+export function moveEnemy(enemyObj) {
+  const dx = playerPos.x - enemyObj.pos.x;
+  const dy = playerPos.y - enemyObj.pos.y;
+  const angle = Math.atan2(dy, dx);
+
+  const vx = Math.cos(angle) * enemyObj.speed;
+  const vy = Math.sin(angle) * enemyObj.speed;
+
+  enemyObj.pos.x += vx;
+  enemyObj.pos.y += vy;
+
+  // 邊界限制
+  const maxX = container.clientWidth - 50;
+  const maxY = container.clientHeight - 50;
+
+  enemyObj.pos.x = Math.max(0, Math.min(enemyObj.pos.x, maxX));
+  enemyObj.pos.y = Math.max(0, Math.min(enemyObj.pos.y, maxY));
+
+  enemyObj.element.style.left = enemyObj.pos.x + 'px';
+  enemyObj.element.style.top = enemyObj.pos.y + 'px';
+}
+
+export function checkCollision(enemyObj) {
+  const rect1 = player.getBoundingClientRect();
+  const rect2 = enemyObj.element.getBoundingClientRect();
+
+  const isColliding = !(
+    rect1.right < rect2.left ||
+    rect1.left > rect2.right ||
+    rect1.bottom < rect2.top ||
+    rect1.top > rect2.bottom
+  );
+
+  if (isColliding) {
+    hitSound.play();
+    showVideo();
+  }
+}
+
+// 新增：避免敵人重疊
+export function avoidEnemyCollision(current) {
+  enemies.forEach(other => {
+    if (other === current) return;
+
+    const dx = other.pos.x - current.pos.x;
+    const dy = other.pos.y - current.pos.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    const minDistance = 50;
+
+    if (distance < minDistance && distance > 0) {
+      const angle = Math.atan2(dy, dx);
+      const overlap = minDistance - distance;
+
+      current.pos.x -= Math.cos(angle) * (overlap / 2);
+      current.pos.y -= Math.sin(angle) * (overlap / 2);
+      other.pos.x += Math.cos(angle) * (overlap / 2);
+      other.pos.y += Math.sin(angle) * (overlap / 2);
+
+      current.element.style.left = current.pos.x + 'px';
+      current.element.style.top = current.pos.y + 'px';
+      other.element.style.left = other.pos.x + 'px';
+      other.element.style.top = other.pos.y + 'px';
+    }
+  });
+}
