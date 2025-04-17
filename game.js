@@ -1,3 +1,4 @@
+// game.js
 import { movePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
@@ -19,16 +20,16 @@ const player = document.getElementById('player');
 const hitSound = document.getElementById('hit-sound');
 const container = document.getElementById('game-container');
 
-export function updateGame() {
+function updateGame() {
   if (!gameRunning || isVideoPlaying()) return;
   time++;
   score++;
   timeEl.textContent = time;
   scoreEl.textContent = score;
-  movePlayer();
+  movePlayer(playerPos, targetPos, player);
 }
 
-export function resetGame() {
+function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
 
@@ -52,7 +53,7 @@ export function resetGame() {
   gameInterval = setInterval(updateGame, 1000 / 60);
 }
 
-export function spawnEnemy() {
+function spawnEnemy() {
   const enemyObj = {
     pos: getRandomPosition(),
     speed: 2,
@@ -74,13 +75,13 @@ export function spawnEnemy() {
   enemies.push(enemyObj);
   setInterval(() => {
     if (!gameRunning) return;
-    moveEnemy(enemyObj);
-    avoidEnemyCollision(enemyObj);
-    checkCollision(enemyObj);
+    moveEnemy(enemyObj, playerPos);
+    avoidEnemyCollision(enemyObj, enemies);
+    checkCollision(enemyObj, playerPos, player, hitSound, showVideo);
   }, 30);
 }
 
-export function showVideo() {
+function showVideo() {
   endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
   videoOverlay.style.display = 'flex';
   gameRunning = false;
@@ -91,17 +92,20 @@ export function showVideo() {
   }, 9000);
 }
 
-// 統一導出所有需要的變數
 export {
-  score,
-  time,
-  playerPos,
-  targetPos,
-  enemies,
-  gameInterval,
-  enemyInterval,
-  gameRunning,
+  resetGame,
+  spawnEnemy,
+  updateGame,
   player,
   container,
-  hitSound
+  playerPos,
+  targetPos,
+  gameRunning,
+  gameInterval,
+  enemyInterval,
+  scoreEl,
+  timeEl,
+  hitSound,
+  videoOverlay,
+  endVideo
 };
