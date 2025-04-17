@@ -1,20 +1,16 @@
-export function movePlayer(container, player, playerPos, targetPos) {
-  let dx = targetPos.x - playerPos.x;
-  let dy = targetPos.y - playerPos.y;
-  let dist = Math.sqrt(dx * dx + dy * dy);
-  let speed = 4;
+// player.js
+function movePlayer(playerPos, targetPos, player) {
+  const speed = 4;
+  const dx = targetPos.x - playerPos.x;
+  const dy = targetPos.y - playerPos.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
 
-  if (dist > speed) {
-    playerPos.x += (dx / dist) * speed;
-    playerPos.y += (dy / dist) * speed;
-
-    const maxX = container.clientWidth - player.offsetWidth;
-    const maxY = container.clientHeight - player.offsetHeight;
-
-    playerPos.x = Math.max(0, Math.min(playerPos.x, maxX));
-    playerPos.y = Math.max(0, Math.min(playerPos.y, maxY));
-
+  if (distance > speed) {
+    playerPos.x += (dx / distance) * speed;
+    playerPos.y += (dy / distance) * speed;
     player.style.left = playerPos.x + 'px';
     player.style.top = playerPos.y + 'px';
   }
 }
+
+export { movePlayer };
