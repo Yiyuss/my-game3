@@ -11,6 +11,7 @@ export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
 export let enemyInterval;
 export let gameInterval;
+
 export function isGameRunning() {
   return gameRunning;
 }
