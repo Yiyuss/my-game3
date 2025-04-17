@@ -1,34 +1,24 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>角色選擇遊戲</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game-wrapper">
-    <div id="game-container">
-      <div id="character-select">
-        <div class="title">請選擇角色</div>
+    <div id="character-select">
+        <h1>請選擇角色</h1>
         <div class="character-options">
-          <img class="character" src="https://i.imgur.com/NPnmEtr.png" data-character="https://i.imgur.com/NPnmEtr.png" />
-          <img class="character" src="https://i.imgur.com/JFTxfva.png" data-character="https://i.imgur.com/JFTxfva.png" />
+            <img class="character" src="https://i.imgur.com/JFTxfva.png" id="character1" alt="Character 1">
+            <img class="character" src="https://i.imgur.com/NPnmEtr.png" id="character2" alt="Character 2">
         </div>
-      </div>
-
-      <div id="player"></div>
-
-      <div id="video-overlay">
-        <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
-      </div>
     </div>
 
-    <div id="scoreboard">
-      <span id="score">分數: 0</span> |
-      <span id="time">時間: 0s</span>
+    <div id="game-container">
+        <div id="player"></div>
     </div>
-  </div>
 
-  <script type="module" src="events.js"></script>
+    <script type="module" src="events.js"></script>
 </body>
 </html>
