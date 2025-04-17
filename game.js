@@ -9,6 +9,7 @@ let gameRunning = false;
 let targetPos = { x: 200, y: 200 };  // 全局變數
 
 function startGame() {
+  console.log("startGame function triggered!");
   resetGame(); // 重置遊戲狀態
   gameRunning = true;
 
