@@ -59,12 +59,17 @@ iframe {
 }
 
 #player {
+  width: 50px;  /* 設定固定寬高 */
+  height: 50px; /* 設定固定寬高 */
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
+  transition: all 0.1s ease-in-out; /* 加入平滑移動效果 */
 }
 
 #enemy {
+  width: 50px;  /* 設定固定寬高 */
+  height: 50px; /* 設定固定寬高 */
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
