@@ -1,43 +1,46 @@
 import {
   startGame,
   resetGame,
-  gameRunning,
-  player,
+  updateGame,
+  spawnEnemy,
   container,
-  targetPos
+  player,
+  targetPos,
+  gameRunning,
+  videoOverlay,
+  gameInterval,
+  enemyInterval
 } from './game.js';
 
-// 角色選擇處理
-window.addEventListener('DOMContentLoaded', () => {
-  const characters = document.querySelectorAll('.character');
+let selectedCharacter = null;
+
+document.addEventListener('DOMContentLoaded', () => {
   const characterSelect = document.getElementById('character-select');
+  const characterImages = document.querySelectorAll('.character');
 
-  characters.forEach(char => {
-    char.addEventListener('click', () => {
-      const selectedSrc = char.getAttribute('data-src');
-      player.style.backgroundImage = `url('${selectedSrc}')`;
-
+  characterImages.forEach(img => {
+    img.addEventListener('click', () => {
+      selectedCharacter = img.dataset.character;
+      player.style.backgroundImage = `url('${selectedCharacter}')`;
       characterSelect.style.display = 'none';
 
-      // 強制等到畫面完成再重設並開始遊戲
-      setTimeout(() => {
-        resetGame();
-        startGame();
-      }, 50);
+      resetGame();
+      gameInterval.value = setInterval(updateGame, 1000 / 60);
+      spawnEnemy();
+      enemyInterval.value = setInterval(spawnEnemy, 5000);
+      gameRunning.value = true;
     });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!gameRunning.value || isVideoPlaying()) return;
+
+    const rect = container.getBoundingClientRect();
+    targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
+    targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
   });
 });
 
-// 點擊移動事件
-document.addEventListener('click', (e) => {
-  if (!gameRunning || isVideoPlaying()) return;
-
-  const rect = container.getBoundingClientRect();
-  targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
-  targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
-});
-
 function isVideoPlaying() {
-  const overlay = document.getElementById('video-overlay');
-  return overlay && overlay.style.display === 'flex';
+  return videoOverlay.style.display === 'flex';
 }
