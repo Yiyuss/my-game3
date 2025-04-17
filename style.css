@@ -57,7 +57,8 @@ body {
   background-position: center;
   border: 3px solid white;
   overflow: hidden;
-  display: none;
+  display: block;  /* 預先顯示遊戲視窗 */
+  visibility: hidden;  /* 初始時隱藏遊戲畫面 */
 }
 
 #player {
