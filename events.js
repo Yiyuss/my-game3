@@ -3,11 +3,9 @@ import { startGame, resetGame, updateGame, gameRunning, spawnEnemy, enemyInterva
 // 點擊開始遊戲按鈕
 const startBtn = document.getElementById('start-btn');
 startBtn.addEventListener('click', () => {
-  resetGame();
-  gameRunning = true;
-  gameInterval = setInterval(updateGame, 1000 / 60);
-  spawnEnemy();
-  enemyInterval = setInterval(spawnEnemy, 5000);
+  if (!gameRunning) {
+    startGame();
+  }
 });
 
 // 點擊移動玩家
@@ -22,4 +20,13 @@ document.addEventListener('click', (e) => {
 // 播放影片
 function isVideoPlaying() {
   return videoOverlay.style.display === 'flex';
+}
+
+// 假設你有一個新的開始遊戲的函數，這樣你可以在事件中觸發
+export function startGame() {
+  resetGame();
+  gameRunning = true;
+  gameInterval = setInterval(updateGame, 1000 / 60);
+  spawnEnemy();
+  enemyInterval = setInterval(spawnEnemy, 5000);
 }
