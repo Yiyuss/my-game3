@@ -68,4 +68,4 @@ export function showVideo() {
   }, 9000);
 }
 
-export { playerPos, targetPos, player, container, gameRunning, hitSound }; 
+export { playerPos, targetPos, player, container, gameRunning, hitSound };
