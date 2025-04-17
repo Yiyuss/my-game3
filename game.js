@@ -2,6 +2,8 @@ import { movePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
+let gameRunning = false;
+
 export let score = 0;
 export let time = 0;
 export let playerPos = { x: 200, y: 200 };
@@ -9,7 +11,9 @@ export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
 export let enemyInterval;
 export let gameInterval;
-export let gameRunning = false;
+export function isGameRunning() {
+  return gameRunning;
+}
 
 export const scoreEl = document.getElementById('score');
 export const timeEl = document.getElementById('time');
