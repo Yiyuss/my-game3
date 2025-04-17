@@ -11,7 +11,6 @@ export function moveEnemy(enemyObj) {
   enemyObj.pos.x += vx;
   enemyObj.pos.y += vy;
 
-  // 邊界限制
   const maxX = container.clientWidth - 50;
   const maxY = container.clientHeight - 50;
 
@@ -39,7 +38,6 @@ export function checkCollision(enemyObj) {
   }
 }
 
-// 新增：避免敵人重疊
 export function avoidEnemyCollision(current) {
   enemies.forEach(other => {
     if (other === current) return;
@@ -54,15 +52,10 @@ export function avoidEnemyCollision(current) {
       const angle = Math.atan2(dy, dx);
       const overlap = minDistance - distance;
 
-      current.pos.x -= Math.cos(angle) * (overlap / 2);
-      current.pos.y -= Math.sin(angle) * (overlap / 2);
-      other.pos.x += Math.cos(angle) * (overlap / 2);
-      other.pos.y += Math.sin(angle) * (overlap / 2);
-
+      current.pos.x -= Math.cos(angle) * overlap;
+      current.pos.y -= Math.sin(angle) * overlap;
       current.element.style.left = current.pos.x + 'px';
       current.element.style.top = current.pos.y + 'px';
-      other.element.style.left = other.pos.x + 'px';
-      other.element.style.top = other.pos.y + 'px';
     }
   });
 }
