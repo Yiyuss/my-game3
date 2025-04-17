@@ -25,11 +25,11 @@
 
   <audio id="hit-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
 
-  <!-- 引入多個JS檔案 -->
-  <script src="./game.js"></script>
-  <script src="./player.js"></script>
-  <script src="./enemy.js"></script>
-  <script src="./utils.js"></script>
-  <script src="./events.js"></script>
+  <!-- 引入多個JS檔案，按照正確順序 -->
+  <script src="./game.js"></script>  <!-- 最先加載遊戲邏輯 -->
+  <script src="./player.js"></script>  <!-- 控制玩家 -->
+  <script src="./enemy.js"></script>   <!-- 控制敵人 -->
+  <script src="./utils.js"></script>   <!-- 工具函數 -->
+  <script src="./events.js"></script>  <!-- 事件處理 -->
 </body>
 </html>
