@@ -1,40 +1,34 @@
-// enemy.js
-function moveEnemy(enemyObj, playerPos) {
-  const dx = playerPos.x - enemyObj.pos.x;
-  const dy = playerPos.y - enemyObj.pos.y;
+import { playerPos, hitSound, showVideo, player } from './game.js';
+
+export function moveEnemy(enemy) {
+  const dx = playerPos.x - enemy.pos.x;
+  const dy = playerPos.y - enemy.pos.y;
   const distance = Math.sqrt(dx * dx + dy * dy);
 
   if (distance > 0) {
-    enemyObj.pos.x += (dx / distance) * enemyObj.speed;
-    enemyObj.pos.y += (dy / distance) * enemyObj.speed;
-    enemyObj.element.style.left = enemyObj.pos.x + 'px';
-    enemyObj.element.style.top = enemyObj.pos.y + 'px';
+    enemy.pos.x += dx / distance * enemy.speed;
+    enemy.pos.y += dy / distance * enemy.speed;
   }
+
+  enemy.element.style.left = enemy.pos.x + 'px';
+  enemy.element.style.top = enemy.pos.y + 'px';
 }
 
-function avoidEnemyCollision(currentEnemy, enemies) {
-  enemies.forEach(other => {
-    if (other !== currentEnemy) {
-      const dx = currentEnemy.pos.x - other.pos.x;
-      const dy = currentEnemy.pos.y - other.pos.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 50) {
-        currentEnemy.pos.x += dx / dist;
-        currentEnemy.pos.y += dy / dist;
-      }
-    }
-  });
+export function avoidEnemyCollision(enemy) {
+  // 可加入敵人彼此避開的邏輯
 }
 
-function checkCollision(enemyObj, playerPos, player, hitSound, showVideo) {
-  const dx = enemyObj.pos.x - playerPos.x;
-  const dy = enemyObj.pos.y - playerPos.y;
-  const distance = Math.sqrt(dx * dx + dy * dy);
+export function checkCollision(enemy) {
+  const rect1 = enemy.element.getBoundingClientRect();
+  const rect2 = player.getBoundingClientRect();
 
-  if (distance < 40) {
+  if (
+    rect1.left < rect2.right &&
+    rect1.right > rect2.left &&
+    rect1.top < rect2.bottom &&
+    rect1.bottom > rect2.top
+  ) {
     hitSound.play();
     showVideo();
   }
 }
-
-export { moveEnemy, avoidEnemyCollision, checkCollision };
