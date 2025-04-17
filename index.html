@@ -4,29 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>角色選擇遊戲</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="game-container">
     <div id="character-select">
       <div>請選擇角色</div>
       <div class="character-options">
-        <img src="https://i.imgur.com/NPnmEtr.png" class="character" data-src="https://i.imgur.com/NPnmEtr.png" />
-        <img src="https://i.imgur.com/JFTxfva.png" class="character" data-src="https://i.imgur.com/JFTxfva.png" />
+        <img src="https://i.imgur.com/JFTxfva.png" class="character" data-character="https://i.imgur.com/JFTxfva.png" />
+        <img src="https://i.imgur.com/NPnmEtr.png" class="character" data-character="https://i.imgur.com/NPnmEtr.png" />
       </div>
     </div>
 
     <div id="player"></div>
-    <div id="video-overlay">
-      <iframe id="video" src="" frameborder="0" allowfullscreen></iframe>
+    <div id="video-overlay"><iframe id="end-video" src="" frameborder="0" allowfullscreen></iframe></div>
+    <div id="scoreboard">
+      <span id="time">0</span> 秒 | 分數：<span id="score">0</span>
     </div>
   </div>
 
-  <div id="scoreboard">
-    <span id="time">時間：0</span>
-    <span id="score">分數：0</span>
-  </div>
-
-  <script type="module" src="./events.js"></script>
+  <script type="module" src="events.js"></script>
 </body>
 </html>
