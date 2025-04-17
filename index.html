@@ -1,81 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>角色選擇測試</title>
-  <style>
-    #character-select {
-      position: absolute;
-      width: 100%;
-      height: 100vh;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 10;
-    }
-
-    .character-options {
-      display: flex;
-      gap: 50px;
-      margin-top: 30px;
-    }
-
-    .character {
-      width: 200px;
-      height: 200px;
-      cursor: pointer;
-      border: 3px solid transparent;
-    }
-
-    #game-container {
-      width: 1024px;
-      height: 576px;
-      background-color: #333;
-      margin: 0 auto;
-      position: relative;
-      top: 150px;
-      display: block;
-    }
-
-    #player {
-      width: 50px;
-      height: 50px;
-      position: absolute;
-      top: 100px;
-      left: 100px;
-      background-size: cover;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>角色選擇遊戲</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="character-select">
-    <h1>請選擇角色</h1>
-    <div class="character-options">
-      <img src="https://i.imgur.com/JFTxfva.png" id="character1" class="character">
-      <img src="https://i.imgur.com/NPnmEtr.png" id="character2" class="character">
+  <div id="game-container">
+    <div id="character-select">
+      <div>請選擇角色</div>
+      <div class="character-options">
+        <img src="https://i.imgur.com/NPnmEtr.png" class="character" data-src="https://i.imgur.com/NPnmEtr.png" />
+        <img src="https://i.imgur.com/JFTxfva.png" class="character" data-src="https://i.imgur.com/JFTxfva.png" />
+      </div>
+    </div>
+
+    <div id="player"></div>
+    <div id="video-overlay">
+      <iframe id="video" src="" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
 
-  <div id="game-container">
-    <div id="player"></div>
+  <div id="scoreboard">
+    <span id="time">時間：0</span>
+    <span id="score">分數：0</span>
   </div>
 
-  <script type="module">
-    const characterSelect = document.getElementById('character-select');
-    const character1 = document.getElementById('character1');
-    const character2 = document.getElementById('character2');
-    const player = document.getElementById('player');
-
-    function startGame(imageUrl) {
-      characterSelect.style.display = 'none';
-      document.getElementById('game-container').style.visibility = 'visible';
-      player.style.backgroundImage = `url(${imageUrl})`;
-    }
-
-    character1.addEventListener('click', () => startGame(character1.src));
-    character2.addEventListener('click', () => startGame(character2.src));
-  </script>
+  <script type="module" src="./events.js"></script>
 </body>
 </html>
