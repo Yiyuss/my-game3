@@ -1,25 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>模組化遊戲</title>
+  <title>選角遊戲</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-container">
-    <div id="scoreboard">時間：<span id="time">0</span>秒</div>
-    <div id="video-overlay"><iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe></div>
-    <div id="character-select">
-      <div>請選擇角色</div>
-      <div class="character-options">
-        <img class="character" src="https://i.imgur.com/JFTxfva.png" data-character="1" />
-        <img class="character" src="https://i.imgur.com/NPnmEtr.png" data-character="2" />
+  <div id="game-wrapper">
+    <div id="game-container">
+      <div id="player"></div>
+      <div id="enemy"></div>
+      <div id="video-overlay">
+        <iframe id="video-player" src="" frameborder="0" allowfullscreen></iframe>
       </div>
+    </div>
+
+    <div id="scoreboard">
+      <span id="score">Score: 0</span>
+      <span id="timer">Time: 60</span>
     </div>
   </div>
 
-  <!-- ✅ 載入主控模組 -->
-  <script type="module" src="./main.js"></script>
+  <!-- 選角畫面 -->
+  <div id="character-selection">
+    <h2>請選擇角色</h2>
+    <div class="character-options">
+      <img
+        class="character-image"
+        src="https://i.imgur.com/JFTxfva.png"
+        data-character="https://i.imgur.com/JFTxfva.png"
+        alt="角色 1"
+      />
+      <img
+        class="character-image"
+        src="https://i.imgur.com/NPnmEtr.png"
+        data-character="https://i.imgur.com/NPnmEtr.png"
+        alt="角色 2"
+      />
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
 </body>
 </html>
