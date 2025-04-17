@@ -82,12 +82,20 @@ function spawnEnemy() {
 }
 
 function showVideo() {
+  gameRunning = false; // 停止邏輯更新
+
+  // 清除敵人與畫面
+  enemies.forEach(e => e.element.remove());
+  enemies = [];
+
+  // 播放結束影片
   endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
   videoOverlay.style.display = 'flex';
-  gameRunning = false;
 
+  // 等影片播完再重啟遊戲（用 9000ms）
   setTimeout(() => {
     videoOverlay.style.display = 'none';
+    endVideo.src = ''; // 清空影片來源避免重播
     resetGame();
   }, 9000);
 }
