@@ -1,15 +1,21 @@
 import { initGame } from './game.js';
-import { setPlayerImage } from './player.js';
 
-const characterSelect = document.getElementById('character-select');
-const characterImages = document.querySelectorAll('.character');
+window.addEventListener('DOMContentLoaded', () => {
+  const characters = document.querySelectorAll('.character-select img');
+  const selection = document.getElementById('character-selection');
+  const player = document.getElementById('player');
 
-characterImages.forEach(img => {
-  img.addEventListener('click', () => {
-    const selected = img.getAttribute('data-character');
-    const player = document.getElementById('player');
-    player.style.backgroundImage = `url('https://i.imgur.com/${selected}.png')`;
-    characterSelect.style.display = 'none';
-    initGame();
+  characters.forEach(img => {
+    img.addEventListener('click', () => {
+      const selectedSrc = img.getAttribute('src');
+      player.src = selectedSrc;
+      player.style.display = 'block';
+
+      // 隱藏選角畫面
+      selection.style.display = 'none';
+
+      // ✅ 啟動遊戲
+      initGame();
+    });
   });
 });
