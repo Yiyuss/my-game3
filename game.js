@@ -1,86 +1,95 @@
 // game.js
-let score = 0;
-let time = 0;
-let playerPos = { x: 200, y: 200 };
-let enemies = [];  // 用來存儲所有敵人
-let gameInterval;
-let enemyInterval;
-let gameRunning = false;
-let targetPos = { x: 200, y: 200 };  // 全局變數
+import { movePlayer } from './player.js';
+import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
+import { getRandomPosition, isVideoPlaying } from './utils.js';
 
-function startGame() {
-  console.log("startGame function triggered!");
-  resetGame(); // 重置遊戲狀態
-  gameRunning = true;
+export let score = 0;
+export let time = 0;
+export let playerPos = { x: 200, y: 200 };
+export let targetPos = { x: 200, y: 200 };
+export let enemies = [];
+export let gameInterval;
+export let enemyInterval;
+export let gameRunning = false;
 
-  // 啟動遊戲邏輯
-  gameInterval = setInterval(updateGame, 1000 / 60); // 每秒更新60次
-  spawnEnemy();  // 初始生成一個敵人
-  enemyInterval = setInterval(spawnEnemy, 5000); // 每 5 秒生成一個新的敵人
-}
+const scoreEl = document.getElementById('score');
+const timeEl = document.getElementById('time');
+const videoOverlay = document.getElementById('video-overlay');
+const endVideo = document.getElementById('end-video');
+const player = document.getElementById('player');
+const hitSound = document.getElementById('hit-sound');
+const container = document.getElementById('game-container');
 
-function updateGame() {
-  if (!gameRunning || isVideoPlaying()) return; // 如果影片正在播放，不進行更新
-
+export function updateGame() {
+  if (!gameRunning || isVideoPlaying()) return;
   time++;
-  timeEl.textContent = time;
   score++;
+  timeEl.textContent = time;
   scoreEl.textContent = score;
-
-  movePlayer();  // 讓玩家移動
+  movePlayer();
 }
 
-function resetGame() {
-  // 清除定時器
+export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
 
-  // 重新初始化遊戲狀態
   score = 0;
   time = 0;
   scoreEl.textContent = score;
   timeEl.textContent = time;
 
-  // 重新設定玩家位置
-  playerPos.x = 200;
-  playerPos.y = 200;
+  playerPos = { x: 200, y: 200 };
+  targetPos = { x: 200, y: 200 };
   player.style.left = playerPos.x + 'px';
   player.style.top = playerPos.y + 'px';
 
-  // 清除所有敵人
-  enemies.forEach(enemyObj => enemyObj.element.remove());
-  enemies = []; // 清空敵人陣列
+  enemies.forEach(e => e.element.remove());
+  enemies = [];
 
-  // 重新生成敵人並啟動敵人移動
   spawnEnemy();
+  enemyInterval = setInterval(spawnEnemy, 5000);
 
-  // 重啟遊戲定時器
   gameRunning = true;
-  gameInterval = setInterval(updateGame, 1000 / 60); // 更新遊戲狀態
+  gameInterval = setInterval(updateGame, 1000 / 60);
 }
 
-function spawnEnemy() {
+export function spawnEnemy() {
   const enemyObj = {
-    pos: getRandomPosition(),  // 隨機生成敵人位置並檢查是否與其他敵人重疊
-    speed: 2,  // 敵人初速度設定為2
+    pos: getRandomPosition(),
+    speed: 2,
     element: document.createElement('div')
   };
 
-  enemyObj.element.classList.add('enemy');  // 為敵人元素添加CSS類
+  enemyObj.element.classList.add('enemy');
   enemyObj.element.style.position = 'absolute';
   enemyObj.element.style.width = '50px';
   enemyObj.element.style.height = '50px';
   enemyObj.element.style.backgroundImage = 'url("https://i.imgur.com/NPnmEtr.png")';
   enemyObj.element.style.backgroundSize = 'cover';
   enemyObj.element.style.backgroundRepeat = 'no-repeat';
-  document.getElementById('game-container').appendChild(enemyObj.element);
+  container.appendChild(enemyObj.element);
 
-  // 設置敵人的位置
   enemyObj.element.style.left = enemyObj.pos.x + 'px';
   enemyObj.element.style.top = enemyObj.pos.y + 'px';
 
-  enemies.push(enemyObj);  // 添加到敵人陣列
-
-  // 開始移動敵人
-  setInterval(() => moveEnemy(enemyObj), 30); // 每30ms更新一次
+  enemies.push(enemyObj);
+  setInterval(() => {
+    if (!gameRunning) return;
+    moveEnemy(enemyObj);
+    avoidEnemyCollision(enemyObj);
+    checkCollision(enemyObj);
+  }, 30);
 }
+
+export function showVideo() {
+  endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
+  videoOverlay.style.display = 'flex';
+  gameRunning = false;
+
+  setTimeout(() => {
+    videoOverlay.style.display = 'none';
+    resetGame();
+  }, 9000);
+}
+
+export { playerPos, targetPos, player, container, gameRunning, hitSound };
