@@ -1,48 +1,56 @@
-/* 確保遊戲視窗和背景在正中央顯示 */
-#game-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1024px; /* 設定背景寬度 */
-  height: 576px; /* 設定背景高度 */
-  background-color: #000; /* 可選擇適合的背景顏色 */
-  overflow: hidden;
+/* style.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  color: white;
 }
 
-/* 角色選擇畫面樣式 */
+#game-container {
+  width: 1024px;
+  height: 576px;
+  background-image: url('https://i.imgur.com/1eV1cSh.jpeg');
+  background-size: cover;
+  background-position: center;
+  margin: 0 auto;
+  position: relative;
+  display: none;
+  border: 4px solid white;
+  box-sizing: border-box;
+}
+
 #character-select-screen {
-  display: none; /* 初始隱藏 */
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 20px;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#character-select-screen h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .character-image {
   width: 150px;
-  height: 150px;
-  margin: 10px;
-  opacity: 0.6;
-  transition: opacity 0.3s;
+  height: auto;
+  margin: 0 20px;
+  filter: brightness(60%);
+  transition: filter 0.3s ease, transform 0.3s ease;
   cursor: pointer;
 }
 
-.character-image:hover {
-  opacity: 1;
+.character-image.highlight {
+  filter: brightness(100%);
+  transform: scale(1.1);
 }
 
-.character-image.selected {
-  border: 5px solid #fff;
-}
-
-/* 角色選擇畫面提示文字 */
-#character-select-screen h2 {
-  color: #fff;
-  font-size: 24px;
-  margin-bottom: 20px;
+#restart-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+  display: none;
 }
