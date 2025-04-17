@@ -1,14 +1,22 @@
-import { startGame, resetGame, updateGame, gameRunning, spawnEnemy, enemyInterval, gameInterval, player, container, targetPos, playerPos, time, score, hitSound, videoOverlay, endVideo, scoreEl, timeEl } from './game.js';
+// events.js
+import {
+  resetGame,
+  spawnEnemy,
+  updateGame,
+  gameRunning,
+  gameInterval,
+  enemyInterval,
+  player,
+  container,
+  targetPos,
+  playerPos
+} from './game.js';
+import { isVideoPlaying } from './utils.js';
 
-// 點擊開始遊戲按鈕
-const startBtn = document.getElementById('start-btn');
-startBtn.addEventListener('click', () => {
-  if (!gameRunning) {
-    startGame();
-  }
+document.getElementById('start-btn').addEventListener('click', () => {
+  resetGame();
 });
 
-// 點擊移動玩家
 document.addEventListener('click', (e) => {
   if (!gameRunning || isVideoPlaying()) return;
 
@@ -16,17 +24,3 @@ document.addEventListener('click', (e) => {
   targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
   targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
 });
-
-// 播放影片
-function isVideoPlaying() {
-  return videoOverlay.style.display === 'flex';
-}
-
-// 假設你有一個新的開始遊戲的函數，這樣你可以在事件中觸發
-export function startGame() {
-  resetGame();
-  gameRunning = true;
-  gameInterval = setInterval(updateGame, 1000 / 60);
-  spawnEnemy();
-  enemyInterval = setInterval(spawnEnemy, 5000);
-}
