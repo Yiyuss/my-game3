@@ -1,37 +1,41 @@
-// game.js
 import { movePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
-let score = 0;
-let time = 0;
-let playerPos = { x: 200, y: 200 };
-let targetPos = { x: 200, y: 200 };
-let enemies = [];
-let gameInterval;
-let enemyInterval;
-let gameRunning = false;
+export let score = 0;
+export let time = 0;
+export let playerPos = { x: 200, y: 200 };
+export let targetPos = { x: 200, y: 200 };
+export let enemies = [];
+export let enemyInterval;
+export let gameInterval;
+export let gameRunning = false;
 
-const scoreEl = document.getElementById('score');
-const timeEl = document.getElementById('time');
-const videoOverlay = document.getElementById('video-overlay');
-const endVideo = document.getElementById('end-video');
-const player = document.getElementById('player');
-const hitSound = document.getElementById('hit-sound');
-const container = document.getElementById('game-container');
+export const scoreEl = document.getElementById('score');
+export const timeEl = document.getElementById('time');
+export const videoOverlay = document.getElementById('video-overlay');
+export const endVideo = document.getElementById('end-video');
+export const player = document.getElementById('player');
+export const hitSound = document.getElementById('hit-sound');
+export const container = document.getElementById('game-container');
 
-function updateGame() {
+export function updateGame() {
   if (!gameRunning || isVideoPlaying()) return;
   time++;
   score++;
   timeEl.textContent = time;
   scoreEl.textContent = score;
-  movePlayer(playerPos, targetPos, player);
+  movePlayer();
 }
 
-function resetGame() {
+export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
+  enemies.forEach(e => {
+    e.element.remove();
+    clearInterval(e.moveInterval);
+  });
+  enemies = [];
 
   score = 0;
   time = 0;
@@ -43,77 +47,53 @@ function resetGame() {
   player.style.left = playerPos.x + 'px';
   player.style.top = playerPos.y + 'px';
 
-  enemies.forEach(e => e.element.remove());
-  enemies = [];
-
   spawnEnemy();
   enemyInterval = setInterval(spawnEnemy, 5000);
-
   gameRunning = true;
   gameInterval = setInterval(updateGame, 1000 / 60);
 }
 
-function spawnEnemy() {
+export function spawnEnemy() {
   const enemyObj = {
     pos: getRandomPosition(),
     speed: 2,
-    element: document.createElement('div')
+    element: document.createElement('div'),
+    moveInterval: null,
   };
 
   enemyObj.element.classList.add('enemy');
-  enemyObj.element.style.position = 'absolute';
-  enemyObj.element.style.width = '50px';
-  enemyObj.element.style.height = '50px';
-  enemyObj.element.style.backgroundImage = 'url("https://i.imgur.com/NPnmEtr.png")';
-  enemyObj.element.style.backgroundSize = 'cover';
-  enemyObj.element.style.backgroundRepeat = 'no-repeat';
+  Object.assign(enemyObj.element.style, {
+    position: 'absolute',
+    width: '50px',
+    height: '50px',
+    backgroundImage: 'url("https://i.imgur.com/NPnmEtr.png")',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
+  });
   container.appendChild(enemyObj.element);
-
   enemyObj.element.style.left = enemyObj.pos.x + 'px';
   enemyObj.element.style.top = enemyObj.pos.y + 'px';
 
-  enemies.push(enemyObj);
-  setInterval(() => {
-    if (!gameRunning) return;
-    moveEnemy(enemyObj, playerPos);
-    avoidEnemyCollision(enemyObj, enemies);
-    checkCollision(enemyObj, playerPos, player, hitSound, showVideo);
+  enemyObj.moveInterval = setInterval(() => {
+    if (!gameRunning || isVideoPlaying()) return;
+    moveEnemy(enemyObj);
+    avoidEnemyCollision(enemyObj);
+    checkCollision(enemyObj);
   }, 30);
+
+  enemies.push(enemyObj);
 }
 
-function showVideo() {
-  gameRunning = false; // 停止邏輯更新
-
-  // 清除敵人與畫面
-  enemies.forEach(e => e.element.remove());
-  enemies = [];
-
-  // 播放結束影片
+export function showVideo() {
+  gameRunning = false;
   endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
   videoOverlay.style.display = 'flex';
 
-  // 等影片播完再重啟遊戲（用 9000ms）
+  enemies.forEach(e => clearInterval(e.moveInterval));
+
   setTimeout(() => {
+    endVideo.src = '';
     videoOverlay.style.display = 'none';
-    endVideo.src = ''; // 清空影片來源避免重播
     resetGame();
   }, 9000);
 }
-
-export {
-  resetGame,
-  spawnEnemy,
-  updateGame,
-  player,
-  container,
-  playerPos,
-  targetPos,
-  gameRunning,
-  gameInterval,
-  enemyInterval,
-  scoreEl,
-  timeEl,
-  hitSound,
-  videoOverlay,
-  endVideo
-};
