@@ -2,8 +2,6 @@ import { movePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
-let gameRunning = false;
-
 export let score = 0;
 export let time = 0;
 export let playerPos = { x: 200, y: 200 };
@@ -11,10 +9,7 @@ export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
 export let enemyInterval;
 export let gameInterval;
-
-export function isGameRunning() {
-  return gameRunning;
-}
+export let gameRunning = false;
 
 export const scoreEl = document.getElementById('score');
 export const timeEl = document.getElementById('time');
@@ -24,6 +19,7 @@ export const player = document.getElementById('player');
 export const hitSound = document.getElementById('hit-sound');
 export const container = document.getElementById('game-container');
 
+// 更新遊戲狀態
 export function updateGame() {
   if (!gameRunning || isVideoPlaying()) return;
   time++;
@@ -33,6 +29,7 @@ export function updateGame() {
   movePlayer();
 }
 
+// 重置遊戲
 export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
@@ -58,6 +55,7 @@ export function resetGame() {
   gameInterval = setInterval(updateGame, 1000 / 60);
 }
 
+// 生成敵人
 export function spawnEnemy() {
   const enemyObj = {
     pos: getRandomPosition(),
@@ -79,6 +77,7 @@ export function spawnEnemy() {
   enemyObj.element.style.left = enemyObj.pos.x + 'px';
   enemyObj.element.style.top = enemyObj.pos.y + 'px';
 
+  // 設定敵人移動邏輯
   enemyObj.moveInterval = setInterval(() => {
     if (!gameRunning || isVideoPlaying()) return;
     moveEnemy(enemyObj);
@@ -89,6 +88,7 @@ export function spawnEnemy() {
   enemies.push(enemyObj);
 }
 
+// 顯示結束影片
 export function showVideo() {
   gameRunning = false;
   endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
