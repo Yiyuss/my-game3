@@ -1,19 +1,8 @@
-// events.js
-import {
-  resetGame,
-  spawnEnemy,
-  updateGame,
-  gameRunning,
-  gameInterval,
-  enemyInterval,
-  player,
-  container,
-  targetPos,
-  playerPos
-} from './game.js';
+import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
 import { isVideoPlaying } from './utils.js';
 
-document.getElementById('start-btn').addEventListener('click', () => {
+const startBtn = document.getElementById('start-btn');
+startBtn.addEventListener('click', () => {
   resetGame();
 });
 
