@@ -1,5 +1,7 @@
-let targetPos = { x: 200, y: 200 };
-let playerPos = { x: 0, y: 0 }; // 初始化 playerPos
+// player.js
+if (typeof targetPos === 'undefined') {
+  var targetPos = { x: 200, y: 200 };
+}
 
 function movePlayer() {
   let dx = targetPos.x - playerPos.x;
