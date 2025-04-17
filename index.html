@@ -1,46 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>選角遊戲</title>
+  <title>角色選擇遊戲</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-wrapper">
-    <div id="game-container">
-      <div id="player"></div>
-      <div id="enemy"></div>
-      <div id="video-overlay">
-        <iframe id="video-player" src="" frameborder="0" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div id="scoreboard">
-      <span id="score">Score: 0</span>
-      <span id="timer">Time: 60</span>
-    </div>
-  </div>
-
-  <!-- 選角畫面 -->
-  <div id="character-selection">
-    <h2>請選擇角色</h2>
+  <div id="character-select">
+    <div class="select-title">請選擇角色</div>
     <div class="character-options">
-      <img
-        class="character-image"
-        src="https://i.imgur.com/JFTxfva.png"
-        data-character="https://i.imgur.com/JFTxfva.png"
-        alt="角色 1"
-      />
-      <img
-        class="character-image"
-        src="https://i.imgur.com/NPnmEtr.png"
-        data-character="https://i.imgur.com/NPnmEtr.png"
-        alt="角色 2"
-      />
+      <img src="https://i.imgur.com/JFTxfva.png" class="character" data-character="JFTxfva" />
+      <img src="https://i.imgur.com/NPnmEtr.png" class="character" data-character="NPnmEtr" />
     </div>
   </div>
 
-  <script type="module" src="main.js"></script>
+  <div id="game-container">
+    <div id="scoreboard">分數: 0</div>
+    <div id="player"></div>
+    <div id="video-overlay">
+      <iframe id="video-player" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script src="main.js" type="module"></script>
 </body>
 </html>
