@@ -1,57 +1,33 @@
-// events.js
-import { startGame, resetGame } from './game.js';
-import { player } from './player.js';
+import { spawnEnemy, resetGame, gameRunning, score, time, updateGame } from './game.js';
+import { movePlayer } from './player.js';
+import { isVideoPlaying } from './utils.js';
 
-let selectedCharacter = '';
+const container = document.getElementById('game-container');
+const player = document.getElementById('player');
+const targetPos = { x: 0, y: 0 };
 
-export function showCharacterSelectScreen() {
-  const selectScreen = document.getElementById('character-select-screen');
-  selectScreen.style.display = 'flex';
+document.addEventListener('click', (e) => {
+  if (!gameRunning || isVideoPlaying()) return;
 
-  const characterImages = selectScreen.querySelectorAll('.character-image');
+  const rect = container.getBoundingClientRect();
+  targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
+  targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
+});
 
-  characterImages.forEach(img => {
-    img.addEventListener('mouseover', () => {
-      img.classList.add('highlight');
-    });
+// 控制遊戲重置
+document.getElementById('reset-btn').addEventListener('click', resetGame);
 
-    img.addEventListener('mouseout', () => {
-      img.classList.remove('highlight');
-    });
+// 定時更新遊戲狀態
+setInterval(() => {
+  if (gameRunning && !isVideoPlaying()) {
+    updateGame();
+    movePlayer();
+  }
+}, 1000 / 60);
 
-    img.addEventListener('click', () => {
-      selectedCharacter = img.src;
-      player.image.src = selectedCharacter;
-
-      selectScreen.style.display = 'none';
-      document.getElementById('game-container').style.display = 'block';
-      startGame();
-    });
-  });
-}
-
-export function getSelectedCharacter() {
-  return selectedCharacter;
-}
-
-export function setupEventListeners() {
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-      player.direction = 'left';
-    } else if (e.key === 'ArrowRight') {
-      player.direction = 'right';
-    } else if (e.key === 'ArrowUp') {
-      player.direction = 'up';
-    } else if (e.key === 'ArrowDown') {
-      player.direction = 'down';
-    }
-  });
-
-  document.addEventListener('keyup', () => {
-    player.direction = null;
-  });
-
-  document.getElementById('restart-button').addEventListener('click', () => {
-    resetGame();
-  });
-}
+// 產生敵人
+setInterval(() => {
+  if (gameRunning && !isVideoPlaying()) {
+    spawnEnemy();
+  }
+}, 5000);
