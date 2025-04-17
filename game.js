@@ -6,7 +6,7 @@ let enemies = [];  // 用來存儲所有敵人
 let gameInterval;
 let enemyInterval;
 let gameRunning = false;
-let targetPos = { x: playerPos.x, y: playerPos.y };
+let targetPos = { x: 200, y: 200 };  // 全局變數
 
 function startGame() {
   resetGame(); // 重置遊戲狀態
