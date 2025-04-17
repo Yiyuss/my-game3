@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,21 +8,28 @@
 </head>
 <body>
   <div id="game-container">
-    <div id="character-select">
-      <div>請選擇角色</div>
-      <div class="character-options">
-        <img src="https://i.imgur.com/JFTxfva.png" class="character" data-character="https://i.imgur.com/JFTxfva.png" />
-        <img src="https://i.imgur.com/NPnmEtr.png" class="character" data-character="https://i.imgur.com/NPnmEtr.png" />
-      </div>
-    </div>
-
+    <!-- 玩家 -->
     <div id="player"></div>
-    <div id="video-overlay"><iframe id="end-video" src="" frameborder="0" allowfullscreen></iframe></div>
-    <div id="scoreboard">
-      <span id="time">0</span> 秒 | 分數：<span id="score">0</span>
+    <!-- 敵人容器 -->
+    <div id="enemies"></div>
+    <!-- 分數顯示 -->
+    <div id="scoreboard">得分: 0</div>
+    <!-- 影片覆蓋層 -->
+    <div id="video-overlay">
+      <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
 
-  <script type="module" src="events.js"></script>
+  <!-- 角色選擇畫面 -->
+  <div id="character-select">
+    <h2>請選擇角色</h2>
+    <div class="character-options">
+      <img src="https://i.imgur.com/JFTxfva.png" class="character" data-character="hero1" />
+      <img src="https://i.imgur.com/NPnmEtr.png" class="character" data-character="hero2" />
+    </div>
+  </div>
+
+  <!-- 主腳本入口 -->
+  <script type="module" src="main.js"></script>
 </body>
 </html>
