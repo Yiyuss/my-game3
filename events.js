@@ -1,4 +1,4 @@
-import { spawnEnemy, resetGame, gameRunning, score, time, updateGame } from './game.js';
+import { spawnEnemy, resetGame, updateGame, isGameRunning } from './game.js';
 import { movePlayer } from './player.js';
 import { isVideoPlaying } from './utils.js';
 
@@ -7,7 +7,7 @@ const player = document.getElementById('player');
 const targetPos = { x: 0, y: 0 };
 
 document.addEventListener('click', (e) => {
-  if (!gameRunning || isVideoPlaying()) return;
+  if (!isGameRunning() || isVideoPlaying()) return;
 
   const rect = container.getBoundingClientRect();
   targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
@@ -19,7 +19,7 @@ document.getElementById('reset-btn').addEventListener('click', resetGame);
 
 // 定時更新遊戲狀態
 setInterval(() => {
-  if (gameRunning && !isVideoPlaying()) {
+  if (isGameRunning() && !isVideoPlaying()) {
     updateGame();
     movePlayer();
   }
@@ -27,7 +27,7 @@ setInterval(() => {
 
 // 產生敵人
 setInterval(() => {
-  if (gameRunning && !isVideoPlaying()) {
+  if (isGameRunning() && !isVideoPlaying()) {
     spawnEnemy();
   }
 }, 5000);
