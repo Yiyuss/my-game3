@@ -1,46 +1,37 @@
-import {
-  startGame,
-  resetGame,
-  updateGame,
-  spawnEnemy,
-  container,
-  player,
-  targetPos,
-  gameRunning,
-  videoOverlay,
-  gameInterval,
-  enemyInterval
-} from './game.js';
+import { resetGame, gameInterval, enemyInterval, updateGame, spawnEnemy, gameRunning, targetPos } from './game.js';
 
-let selectedCharacter = null;
+const player = document.getElementById('player');
+const characterSelect = document.getElementById('character-select');
+const characterImages = document.querySelectorAll('.character');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const characterSelect = document.getElementById('character-select');
-  const characterImages = document.querySelectorAll('.character');
+export function setupEvents() {
+  document.addEventListener('mousemove', (e) => {
+    const rect = document.getElementById('game-container').getBoundingClientRect();
+    targetPos.x = e.clientX - rect.left;
+    targetPos.y = e.clientY - rect.top;
+  });
 
   characterImages.forEach(img => {
     img.addEventListener('click', () => {
-      selectedCharacter = img.dataset.character;
-      player.style.backgroundImage = `url('${selectedCharacter}')`;
-      characterSelect.style.display = 'none';
-
-      resetGame();
-      gameInterval.value = setInterval(updateGame, 1000 / 60);
-      spawnEnemy();
-      enemyInterval.value = setInterval(spawnEnemy, 5000);
-      gameRunning.value = true;
+      const selectedCharacter = img.getAttribute('data-character');
+      startGame(selectedCharacter);
     });
   });
+}
 
-  document.addEventListener('click', (e) => {
-    if (!gameRunning.value || isVideoPlaying()) return;
+function startGame(character) {
+  // 設定玩家圖片
+  if (character === 'hero1') {
+    player.style.backgroundImage = "url('https://i.imgur.com/JFTxfva.png')";
+  } else if (character === 'hero2') {
+    player.style.backgroundImage = "url('https://i.imgur.com/NPnmEtr.png')";
+  }
 
-    const rect = container.getBoundingClientRect();
-    targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
-    targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
-  });
-});
+  characterSelect.style.display = 'none'; // 隱藏選角畫面
 
-function isVideoPlaying() {
-  return videoOverlay.style.display === 'flex';
+  resetGame();
+
+  gameRunning.value = true;
+  gameInterval.value = setInterval(updateGame, 1000 / 60);
+  enemyInterval.value = setInterval(spawnEnemy, 5000);
 }
