@@ -16,7 +16,7 @@
   <div id="game-container">
     <!-- 影片覆蓋層 -->
     <div id="video-overlay" style="display:none;">
-      <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
     </div>
 
     <div id="player" style="position: absolute; width: 50px; height: 50px; background-color: blue;"></div>
@@ -25,11 +25,11 @@
 
   <audio id="hit-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
 
-  <!-- 引入多個JS檔案，按照正確順序 -->
-  <script src="./game.js"></script>  <!-- 最先加載遊戲邏輯 -->
-  <script src="./player.js"></script>  <!-- 控制玩家 -->
-  <script src="./enemy.js"></script>   <!-- 控制敵人 -->
-  <script src="./utils.js"></script>   <!-- 工具函數 -->
-  <script src="./events.js"></script>  <!-- 事件處理 -->
+  <!-- 引入多個JS檔案 -->
+  <script src="./game.js"></script>
+  <script src="./player.js"></script>
+  <script src="./enemy.js"></script>
+  <script src="./utils.js"></script>
+  <script src="./events.js"></script>
 </body>
 </html>
