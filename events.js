@@ -1,4 +1,5 @@
 // enemy.js
+console.log('startBtn:', startBtn);
 function moveEnemy(enemyObj) {
   if (!gameRunning || isVideoPlaying()) return; // 影片播放中不處理敵人移動
 
