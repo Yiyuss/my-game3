@@ -1,36 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>遊戲</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <div id="character-selection">
-    <p>請選擇角色：</p>
-    <div class="character" id="character1" style="background-image: url('https://i.imgur.com/JFTxfva.png');"></div>
-    <div class="character" id="character2" style="background-image: url('https://i.imgur.com/NPnmEtr.png');"></div>
-  </div>
+<!-- 略，這部分你原本應該已經有 -->
 
-  <div id="scoreboard" style="display:none;">
-    得分: <span id="score">0</span> |
-    時間: <span id="time">0</span> 秒
-  </div>
+<!-- 重點是保留以下元素 -->
+<div id="character-selection">
+  <p>請選擇角色</p>
+  <img class="character-option" src="https://i.imgur.com/B4N2G3N.png">
+  <img class="character-option" src="https://i.imgur.com/H5oVNIe.png">
+</div>
 
-  <div id="game-container" style="position: relative; display: none;">
-    <!-- 影片覆蓋層 -->
-    <div id="video-overlay" style="display:none;">
-      <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
-    </div>
-
-    <div id="player" style="position: absolute; width: 50px; height: 50px;"></div>
-    <div id="enemy" style="position: absolute; width: 50px; height: 50px;"></div>
-  </div>
-
-  <audio id="hit-sound" src="https://github.com/Yiyuss/my-game/raw/refs/heads/main/Duck.mp3"></audio>
-
-  <!-- 引入多個JS檔案，並設為模組 -->
-  <script type="module" src="./main.js"></script>
-
-</body>
-</html>
+<div id="game-container" style="display:none;">
+  <div id="player"></div>
+  <div id="video-overlay"><iframe id="end-video" allow="autoplay"></iframe></div>
+  <p>Score: <span id="score">0</span></p>
+  <p>Time: <span id="time">0</span></p>
+  <audio id="hit-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+</div>
