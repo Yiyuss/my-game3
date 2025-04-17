@@ -1,38 +1,34 @@
 import {
   startGame,
   resetGame,
-  updateGame,
   gameRunning,
-  spawnEnemy,
-  enemyInterval,
-  gameInterval,
   player,
   container,
-  targetPos,
-  playerPos,
-  time,
-  score,
-  hitSound,
-  videoOverlay,
-  endVideo,
-  scoreEl,
-  timeEl
+  targetPos
 } from './game.js';
 
-const characters = document.querySelectorAll('.character');
-const characterSelect = document.getElementById('character-select');
+// 角色選擇處理
+window.addEventListener('DOMContentLoaded', () => {
+  const characters = document.querySelectorAll('.character');
+  const characterSelect = document.getElementById('character-select');
 
-characters.forEach(char => {
-  char.addEventListener('click', () => {
-    const selectedSrc = char.getAttribute('data-src');
-    player.style.backgroundImage = `url('${selectedSrc}')`;
+  characters.forEach(char => {
+    char.addEventListener('click', () => {
+      const selectedSrc = char.getAttribute('data-src');
+      player.style.backgroundImage = `url('${selectedSrc}')`;
 
-    characterSelect.style.display = 'none';
-    resetGame();
-    startGame();
+      characterSelect.style.display = 'none';
+
+      // 強制等到畫面完成再重設並開始遊戲
+      setTimeout(() => {
+        resetGame();
+        startGame();
+      }, 50);
+    });
   });
 });
 
+// 點擊移動事件
 document.addEventListener('click', (e) => {
   if (!gameRunning || isVideoPlaying()) return;
 
@@ -42,5 +38,6 @@ document.addEventListener('click', (e) => {
 });
 
 function isVideoPlaying() {
-  return videoOverlay.style.display === 'flex';
+  const overlay = document.getElementById('video-overlay');
+  return overlay && overlay.style.display === 'flex';
 }
