@@ -1,30 +1,29 @@
 import {
-  resetGame, updateGame, spawnEnemy,
-  gameInterval, enemyInterval,
-  gameRunning, container, player, targetPos
+  resetGame, gameRunning, container,
+  player, targetPos
 } from './game.js';
 
 import { setPlayerImage } from './player.js';
 
-// 點擊角色選擇即開始遊戲
 const characterSelect = document.getElementById('character-select');
 const scoreboard = document.getElementById('scoreboard');
 const gameContainer = document.getElementById('game-container');
 
-document.querySelectorAll('.character-option').forEach(option => {
+// 處理角色選擇
+document.querySelectorAll('.character').forEach(option => {
   option.addEventListener('click', () => {
     const img = option.dataset.img;
-    setPlayerImage(img);
+    setPlayerImage(img);  // 設定角色圖片
 
     characterSelect.style.display = 'none';
     scoreboard.style.display = 'block';
     gameContainer.style.display = 'block';
 
-    resetGame();
+    resetGame(); // 開始遊戲
   });
 });
 
-// 點擊移動角色
+// 點擊遊戲畫面讓角色移動
 document.addEventListener('click', (e) => {
   if (!gameRunning || isVideoPlaying()) return;
 
@@ -33,6 +32,7 @@ document.addEventListener('click', (e) => {
   targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
 });
 
+// 判斷是否正在播放影片
 function isVideoPlaying() {
   return document.getElementById('video-overlay').style.display === 'flex';
 }
