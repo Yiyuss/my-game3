@@ -1,6 +1,6 @@
-// 檢查 targetPos 是否已經宣告過，如果沒有則宣告
+// 檢查 targetPos 是否已經存在，若不存在才進行宣告
 if (typeof targetPos === 'undefined') {
-  var targetPos = { x: 200, y: 200 }; // 宣告 targetPos 只會在第一次時進行
+  var targetPos = { x: 200, y: 200 }; // 這裡使用 var 宣告，保證它是全域的
 }
 
 // 移動玩家的邏輯
