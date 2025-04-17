@@ -4,46 +4,28 @@ body {
   background-color: #000;
   color: white;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-#game-container {
-  position: relative;
-  width: 1024px;
-  height: 576px;
-  background-image: url('https://i.imgur.com/gIhNJmY.jpeg');
-  background-size: cover;
-  background-position: center;
-  border: 3px solid white;
-  overflow: hidden;
-  z-index: 1;
 }
 
 #character-select {
   position: absolute;
-  width: 1024px;
-  height: 576px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(10, 10, 10, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 10;
   color: white;
   font-size: 24px;
-}
-
-.select-title {
-  margin-bottom: 20px;
-  font-size: 30px;
 }
 
 .character-options {
   display: flex;
   gap: 50px;
+  margin-top: 30px;
 }
 
 .character {
@@ -63,6 +45,19 @@ body {
   border-color: white;
 }
 
+#game-container {
+  position: relative;
+  width: 1024px;
+  height: 576px;
+  margin: 0 auto;
+  background-image: url('https://i.imgur.com/gIhNJmY.jpeg'); /* 遊戲背景圖片 */
+  background-size: cover;
+  background-position: center;
+  border: 3px solid white;
+  overflow: hidden;
+  display: none; /* 初始為隱藏，直到選擇角色 */
+}
+
 #video-overlay {
   position: absolute;
   top: 0;
@@ -73,7 +68,7 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 9998;
+  z-index: 9999;
 }
 
 iframe {
@@ -82,14 +77,27 @@ iframe {
 }
 
 #player {
+  background-image: url('https://i.imgur.com/JFTxfva.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+#enemy {
+  background-image: url('https://i.imgur.com/NPnmEtr.png');
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
 }
 
 #scoreboard {
-  position: absolute;
-  top: 10px;
-  left: 10px;
   font-size: 20px;
+  margin: 10px;
+}
+
+#start-btn {
+  font-size: 18px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
 }
