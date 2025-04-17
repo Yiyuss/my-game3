@@ -1,43 +1,46 @@
-import { resetGame, player } from './game.js';
+import {
+  startGame,
+  resetGame,
+  updateGame,
+  gameRunning,
+  spawnEnemy,
+  enemyInterval,
+  gameInterval,
+  player,
+  container,
+  targetPos,
+  playerPos,
+  time,
+  score,
+  hitSound,
+  videoOverlay,
+  endVideo,
+  scoreEl,
+  timeEl
+} from './game.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 角色選擇區塊
-  const characterSelect = document.getElementById('character-select');
-  const character1 = document.getElementById('character1');
-  const character2 = document.getElementById('character2');
-  
-  // 設定鼠標滑過的效果
-  character1.addEventListener('mouseenter', () => {
-    character1.style.filter = 'brightness(110%)';
-  });
-  character1.addEventListener('mouseleave', () => {
-    character1.style.filter = 'brightness(60%)';
-  });
+const characters = document.querySelectorAll('.character');
+const characterSelect = document.getElementById('character-select');
 
-  character2.addEventListener('mouseenter', () => {
-    character2.style.filter = 'brightness(110%)';
-  });
-  character2.addEventListener('mouseleave', () => {
-    character2.style.filter = 'brightness(60%)';
-  });
+characters.forEach(char => {
+  char.addEventListener('click', () => {
+    const selectedSrc = char.getAttribute('data-src');
+    player.style.backgroundImage = `url('${selectedSrc}')`;
 
-  // 點擊角色後進入遊戲
-  character1.addEventListener('click', () => startGame('https://i.imgur.com/JFTxfva.png'));
-  character2.addEventListener('click', () => startGame('https://i.imgur.com/NPnmEtr.png'));
-  
-  // 開始遊戲的邏輯
-  function startGame(selectedCharacter) {
-    // 隱藏角色選擇畫面
     characterSelect.style.display = 'none';
-
-    // 顯示遊戲畫面
-    const gameContainer = document.getElementById('game-container');
-    gameContainer.style.visibility = 'visible';  // 改為顯示遊戲畫面
-
-    // 設定玩家角色圖像
-    player.style.backgroundImage = `url(${selectedCharacter})`;
-
-    // 開始遊戲
     resetGame();
-  }
+    startGame();
+  });
 });
+
+document.addEventListener('click', (e) => {
+  if (!gameRunning || isVideoPlaying()) return;
+
+  const rect = container.getBoundingClientRect();
+  targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
+  targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
+});
+
+function isVideoPlaying() {
+  return videoOverlay.style.display === 'flex';
+}
