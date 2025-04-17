@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     image.addEventListener('click', (e) => {
       const selectedCharacter = e.target.dataset.character;
 
+      // 確認選擇了角色
+      console.log("選擇的角色: ", selectedCharacter);
+
       // 隱藏角色選擇畫面
       characterSelect.style.display = 'none';
       // 顯示遊戲畫面
