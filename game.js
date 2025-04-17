@@ -1,16 +1,15 @@
-// game.js
 import { movePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
-export let score = 0;
-export let time = 0;
-export let playerPos = { x: 200, y: 200 };
-export let targetPos = { x: 200, y: 200 };
-export let enemies = [];
-export let gameInterval;
-export let enemyInterval;
-export let gameRunning = false;
+let score = 0;
+let time = 0;
+let playerPos = { x: 200, y: 200 };
+let targetPos = { x: 200, y: 200 };
+let enemies = [];
+let gameInterval;
+let enemyInterval;
+let gameRunning = false;
 
 const scoreEl = document.getElementById('score');
 const timeEl = document.getElementById('time');
@@ -92,4 +91,17 @@ export function showVideo() {
   }, 9000);
 }
 
-export { playerPos, targetPos, player, container, gameRunning, hitSound };
+// 統一導出所有需要的變數
+export {
+  score,
+  time,
+  playerPos,
+  targetPos,
+  enemies,
+  gameInterval,
+  enemyInterval,
+  gameRunning,
+  player,
+  container,
+  hitSound
+};
