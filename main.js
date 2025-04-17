@@ -1,21 +1,27 @@
-import { initGame } from './game.js';
+import { startGame } from './game.js'; // 引入遊戲初始化函數
+import { setupPlayer } from './player.js'; // 引入玩家初始化函數
 
-window.addEventListener('DOMContentLoaded', () => {
-  const characters = document.querySelectorAll('.character-select img');
-  const selection = document.getElementById('character-selection');
-  const player = document.getElementById('player');
+// 當用戶選擇角色時，初始化遊戲
+document.addEventListener('DOMContentLoaded', () => {
+  const characterSelect = document.getElementById('character-select');
+  const gameContainer = document.getElementById('game-container');
+  const characterImages = document.querySelectorAll('.character');
+  
+  // 監聽角色選擇事件
+  characterImages.forEach((image) => {
+    image.addEventListener('click', (e) => {
+      const selectedCharacter = e.target.dataset.character;
 
-  characters.forEach(img => {
-    img.addEventListener('click', () => {
-      const selectedSrc = img.getAttribute('src');
-      player.src = selectedSrc;
-      player.style.display = 'block';
+      // 隱藏角色選擇畫面
+      characterSelect.style.display = 'none';
+      // 顯示遊戲畫面
+      gameContainer.style.display = 'block';
 
-      // 隱藏選角畫面
-      selection.style.display = 'none';
+      // 設置玩家角色圖片
+      setupPlayer(selectedCharacter);
 
-      // ✅ 啟動遊戲
-      initGame();
+      // 啟動遊戲
+      startGame();
     });
   });
 });
