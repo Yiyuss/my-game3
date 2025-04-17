@@ -1,20 +1,15 @@
-import { setupEventHandlers } from './events.js';
-import { initGame, startGame } from './game.js';
+import { initGame } from './game.js';
+import { setPlayerImage } from './player.js';
 
-let selectedCharacter = null;
+const characterSelect = document.getElementById('character-select');
+const characterImages = document.querySelectorAll('.character');
 
-window.addEventListener('DOMContentLoaded', () => {
-  const characterSelect = document.getElementById('character-select');
-  const characterImages = document.querySelectorAll('.character');
-
-  // 點選角色圖片進入遊戲
-  characterImages.forEach(img => {
-    img.addEventListener('click', () => {
-      selectedCharacter = img.getAttribute('data-character');
-      characterSelect.style.display = 'none';
-      startGame(selectedCharacter); // 根據角色開始遊戲
-    });
+characterImages.forEach(img => {
+  img.addEventListener('click', () => {
+    const selected = img.getAttribute('data-character');
+    const player = document.getElementById('player');
+    player.style.backgroundImage = `url('https://i.imgur.com/${selected}.png')`;
+    characterSelect.style.display = 'none';
+    initGame();
   });
-
-  initGame(); // 初始化遊戲畫面與邏輯
 });
