@@ -1,33 +1,51 @@
-import { spawnEnemy, resetGame, gameRunning, score, time, updateGame } from './game.js';
-import { movePlayer } from './player.js';
-import { isVideoPlaying } from './utils.js';
+// events.js
+import { player } from './player.js'; // 引用 player.js 的角色對象
+import { targetPos } from './game.js'; // 引用 game.js 的目標位置
 
-const container = document.getElementById('game-container');
-const player = document.getElementById('player');
-const targetPos = { x: 0, y: 0 };
+export function movePlayer() {
+  if (!player || !targetPos) return;
 
-document.addEventListener('click', (e) => {
-  if (!gameRunning || isVideoPlaying()) return;
+  const dx = targetPos.x - player.offsetLeft;
+  const dy = targetPos.y - player.offsetTop;
 
-  const rect = container.getBoundingClientRect();
-  targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
-  targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
-});
+  const distance = Math.sqrt(dx * dx + dy * dy);
 
-// 控制遊戲重置
-document.getElementById('reset-btn').addEventListener('click', resetGame);
+  if (distance < 1) return; // 如果角色已經接近目標位置，就不再更新
 
-// 定時更新遊戲狀態
-setInterval(() => {
-  if (gameRunning && !isVideoPlaying()) {
-    updateGame();
-    movePlayer();
-  }
-}, 1000 / 60);
+  const speed = 5; // 角色移動的速度
+  const moveX = (dx / distance) * speed;
+  const moveY = (dy / distance) * speed;
 
-// 產生敵人
-setInterval(() => {
-  if (gameRunning && !isVideoPlaying()) {
-    spawnEnemy();
-  }
-}, 5000);
+  player.style.left = player.offsetLeft + moveX + 'px';
+  player.style.top = player.offsetTop + moveY + 'px';
+}
+
+// 顯示角色選擇畫面時的處理邏輯
+export function showCharacterSelectScreen() {
+  const characterSelectScreen = document.getElementById('character-select-screen');
+  characterSelectScreen.style.display = 'block';
+  
+  const characterImages = document.querySelectorAll('.character-image');
+  characterImages.forEach(image => {
+    image.addEventListener('click', (event) => {
+      selectCharacter(event.target);
+    });
+  });
+}
+
+export function selectCharacter(selectedImage) {
+  const characterSelectScreen = document.getElementById('character-select-screen');
+  characterSelectScreen.style.display = 'none';
+
+  // 更新角色圖片
+  const playerImage = document.getElementById('player');
+  playerImage.src = selectedImage.src; // 假設角色圖片的選擇基於點擊的圖片
+
+  // 開始遊戲
+  startGame();
+}
+
+export function startGame() {
+  // 開始遊戲的初始化邏輯
+  console.log('遊戲開始!');
+}
