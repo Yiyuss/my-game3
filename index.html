@@ -2,33 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>選擇角色開始遊戲</title>
+  <title>My Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 選擇角色畫面 -->
   <div id="character-select">
-    <div class="select-title">請選擇角色</div>
+    <h2>請選擇角色</h2>
     <div class="character-options">
-      <img src="https://i.imgur.com/JFTxfva.png" alt="角色1" class="character" data-character="https://i.imgur.com/JFTxfva.png" />
-      <img src="https://i.imgur.com/NPnmEtr.png" alt="角色2" class="character" data-character="https://i.imgur.com/NPnmEtr.png" />
+      <img class="character" src="https://i.imgur.com/JFTxfva.png" data-character="https://i.imgur.com/JFTxfva.png" alt="Character 1">
+      <img class="character" src="https://i.imgur.com/NPnmEtr.png" data-character="https://i.imgur.com/NPnmEtr.png" alt="Character 2">
     </div>
   </div>
 
-  <!-- 遊戲區域 -->
+  <div id="scoreboard">
+    <span>分數: <span id="score">0</span></span> |
+    <span>時間: <span id="time">0</span></span>
+  </div>
+
   <div id="game-container">
-    <div id="scoreboard">
-      <span>分數: <span id="score">0</span></span> |
-      <span>時間: <span id="time">0</span></span>
-    </div>
     <div id="player"></div>
-    <div id="video-overlay">
-      <iframe id="end-video" src="" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <audio id="hit-sound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_1835964dbd.mp3"></audio>
   </div>
 
-  <!-- 引入模組 -->
-  <script type="module" src="./main.js"></script>
+  <div id="video-overlay">
+    <iframe id="end-video" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+
+  <audio id="hit-sound" src="https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3"></audio>
+
+  <script type="module" src="events.js"></script>
 </body>
 </html>
