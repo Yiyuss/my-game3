@@ -4,7 +4,6 @@ import { isVideoPlaying } from './utils.js';
 // 控制角色選擇
 const characterSelection = document.getElementById('character-selection');
 const gameContainer = document.getElementById('game-container');
-const startBtn = document.getElementById('start-btn');
 const playerDiv = document.getElementById('player');
 
 // 角色選擇
@@ -24,10 +23,6 @@ function startGame(characterId) {
   
   resetGame();
 }
-
-startBtn.addEventListener('click', () => {
-  resetGame();
-});
 
 document.addEventListener('click', (e) => {
   if (!gameRunning || isVideoPlaying()) return;
