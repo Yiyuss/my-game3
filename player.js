@@ -1,5 +1,5 @@
-// player.js
 let targetPos = { x: 200, y: 200 };
+let playerPos = { x: 0, y: 0 }; // 初始化 playerPos
 
 function movePlayer() {
   let dx = targetPos.x - playerPos.x;
