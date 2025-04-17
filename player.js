@@ -7,6 +7,12 @@ export function movePlayer() {
   const dy = targetPos.y - playerPos.y;
   const distance = Math.sqrt(dx * dx + dy * dy);
 
+  export function setPlayerImage(url) {
+  player.style.backgroundImage = `url('${url}')`;
+  player.style.backgroundSize = 'cover';
+  player.style.backgroundRepeat = 'no-repeat';
+}
+
   // 若距離小於速度，直接設為目標位置，避免顫動
   if (distance < speed) {
     playerPos.x = targetPos.x;
