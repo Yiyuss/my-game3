@@ -1,41 +1,24 @@
-import { movePlayer } from './player.js';
-import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
-import { getRandomPosition, isVideoPlaying } from './utils.js';
-
 export let score = 0;
 export let time = 0;
 export let playerPos = { x: 200, y: 200 };
 export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
-export let enemyInterval;
 export let gameInterval;
+export let enemyInterval;
 export let gameRunning = false;
 
-export const scoreEl = document.getElementById('score');
-export const timeEl = document.getElementById('time');
-export const videoOverlay = document.getElementById('video-overlay');
-export const endVideo = document.getElementById('end-video');
-export const player = document.getElementById('player');
-export const hitSound = document.getElementById('hit-sound');
-export const container = document.getElementById('game-container');
+const scoreEl = document.getElementById('score');
+const timeEl = document.getElementById('time');
+const videoOverlay = document.getElementById('video-overlay');
+const endVideo = document.getElementById('end-video');
+export const player = document.getElementById('player'); // 玩家元素
+const hitSound = document.getElementById('hit-sound');
+const container = document.getElementById('game-container');
 
-export function updateGame() {
-  if (!gameRunning || isVideoPlaying()) return;
-  time++;
-  score++;
-  timeEl.textContent = time;
-  scoreEl.textContent = score;
-  movePlayer();
-}
-
+// 重置遊戲
 export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
-  enemies.forEach(e => {
-    e.element.remove();
-    clearInterval(e.moveInterval);
-  });
-  enemies = [];
 
   score = 0;
   time = 0;
@@ -47,53 +30,42 @@ export function resetGame() {
   player.style.left = playerPos.x + 'px';
   player.style.top = playerPos.y + 'px';
 
+  enemies.forEach(e => e.element.remove());
+  enemies = [];
+
   spawnEnemy();
   enemyInterval = setInterval(spawnEnemy, 5000);
+
   gameRunning = true;
   gameInterval = setInterval(updateGame, 1000 / 60);
 }
 
 export function spawnEnemy() {
-  const enemyObj = {
-    pos: getRandomPosition(),
-    speed: 2,
-    element: document.createElement('div'),
-    moveInterval: null,
-  };
+  // 這裡保留敵人生成邏輯
+}
 
-  enemyObj.element.classList.add('enemy');
-  Object.assign(enemyObj.element.style, {
-    position: 'absolute',
-    width: '50px',
-    height: '50px',
-    backgroundImage: 'url("https://i.imgur.com/NPnmEtr.png")',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
-  });
-  container.appendChild(enemyObj.element);
-  enemyObj.element.style.left = enemyObj.pos.x + 'px';
-  enemyObj.element.style.top = enemyObj.pos.y + 'px';
+export function updateGame() {
+  if (!gameRunning) return;
+  time++;
+  score++;
+  timeEl.textContent = time;
+  scoreEl.textContent = score;
+  movePlayer();
+}
 
-  enemyObj.moveInterval = setInterval(() => {
-    if (!gameRunning || isVideoPlaying()) return;
-    moveEnemy(enemyObj);
-    avoidEnemyCollision(enemyObj);
-    checkCollision(enemyObj);
-  }, 30);
-
-  enemies.push(enemyObj);
+export function movePlayer() {
+  // 玩家移動邏輯
 }
 
 export function showVideo() {
-  gameRunning = false;
   endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
   videoOverlay.style.display = 'flex';
-
-  enemies.forEach(e => clearInterval(e.moveInterval));
+  gameRunning = false;
 
   setTimeout(() => {
-    endVideo.src = '';
     videoOverlay.style.display = 'none';
     resetGame();
   }, 9000);
 }
+
+export { playerPos, targetPos, player, container, gameRunning, hitSound }; 
