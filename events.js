@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 隱藏角色選擇畫面
     characterSelect.style.display = 'none';
 
+    // 顯示遊戲畫面
+    const gameContainer = document.getElementById('game-container');
+    gameContainer.style.display = 'block';
+
     // 設定玩家角色圖像
     player.style.backgroundImage = `url(${selectedCharacter})`;
 
