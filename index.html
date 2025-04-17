@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<button id="start-btn">開始遊戲</button>
+
+<div id="scoreboard">
+  得分: <span id="score">0</span> |
+  時間: <span id="time">0</span> 秒
+</div>
+
+<div id="game-container">
+  <!-- 影片覆蓋層 -->
+  <div id="video-overlay" style="display:none;">
+    <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+
+  <div id="player" style="position: absolute; width: 50px; height: 50px; background-color: blue;"></div>
+  <div id="enemy" style="position: absolute; width: 50px; height: 50px; background-color: red;"></div>
+</div>
+
+<audio id="hit-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
