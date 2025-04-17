@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 顯示遊戲畫面
     const gameContainer = document.getElementById('game-container');
-    gameContainer.style.display = 'block';
+    gameContainer.style.visibility = 'visible';  // 改為顯示遊戲畫面
 
     // 設定玩家角色圖像
     player.style.backgroundImage = `url(${selectedCharacter})`;
