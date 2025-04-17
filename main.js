@@ -1,13 +1,18 @@
-import { resetGame } from './game.js';
+import { resetGame, player } from './game.js';
 
-document.querySelectorAll('.character-option').forEach(img => {
-  img.addEventListener('click', () => {
-    const player = document.getElementById('player');
-    player.style.backgroundImage = `url("${img.src}")`;
+document.addEventListener('DOMContentLoaded', () => {
+  const characterSelection = document.getElementById('character-selection');
+  const gameContainer = document.getElementById('game-container');
+  const characterOptions = document.querySelectorAll('.character-option');
 
-    document.getElementById('character-selection').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
+  characterOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const selectedSrc = option.getAttribute('src');
+      player.style.backgroundImage = `url("${selectedSrc}")`;
 
-    resetGame();
+      characterSelection.style.display = 'none';
+      gameContainer.style.display = 'block';
+      resetGame();
+    });
   });
 });
