@@ -1,9 +1,5 @@
-// 檢查 targetPos 是否已經存在，若不存在才進行宣告
-if (typeof targetPos === 'undefined') {
-  var targetPos = { x: 200, y: 200 }; // 這裡使用 var 宣告，保證它是全域的
-}
-
-// 移動玩家的邏輯
+// player.js
+// 不再宣告 targetPos，只使用全局變數
 function movePlayer() {
   let dx = targetPos.x - playerPos.x;
   let dy = targetPos.y - playerPos.y;
