@@ -1,33 +1,56 @@
-// player.js
-import { playerPos, targetPos, player, container } from './game.js';
+let playerElement = null;
+let playerSpeed = 5;
+let playerX = 100;
+let playerY = 100;
+let selectedImage = '';
 
-export function movePlayer() {
-  const speed = 5;
-  const dx = targetPos.x - playerPos.x;
-  const dy = targetPos.y - playerPos.y;
-  const distance = Math.sqrt(dx * dx + dy * dy);
-
-  export function setPlayerImage(url) {
-  player.style.backgroundImage = `url('${url}')`;
-  player.style.backgroundSize = 'cover';
-  player.style.backgroundRepeat = 'no-repeat';
+export function setPlayerImage(imageUrl) {
+  selectedImage = imageUrl;
+  if (playerElement) {
+    playerElement.src = selectedImage;
+  }
 }
 
-  // 若距離小於速度，直接設為目標位置，避免顫動
-  if (distance < speed) {
-    playerPos.x = targetPos.x;
-    playerPos.y = targetPos.y;
-  } else {
-    playerPos.x += (dx / distance) * speed;
-    playerPos.y += (dy / distance) * speed;
+export function setupPlayer() {
+  playerElement = document.getElementById('player');
+  if (!playerElement) return;
+
+  playerElement.src = selectedImage;
+  playerElement.style.position = 'absolute';
+  playerElement.style.width = '80px';
+  playerElement.style.height = '80px';
+  playerElement.style.left = playerX + 'px';
+  playerElement.style.top = playerY + 'px';
+
+  // 綁定鍵盤移動事件
+  document.addEventListener('keydown', handleMovement);
+}
+
+function handleMovement(e) {
+  const container = document.getElementById('game-container');
+  const containerRect = container.getBoundingClientRect();
+  const playerWidth = playerElement.offsetWidth;
+  const playerHeight = playerElement.offsetHeight;
+
+  switch (e.key) {
+    case 'ArrowUp':
+    case 'w':
+      if (playerY - playerSpeed >= 0) playerY -= playerSpeed;
+      break;
+    case 'ArrowDown':
+    case 's':
+      if (playerY + playerSpeed + playerHeight <= container.offsetHeight) playerY += playerSpeed;
+      break;
+    case 'ArrowLeft':
+    case 'a':
+      if (playerX - playerSpeed >= 0) playerX -= playerSpeed;
+      break;
+    case 'ArrowRight':
+    case 'd':
+      if (playerX + playerSpeed + playerWidth <= container.offsetWidth) playerX += playerSpeed;
+      break;
   }
 
-  // 邊界限制
-  const maxX = container.clientWidth - player.offsetWidth;
-  const maxY = container.clientHeight - player.offsetHeight;
-  playerPos.x = Math.max(0, Math.min(playerPos.x, maxX));
-  playerPos.y = Math.max(0, Math.min(playerPos.y, maxY));
-
-  player.style.left = playerPos.x + 'px';
-  player.style.top = playerPos.y + 'px';
+  playerElement.style.left = playerX + 'px';
+  playerElement.style.top = playerY + 'px';
 }
