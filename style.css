@@ -1,76 +1,48 @@
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background-color: #000;
-  color: white;
-  text-align: center;
-}
-
-#character-selection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.character {
-  width: 100px;
-  height: 100px;
-  margin: 20px;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
-  border: 2px solid white;
-  transition: transform 0.3s;
-}
-
-.character:hover {
-  transform: scale(1.1);
-}
-
+/* 確保遊戲視窗和背景在正中央顯示 */
 #game-container {
-  position: relative;
-  width: 1024px;
-  height: 576px;
-  margin: 0 auto;
-  background-image: url('https://i.imgur.com/gIhNJmY.jpeg'); /* 背景圖片 */
-  background-size: cover;
-  background-position: center;
-  border: 3px solid white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1024px; /* 設定背景寬度 */
+  height: 576px; /* 設定背景高度 */
+  background-color: #000; /* 可選擇適合的背景顏色 */
   overflow: hidden;
 }
 
-#video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+/* 角色選擇畫面樣式 */
+#character-select-screen {
+  display: none; /* 初始隱藏 */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
 }
 
-iframe {
-  width: 100%;
-  height: 100%;
-}
-
-#player {
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-}
-
-#enemy {
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-}
-
-#scoreboard {
-  font-size: 20px;
+.character-image {
+  width: 150px;
+  height: 150px;
   margin: 10px;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.character-image:hover {
+  opacity: 1;
+}
+
+.character-image.selected {
+  border: 5px solid #fff;
+}
+
+/* 角色選擇畫面提示文字 */
+#character-select-screen h2 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
