@@ -1,71 +1,88 @@
-export let score = 0;
-export let time = 0;
-export let playerPos = { x: 200, y: 200 };
-export let targetPos = { x: 200, y: 200 };
-export let enemies = [];
-export let gameInterval;
-export let enemyInterval;
-export let gameRunning = false;
+import { createEnemy, removeAllEnemies } from './enemy.js';
+import { getRandomInt, isColliding } from './utils.js';
 
-const scoreEl = document.getElementById('score');
-const timeEl = document.getElementById('time');
-const videoOverlay = document.getElementById('video-overlay');
-const endVideo = document.getElementById('end-video');
-export const player = document.getElementById('player'); // 玩家元素
-const hitSound = document.getElementById('hit-sound');
-const container = document.getElementById('game-container');
+export const container = document.getElementById('game-container');
+export const player = document.getElementById('player');
+export const videoOverlay = document.getElementById('video-overlay');
+export const endVideo = document.getElementById('end-video');
 
-// 重置遊戲
+export const targetPos = { x: 100, y: 100 };
+export const gameInterval = { value: null };
+export const enemyInterval = { value: null };
+export const gameRunning = { value: false };
+
+let score = 0;
+let timeElapsed = 0;
+
 export function resetGame() {
-  clearInterval(gameInterval);
-  clearInterval(enemyInterval);
-
   score = 0;
-  time = 0;
-  scoreEl.textContent = score;
-  timeEl.textContent = time;
-
-  playerPos = { x: 200, y: 200 };
-  targetPos = { x: 200, y: 200 };
-  player.style.left = playerPos.x + 'px';
-  player.style.top = playerPos.y + 'px';
-
-  enemies.forEach(e => e.element.remove());
-  enemies = [];
-
-  spawnEnemy();
-  enemyInterval = setInterval(spawnEnemy, 5000);
-
-  gameRunning = true;
-  gameInterval = setInterval(updateGame, 1000 / 60);
-}
-
-export function spawnEnemy() {
-  // 這裡保留敵人生成邏輯
+  timeElapsed = 0;
+  updateScore();
+  updateTime();
+  player.style.left = '100px';
+  player.style.top = '100px';
+  targetPos.x = 100;
+  targetPos.y = 100;
+  removeAllEnemies();
 }
 
 export function updateGame() {
-  if (!gameRunning) return;
-  time++;
-  score++;
-  timeEl.textContent = time;
-  scoreEl.textContent = score;
   movePlayer();
+  updateTime();
+
+  const enemies = document.querySelectorAll('.enemy');
+  enemies.forEach(enemy => {
+    if (isColliding(player, enemy)) {
+      showVideo();
+    }
+  });
 }
 
-export function movePlayer() {
-  // 玩家移動邏輯
+function movePlayer() {
+  const speed = 5;
+  const px = parseInt(player.style.left || 0);
+  const py = parseInt(player.style.top || 0);
+
+  const dx = targetPos.x - px;
+  const dy = targetPos.y - py;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance > speed) {
+    const nx = px + (dx / distance) * speed;
+    const ny = py + (dy / distance) * speed;
+    player.style.left = `${nx}px`;
+    player.style.top = `${ny}px`;
+  }
 }
 
-export function showVideo() {
-  endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
+function updateScore() {
+  document.getElementById('score').textContent = score;
+}
+
+function updateTime() {
+  timeElapsed += 1 / 60;
+  document.getElementById('time').textContent = Math.floor(timeElapsed);
+}
+
+export function spawnEnemy() {
+  const enemy = createEnemy();
+  container.appendChild(enemy);
+}
+
+function showVideo() {
+  gameRunning.value = false;
+  clearInterval(gameInterval.value);
+  clearInterval(enemyInterval.value);
+
+  endVideo.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
   videoOverlay.style.display = 'flex';
-  gameRunning = false;
 
   setTimeout(() => {
     videoOverlay.style.display = 'none';
+    endVideo.src = '';
     resetGame();
-  }, 9000);
+    gameRunning.value = true;
+    gameInterval.value = setInterval(updateGame, 1000 / 60);
+    enemyInterval.value = setInterval(spawnEnemy, 5000);
+  }, 10000);
 }
-
-export { playerPos, targetPos, player, container, gameRunning, hitSound };
