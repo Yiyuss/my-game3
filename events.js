@@ -1,11 +1,30 @@
-import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
-import { isVideoPlaying } from './utils.js';
+import {
+  resetGame, updateGame, spawnEnemy,
+  gameInterval, enemyInterval,
+  gameRunning, container, player, targetPos
+} from './game.js';
 
-const startBtn = document.getElementById('start-btn');
-startBtn.addEventListener('click', () => {
-  resetGame();
+import { setPlayerImage } from './player.js';
+
+// 點擊角色選擇即開始遊戲
+const characterSelect = document.getElementById('character-select');
+const scoreboard = document.getElementById('scoreboard');
+const gameContainer = document.getElementById('game-container');
+
+document.querySelectorAll('.character-option').forEach(option => {
+  option.addEventListener('click', () => {
+    const img = option.dataset.img;
+    setPlayerImage(img);
+
+    characterSelect.style.display = 'none';
+    scoreboard.style.display = 'block';
+    gameContainer.style.display = 'block';
+
+    resetGame();
+  });
 });
 
+// 點擊移動角色
 document.addEventListener('click', (e) => {
   if (!gameRunning || isVideoPlaying()) return;
 
@@ -13,14 +32,7 @@ document.addEventListener('click', (e) => {
   targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
   targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
 });
-const characterSelect = document.getElementById('character-select');
-const characters = document.querySelectorAll('.character');
 
-characters.forEach(char => {
-  char.addEventListener('click', () => {
-    const selectedImage = char.getAttribute('src');
-    document.getElementById('player').style.backgroundImage = `url(${selectedImage})`;
-    characterSelect.style.display = 'none';
-    document.getElementById('start-btn').style.display = 'inline-block';
-  });
-});
+function isVideoPlaying() {
+  return document.getElementById('video-overlay').style.display === 'flex';
+}
