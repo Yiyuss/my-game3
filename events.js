@@ -1,51 +1,23 @@
-import { setDirection, stopDirection } from './player.js';
-import { startGame } from './game.js';
+export function showVideo(callback) {
+  const overlay = document.getElementById('video-overlay');
+  const player = document.getElementById('video-player');
+  overlay.style.display = 'flex';
+  player.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
 
-export function initEvents() {
-  // 鍵盤事件 - 角色控制
-  document.addEventListener('keydown', (e) => {
-    const dir = keyToDirection(e.key);
-    if (dir) setDirection(dir);
-  });
+  player.onended = () => {
+    hideVideo();
+    callback();
+  };
 
-  document.addEventListener('keyup', (e) => {
-    const dir = keyToDirection(e.key);
-    if (dir) stopDirection(dir);
-  });
-
-  // 選擇角色圖片點擊事件
-  document.querySelectorAll('.character-image').forEach(img => {
-    img.addEventListener('click', () => {
-      const character = img.dataset.character;
-      const player = document.getElementById('player');
-      if (character && player) {
-        // 套用圖片
-        player.style.backgroundImage = `url('${character}')`;
-        // 隱藏角色選擇畫面
-        document.getElementById('character-selection').style.display = 'none';
-        // 開始遊戲
-        startGame();
-      }
-    });
-  });
+  // 針對某些瀏覽器觸發機制
+  setTimeout(() => {
+    player.focus();
+  }, 500);
 }
 
-// 鍵盤對應方向轉換
-function keyToDirection(key) {
-  switch (key.toLowerCase()) {
-    case 'arrowup':
-    case 'w':
-      return 'up';
-    case 'arrowdown':
-    case 's':
-      return 'down';
-    case 'arrowleft':
-    case 'a':
-      return 'left';
-    case 'arrowright':
-    case 'd':
-      return 'right';
-    default:
-      return null;
-  }
+export function hideVideo() {
+  const overlay = document.getElementById('video-overlay');
+  const player = document.getElementById('video-player');
+  player.src = '';
+  overlay.style.display = 'none';
 }
