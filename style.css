@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background-color: #000;
   color: white;
   text-align: center;
@@ -12,25 +12,30 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(10, 10, 10, 0.9);
+  background-color: rgba(10, 10, 10, 0.95);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  color: white;
-  font-size: 24px;
+  z-index: 10000;
+}
+
+.select-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #fff;
 }
 
 .character-options {
   display: flex;
-  gap: 50px;
-  margin-top: 30px;
+  justify-content: space-around;
+  width: 60%;
 }
 
 .character {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   object-fit: cover;
   cursor: pointer;
   filter: brightness(60%);
@@ -50,7 +55,7 @@ body {
   width: 1024px;
   height: 576px;
   margin: 0 auto;
-  background-image: url('https://i.imgur.com/gIhNJmY.jpeg'); /* 背景圖片 */
+  background-image: url('https://i.imgur.com/gIhNJmY.jpeg');
   background-size: cover;
   background-position: center;
   border: 3px solid white;
@@ -76,27 +81,24 @@ iframe {
 }
 
 #player {
-  background-image: url('https://i.imgur.com/JFTxfva.png');
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
+  width: 50px;
+  height: 50px;
 }
 
-#enemy {
-  background-image: url('https://i.imgur.com/NPnmEtr.png');
+.enemy {
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
+  width: 50px;
+  height: 50px;
 }
 
 #scoreboard {
   font-size: 20px;
   margin: 10px;
-}
-
-#start-btn {
-  font-size: 18px;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
+  z-index: 1;
+  position: relative;
 }
