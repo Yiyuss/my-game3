@@ -1,8 +1,9 @@
-import { startGame, player } from './game.js';
+import { startGame } from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const characterSelect = document.getElementById('character-select');
   const characterImages = document.querySelectorAll('.character');
+  const player = document.getElementById('player');
 
   characterImages.forEach(img => {
     img.addEventListener('click', () => {
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 玩家移動點擊事件
+  // 點擊遊戲區域角色移動
   document.addEventListener('click', (e) => {
     if (!window.gameRunning || isVideoPlaying()) return;
 
