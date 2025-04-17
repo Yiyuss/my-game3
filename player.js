@@ -7,11 +7,14 @@ export function movePlayer() {
   const dy = targetPos.y - playerPos.y;
   const distance = Math.sqrt(dx * dx + dy * dy);
 
-  // 若距離小於 1，停止移動，避免顫動
-  if (distance < 1) return;
-
-  playerPos.x += (dx / distance) * speed;
-  playerPos.y += (dy / distance) * speed;
+  // 若距離小於速度，直接設為目標位置，避免顫動
+  if (distance < speed) {
+    playerPos.x = targetPos.x;
+    playerPos.y = targetPos.y;
+  } else {
+    playerPos.x += (dx / distance) * speed;
+    playerPos.y += (dy / distance) * speed;
+  }
 
   // 邊界限制
   const maxX = container.clientWidth - player.offsetWidth;
