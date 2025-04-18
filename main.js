@@ -1,35 +1,15 @@
-import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
+import {
+  resetGame, gameRunning, gameInterval, enemyInterval,
+  updateGame, spawnEnemy, container, player, targetPos
+} from './game.js';
 import { isVideoPlaying } from './utils.js';
 
-// 控制角色選擇
+// 控制 DOM 元素
 const characterSelection = document.getElementById('character-selection');
 const gameContainer = document.getElementById('game-container');
 const playerDiv = document.getElementById('player');
 
-// 角色選擇
-document.getElementById('character1').addEventListener('click', () => startGame('character1'));
-document.getElementById('character2').addEventListener('click', () => startGame('character2'));
-
-function startGame(characterId) {
-  // 選擇角色後隱藏選擇畫面，顯示遊戲畫面
-  characterSelection.style.display = 'none';
-  gameContainer.style.display = 'block';
-  document.getElementById('scoreboard').style.display = 'block';  // 顯示計時器
-
-  // ✅ 在這裡移除 initialized 類別，確保遊戲界面準備好
-  gameContainer.classList.remove('initialized');
-
-  // 根據選擇的角色設置背景圖片
-  if (characterId === 'character1') {
-    playerDiv.style.backgroundImage = 'url("https://i.imgur.com/JFTxfva.png")';
-  } else if (characterId === 'character2') {
-    playerDiv.style.backgroundImage = 'url("https://i.imgur.com/NPnmEtr.png")';
-  }
-
-  // 重置遊戲狀態
-  resetGame();
-}
-
+// ✅ 點擊畫面移動角色（與 DOMContentLoaded 無關）
 document.addEventListener('click', (e) => {
   if (!gameRunning || isVideoPlaying()) return;
 
@@ -38,15 +18,35 @@ document.addEventListener('click', (e) => {
   targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
 });
 
-// 等待文檔加載完畢
+// ✅ 等 DOM 完全載入後再綁定點擊與音效事件
 document.addEventListener('DOMContentLoaded', () => {
-  const characterImages = document.querySelectorAll('.character');  // 找到所有角色圖片
-  const selectSound = document.getElementById('character-select-sound');  // 找到音效檔案
-
-  // 當滑鼠移到角色圖片上時播放音效
+  // 滑鼠移到角色播放音效
+  const characterImages = document.querySelectorAll('.character');
+  const selectSound = document.getElementById('character-select-sound');
   characterImages.forEach(character => {
     character.addEventListener('mouseenter', () => {
-      selectSound.play();  // 播放音效
+      selectSound.play();
     });
   });
+
+  // 點擊角色切換畫面並開始遊戲
+  document.getElementById('character1').addEventListener('click', () => startGame('character1'));
+  document.getElementById('character2').addEventListener('click', () => startGame('character2'));
 });
+
+function startGame(characterId) {
+  // 隱藏選角畫面，顯示遊戲畫面
+  characterSelection.style.display = 'none';
+  gameContainer.style.display = 'block';
+  document.getElementById('scoreboard').style.display = 'block';
+  gameContainer.classList.remove('initialized');
+
+  // 設定角色外觀
+  if (characterId === 'character1') {
+    playerDiv.style.backgroundImage = 'url("https://i.imgur.com/JFTxfva.png")';
+  } else if (characterId === 'character2') {
+    playerDiv.style.backgroundImage = 'url("https://i.imgur.com/NPnmEtr.png")';
+  }
+
+  resetGame(); // 重設遊戲狀態
+}
