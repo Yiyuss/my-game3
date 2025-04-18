@@ -170,3 +170,7 @@ iframe {
   border-radius: 50%;
   z-index: 5;
 }
+
+.bullet {
+  transition: top 0.05s linear;
+}
