@@ -37,3 +37,16 @@ document.addEventListener('click', (e) => {
   targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
   targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
 });
+
+// 等待文檔加載完畢
+document.addEventListener('DOMContentLoaded', () => {
+  const characterImages = document.querySelectorAll('.character');  // 找到所有角色圖片
+  const selectSound = document.getElementById('character-select-sound');  // 找到音效檔案
+
+  // 當滑鼠移到角色圖片上時播放音效
+  characterImages.forEach(character => {
+    character.addEventListener('mouseenter', () => {
+      selectSound.play();  // 播放音效
+    });
+  });
+});
