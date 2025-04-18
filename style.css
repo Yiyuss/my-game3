@@ -1,92 +1,72 @@
-body {
+/* 通用設定 */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: sans-serif;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
   background-color: #000;
-  color: white;
-  text-align: center;
-  height: 100vh;
+}
+
+/* 外層容器，縱向排列，計分區在上，遊戲畫面在下 */
+#main-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  width: 100vw;
+  height: 100vh;
 }
 
-/* 計分板 */
+/* 計分區固定在上方 */
 #scoreboard {
-  font-size: 20px;
-  margin: 10px auto;
+  width: 100%;
+  height: 60px;
+  background-color: #222;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  z-index: 10;
 }
 
-/* 包裝遊戲容器，置中用 */
+/* 包裝遊戲容器，置中偏上顯示 */
 #game-wrapper {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;   /* ✅ 遊戲畫面靠上對齊 */
+  padding-top: 20px;         /* ✅ 增加與上方距離 */
 }
 
-/* 選角畫面置中 */
-#character-selection {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.character {
-  width: 100px;
-  height: 100px;
-  margin: 20px;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
-  border: 2px solid white;
-  transition: transform 0.3s;
-}
-
-.character:hover {
-  transform: scale(1.1);
-}
-
-/* 遊戲容器 */
+/* 遊戲容器本體，固定 1024x576，不縮放 */
 #game-container {
-  position: relative;
   width: 1024px;
   height: 576px;
-  background-image: url('https://i.imgur.com/gIhNJmY.jpeg');
-  background-size: cover;
-  background-position: center;
-  border: 3px solid white;
+  background-color: #111;
+  position: relative;
   overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
 }
 
-/* 覆蓋影片 */
-#video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+/* Canvas 基礎設定 */
+canvas {
+  display: block;
 }
 
-iframe {
-  width: 100%;
-  height: 100%;
-}
+/* 手機專用微調：避免畫面過緊（選擇性，可調整） */
+@media (max-width: 768px) {
+  #scoreboard {
+    font-size: 20px;
+    height: 50px;
+  }
 
-/* 玩家與敵人樣式 */
-#player {
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-}
-
-#enemy {
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
+  #game-wrapper {
+    padding-top: 12px;
+  }
 }
