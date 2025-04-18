@@ -75,20 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
     targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
   });
 
-  // 玩家吃到敵人掉落的經驗
+  // 撿取經驗物品
   function onExperienceGemCollected(experienceValue) {
     updateExperience(experienceValue); // 撿取經驗物品後增加經驗
   }
 
-  // 假設有敵人掉落經驗物品，玩家碰到經驗物品後觸發 onExperienceGemCollected
-  // 這可以連接到掉落物品生成的邏輯，當玩家碰到掉落的經驗物品時會調用此函數
-
-  // 例如，假設你有一個 `experienceGem` 物件，玩家碰到後會呼叫 `onExperienceGemCollected(experienceValue)`
-  // 其中 `experienceValue` 是每個經驗物品提供的經驗數量，這裡假設每個經驗物品給予 20 點經驗
-
-  // 敵人死亡後掉落經驗物品的邏輯可以類似於這樣
+  // 敵人死亡後掉落經驗物品的邏輯
   function spawnExperienceGem(x, y) {
-    // 這裡的掉落邏輯取決於你的遊戲，當敵人死亡時創建經驗物品並放置在畫面中
     const experienceGem = document.createElement('div');
     experienceGem.classList.add('experience-gem');
     experienceGem.style.left = `${x}px`;
@@ -97,19 +90,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // 添加到遊戲容器中
     gameContainer.appendChild(experienceGem);
 
-    // 當玩家碰到經驗物品時，調用 onExperienceGemCollected
-    experienceGem.addEventListener('click', () => {
-      onExperienceGemCollected(20); // 假設每個經驗物品給 20 點經驗
-      gameContainer.removeChild(experienceGem); // 撿取後移除該物品
+    // 監聽玩家與經驗物品的碰撞
+    const experienceGemRect = experienceGem.getBoundingClientRect();
+    document.addEventListener('mousemove', () => {
+      // 檢查玩家是否碰到經驗物品
+      if (isColliding(player.getBoundingClientRect(), experienceGemRect)) {
+        onExperienceGemCollected(20); // 假設每個經驗物品給 20 點經驗
+        gameContainer.removeChild(experienceGem); // 撿取後移除該物品
+      }
     });
   }
 
-  // 這是敵人死亡後掉落經驗物品的範例，將根據你的遊戲邏輯來實現掉落經驗物品
+  // 撞擊檢測函數，檢查玩家與經驗物品是否碰撞
+  function isColliding(playerRect, gemRect) {
+    return !(playerRect.right < gemRect.left || 
+             playerRect.left > gemRect.right || 
+             playerRect.bottom < gemRect.top || 
+             playerRect.top > gemRect.bottom);
+  }
+
+  // 假設敵人死亡後會觸發掉落經驗物品
   function onEnemyDefeated(enemy) {
     const enemyPosition = enemy.getBoundingClientRect();
     spawnExperienceGem(enemyPosition.left + enemy.offsetWidth / 2, enemyPosition.top + enemy.offsetHeight / 2);
   }
 
-  // 假設有敵人死亡的邏輯，當敵人死亡時會調用 `onEnemyDefeated`
-  // 這樣會在敵人死亡後生成經驗物品，玩家撿到經驗物品後會增加經驗
+  // 當敵人死亡時，會呼叫 `onEnemyDefeated`
+  // 這樣會在敵人死亡後生成經驗物品，玩家可以透過碰撞來撿取並獲得經驗
 });
