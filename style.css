@@ -33,12 +33,17 @@ body {
   padding-top: 80px; /* 留出空間給計時器 */
 }
 
-/* 選角畫面置中 */
+/* 選角畫面在遊戲視窗內置中 */
 #character-selection {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 讓選角畫面在遊戲容器內居中 */
+  width: 100%;
+  height: 100%;
 }
 
 /* 角色樣式 */
