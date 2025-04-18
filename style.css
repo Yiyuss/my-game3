@@ -16,12 +16,11 @@ body {
 /* 計分板固定在遊戲畫面正上方（視窗外） */
 #scoreboard {
   font-size: 20px;
-  position: fixed;
-  top: -40px;
+  position: absolute;
+  top: -40px; /* 向上超出視窗畫面 */
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  z-index: 1000;
 }
 
 /* 包裝遊戲容器：中間偏上顯示 */
