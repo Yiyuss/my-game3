@@ -10,9 +10,13 @@ export function addExp(amount) {
 }
 
 function levelUp() {
-  playerLevel++;
-  playerExp = 0;
-  expToNextLevel *= 1.5; // 每升級一次所需經驗增加
+  playerLevel++; // 玩家等級加1
+  playerExp = 0; // 重置經驗值
+  expToNextLevel *= 1.5; // 下一級所需經驗增加
+
+  // 更新UI，顯示玩家新等級
+  document.getElementById('player-level').textContent = `等級：${playerLevel}`;
+
   showUpgradeMenu(); // 彈出升級選單
 }
 
