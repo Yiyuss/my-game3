@@ -68,6 +68,7 @@ export function spawnEnemy() {
   const enemyObj = {
     pos: getRandomPosition(),
     speed: 2,
+    health: 3, // 設定敵人的血量為 3
     element: document.createElement('div'),
     moveInterval: null,
   };
@@ -134,11 +135,7 @@ function spawnBullet() {
   container.appendChild(bullet.element);
   bullets.push(bullet);
 
-  // 播放射擊音效
-  if (shootSound) {
-    shootSound.currentTime = 0; // 從頭開始播放
-    shootSound.play();
-  }
+  shootSound.play(); // 播放射擊音效
 
   const move = () => {
     if (!gameRunning) return;
@@ -155,21 +152,22 @@ function spawnBullet() {
         rect1.top < rect2.bottom &&
         rect1.bottom > rect2.top
       ) {
-        // 播放敵人爆炸音效
-        if (explodeSound) {
-          explodeSound.currentTime = 0;
-          explodeSound.play();
-        }
+        // 碰撞，扣血
+        enemy.health -= 1;
 
-        enemy.element.remove();
-        clearInterval(enemy.moveInterval);
-        enemies.splice(i, 1);
+        if (enemy.health <= 0) {
+          enemy.element.remove();
+          clearInterval(enemy.moveInterval);
+          enemies.splice(i, 1);
+          explodeSound.play(); // 播放爆炸音效
+        }
 
         bullet.element.remove();
         bullets = bullets.filter(b => b !== bullet);
       }
     });
 
+    // 如果子彈飛出畫面，移除子彈
     if (bullet.x > container.clientWidth) {
       bullet.element.remove();
       bullets = bullets.filter(b => b !== bullet);
