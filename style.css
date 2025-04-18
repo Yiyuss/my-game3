@@ -161,3 +161,12 @@ iframe {
 #game-container.initialized #video-overlay {
   display: none;
 }
+
+.bullet {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: yellow;
+  border-radius: 50%;
+  z-index: 5;
+}
