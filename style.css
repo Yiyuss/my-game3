@@ -13,18 +13,15 @@ body {
   overflow-x: hidden;
 }
 
-/* 計分板固定在遊戲畫面正上方（視窗外，但可見） */
+/* ✅ 修復：計時器現在正確出現在畫面中偏上方 */
 #scoreboard {
   font-size: 20px;
   position: fixed;
-  top: 0; /* 改為 fixed 並設為頂部，確保不被壓出畫面 */
+  top: 20px; /* 螢幕中偏上 */
   left: 50%;
-  transform: translate(-50%, -100%); /* 向上位移自身高度，貼在視窗頂邊外 */
-  z-index: 10000; /* 確保在其他元素之上 */
+  transform: translateX(-50%);
   white-space: nowrap;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
+  z-index: 10000;
 }
 
 /* 包裝遊戲容器：中間偏上顯示 */
@@ -33,7 +30,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 40px; /* 控制「中間偏上」的位置，可微調 */
+  padding-top: 80px; /* 留出空間給計時器 */
 }
 
 /* 選角畫面置中 */
