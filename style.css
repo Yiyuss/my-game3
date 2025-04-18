@@ -13,14 +13,18 @@ body {
   overflow-x: hidden;
 }
 
-/* 計分板固定在遊戲畫面正上方（視窗外） */
+/* 計分板固定在遊戲畫面正上方（視窗外，但可見） */
 #scoreboard {
   font-size: 20px;
-  position: absolute;
-  top: -40px; /* 向上超出視窗畫面 */
+  position: fixed;
+  top: 0; /* 改為 fixed 並設為頂部，確保不被壓出畫面 */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -100%); /* 向上位移自身高度，貼在視窗頂邊外 */
+  z-index: 10000; /* 確保在其他元素之上 */
   white-space: nowrap;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
 }
 
 /* 包裝遊戲容器：中間偏上顯示 */
