@@ -75,12 +75,41 @@ document.addEventListener('DOMContentLoaded', () => {
     targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
   });
 
-  // 每次敵人被擊中時增加經驗
-  function onEnemyDefeat() {
-    updateExperience(20); // 假設每次擊敗敵人增加 20 點經驗
+  // 玩家吃到敵人掉落的經驗
+  function onExperienceGemCollected(experienceValue) {
+    updateExperience(experienceValue); // 撿取經驗物品後增加經驗
   }
 
-  // 假設每個敵人死亡都觸發 onEnemyDefeat
-  // 如果有敵人死亡的邏輯，請在適當的地方呼叫 onEnemyDefeat()
+  // 假設有敵人掉落經驗物品，玩家碰到經驗物品後觸發 onExperienceGemCollected
+  // 這可以連接到掉落物品生成的邏輯，當玩家碰到掉落的經驗物品時會調用此函數
 
+  // 例如，假設你有一個 `experienceGem` 物件，玩家碰到後會呼叫 `onExperienceGemCollected(experienceValue)`
+  // 其中 `experienceValue` 是每個經驗物品提供的經驗數量，這裡假設每個經驗物品給予 20 點經驗
+
+  // 敵人死亡後掉落經驗物品的邏輯可以類似於這樣
+  function spawnExperienceGem(x, y) {
+    // 這裡的掉落邏輯取決於你的遊戲，當敵人死亡時創建經驗物品並放置在畫面中
+    const experienceGem = document.createElement('div');
+    experienceGem.classList.add('experience-gem');
+    experienceGem.style.left = `${x}px`;
+    experienceGem.style.top = `${y}px`;
+
+    // 添加到遊戲容器中
+    gameContainer.appendChild(experienceGem);
+
+    // 當玩家碰到經驗物品時，調用 onExperienceGemCollected
+    experienceGem.addEventListener('click', () => {
+      onExperienceGemCollected(20); // 假設每個經驗物品給 20 點經驗
+      gameContainer.removeChild(experienceGem); // 撿取後移除該物品
+    });
+  }
+
+  // 這是敵人死亡後掉落經驗物品的範例，將根據你的遊戲邏輯來實現掉落經驗物品
+  function onEnemyDefeated(enemy) {
+    const enemyPosition = enemy.getBoundingClientRect();
+    spawnExperienceGem(enemyPosition.left + enemy.offsetWidth / 2, enemyPosition.top + enemy.offsetHeight / 2);
+  }
+
+  // 假設有敵人死亡的邏輯，當敵人死亡時會調用 `onEnemyDefeated`
+  // 這樣會在敵人死亡後生成經驗物品，玩家撿到經驗物品後會增加經驗
 });
