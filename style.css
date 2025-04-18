@@ -41,6 +41,7 @@ body {
   height: 100vh;
 }
 
+/* 角色樣式 */
 .character {
   width: 100px;
   height: 100px;
@@ -52,6 +53,7 @@ body {
   transition: transform 0.3s;
 }
 
+/* 角色 hover 效果 */
 .character:hover {
   transform: scale(1.1);
 }
