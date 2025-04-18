@@ -8,20 +8,28 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* 計分板 */
+/* 計分板固定在遊戲畫面正上方（視窗外） */
 #scoreboard {
   font-size: 20px;
-  margin: 10px auto;
+  position: absolute;
+  top: -40px; /* 向上超出視窗畫面 */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
-/* 包裝遊戲容器，置中用 */
+/* 包裝遊戲容器：中間偏上顯示 */
 #game-wrapper {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 40px; /* 控制「中間偏上」的位置，可微調 */
 }
 
 /* 選角畫面置中 */
