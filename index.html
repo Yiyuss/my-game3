@@ -17,20 +17,22 @@
     時間: <span id="time">0</span> 秒
   </div>
 
-  <div id="game-container" style="position: relative; display: none;">
-    <!-- 影片覆蓋層 -->
-    <div id="video-overlay" style="display:none;">
-      <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
-    </div>
+  <!-- 包裝器，讓遊戲容器真正置中 -->
+  <div id="game-wrapper">
+    <div id="game-container" style="position: relative; display: none;">
+      <!-- 影片覆蓋層 -->
+      <div id="video-overlay" style="display:none;">
+        <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
+      </div>
 
-    <div id="player" style="position: absolute; width: 50px; height: 50px;"></div>
-    <div id="enemy" style="position: absolute; width: 50px; height: 50px;"></div>
+      <div id="player" style="position: absolute; width: 50px; height: 50px;"></div>
+      <div id="enemy" style="position: absolute; width: 50px; height: 50px;"></div>
+    </div>
   </div>
 
   <audio id="hit-sound" src="https://github.com/Yiyuss/my-game/raw/refs/heads/main/Duck.mp3"></audio>
 
   <!-- 引入多個JS檔案，並設為模組 -->
   <script type="module" src="./main.js"></script>
-
 </body>
 </html>
