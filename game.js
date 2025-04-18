@@ -1,8 +1,8 @@
-// 1. 定義經驗寶石生成邏輯
-export function spawnExperienceGem() {
+// 1. 定義經驗寶石生成邏輯，接收位置參數
+export function spawnExperienceGem(x, y) {
   const gem = {
-    x: getRandomPosition().x,
-    y: getRandomPosition().y,
+    x: x,
+    y: y,
     element: document.createElement('div'),
   };
 
@@ -135,7 +135,7 @@ export function resetGame() {
   player.style.top = playerPos.y + 'px';
 
   spawnEnemy();
-  spawnExperienceGem(); // 在遊戲開始時生成經驗寶石
+  spawnExperienceGem(200, 200); // 初始生成經驗寶石
   enemyInterval = setInterval(spawnEnemy, 5000);
   bulletInterval = setInterval(spawnBullet, 500);
 
@@ -241,7 +241,7 @@ function spawnBullet() {
           explodeSound.play(); // 播放爆炸音效
 
           // 在敵人死亡後生成經驗寶石
-          spawnExperienceGem();
+          spawnExperienceGem(enemy.pos.x, enemy.pos.y);
         }
 
         bullet.element.remove();
