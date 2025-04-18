@@ -218,6 +218,9 @@ function spawnBullet() {
           clearInterval(enemy.moveInterval);
           enemies.splice(i, 1);
           explodeSound.play(); // 播放爆炸音效
+
+          // 在敵人死亡後生成經驗寶石
+          spawnExperienceGem();
         }
 
         bullet.element.remove();
