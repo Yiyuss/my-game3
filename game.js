@@ -1,3 +1,8 @@
+// 🔥 新增：等級與經驗系統變數
+export let level = 1;
+export let experience = 0;
+export const levelEl = document.getElementById('level');
+
 // 1. 定義經驗寶石生成邏輯，接收位置參數
 export function spawnExperienceGem(x, y) {
   const gem = {
@@ -24,10 +29,20 @@ export function spawnExperienceGem(x, y) {
   return gem;
 }
 
+// 🔥 新增：升級判斷與等級提升
+function checkLevelUp() {
+  const requiredExp = level * 30;
+  if (experience >= requiredExp) {
+    level++;
+    experience = 0;
+    levelEl.textContent = 'Lv. ' + level;
+  }
+}
+
 // 2. 獲得經驗邏輯
 export function gainExperience() {
-  score += 10;  // 每顆寶石加 10 分
-  scoreEl.textContent = score;
+  experience += 10;  // 每顆寶石加 10 經驗
+  checkLevelUp();
 }
 
 // 3. 檢查玩家與經驗寶石碰撞邏輯
@@ -42,9 +57,8 @@ export function checkExperienceCollision() {
       playerRect.top < gemRect.bottom &&
       playerRect.bottom > gemRect.top
     ) {
-      // 玩家與經驗寶石碰撞，獲得經驗
       gainExperience();
-      gemElement.remove(); // 移除經驗寶石
+      gemElement.remove();
     }
   });
 }
@@ -61,18 +75,18 @@ export function checkPlayerEnemyCollision() {
       playerRect.top < enemyRect.bottom &&
       playerRect.bottom > enemyRect.top
     ) {
-      // 玩家與敵人碰撞，顯示結束影片
       showVideo();
-      enemy.element.remove(); // 移除敵人
-      clearInterval(enemy.moveInterval); // 停止敵人的移動
-      enemies.splice(i, 1); // 從敵人陣列中移除敵人
+      enemy.element.remove();
+      clearInterval(enemy.moveInterval);
+      enemies.splice(i, 1);
     }
   });
 }
 
-// 現有的遊戲邏輯代碼開始
+// === 原本邏輯 ===
+
 import { movePlayer } from './player.js';
-import { moveEnemy, avoidEnemyCollision } from './enemy.js'; // ✅ 暫時移除 checkCollision，避免錯誤
+import { moveEnemy, avoidEnemyCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
 export const shootSound = document.getElementById('shoot-sound');
@@ -105,8 +119,8 @@ export function updateGame() {
   scoreEl.textContent = score;
 
   movePlayer();
-  checkExperienceCollision();  // 檢查經驗寶石的碰撞
-  checkPlayerEnemyCollision(); // 檢查玩家與敵人的碰撞
+  checkExperienceCollision();
+  checkPlayerEnemyCollision();
 }
 
 // 重置遊戲邏輯
@@ -126,8 +140,11 @@ export function resetGame() {
 
   score = 0;
   time = 0;
+  experience = 0; // 🔥 新增：經驗歸零
+  level = 1;      // 🔥 新增：等級歸 1
   scoreEl.textContent = score;
   timeEl.textContent = time;
+  levelEl.textContent = 'Lv. 1'; // 🔥 更新顯示
 
   playerPos = { x: 200, y: 200 };
   targetPos = { x: 200, y: 200 };
@@ -135,7 +152,7 @@ export function resetGame() {
   player.style.top = playerPos.y + 'px';
 
   spawnEnemy();
-  spawnExperienceGem(200, 200); // 初始生成經驗寶石
+  spawnExperienceGem(200, 200);
   enemyInterval = setInterval(spawnEnemy, 5000);
   bulletInterval = setInterval(spawnBullet, 500);
 
@@ -147,7 +164,7 @@ export function spawnEnemy() {
   const enemyObj = {
     pos: getRandomPosition(),
     speed: 2,
-    health: 3, // 設定敵人的血量為 3
+    health: 3,
     element: document.createElement('div'),
     moveInterval: null,
   };
@@ -214,7 +231,7 @@ function spawnBullet() {
   container.appendChild(bullet.element);
   bullets.push(bullet);
 
-  shootSound.play(); // 播放射擊音效
+  shootSound.play();
 
   const move = () => {
     if (!gameRunning) return;
@@ -231,16 +248,14 @@ function spawnBullet() {
         rect1.top < rect2.bottom &&
         rect1.bottom > rect2.top
       ) {
-        // 碰撞，扣血
         enemy.health -= 1;
 
         if (enemy.health <= 0) {
           enemy.element.remove();
           clearInterval(enemy.moveInterval);
           enemies.splice(i, 1);
-          explodeSound.play(); // 播放爆炸音效
+          explodeSound.play();
 
-          // 在敵人死亡後生成經驗寶石
           spawnExperienceGem(enemy.pos.x, enemy.pos.y);
         }
 
@@ -249,7 +264,6 @@ function spawnBullet() {
       }
     });
 
-    // 如果子彈飛出畫面，移除子彈
     if (bullet.x > container.clientWidth) {
       bullet.element.remove();
       bullets = bullets.filter(b => b !== bullet);
