@@ -135,8 +135,8 @@ function spawnBullet() {
   const move = () => {
     if (!gameRunning) return;
 
-    bullet.y -= bullet.speed;
-    bullet.element.style.top = bullet.y + 'px';
+    bullet.x += bullet.speed;
+    bullet.element.style.left = bullet.x + 'px';
 
     enemies.forEach((enemy, i) => {
       const rect1 = bullet.element.getBoundingClientRect();
@@ -156,9 +156,9 @@ function spawnBullet() {
       }
     });
 
-    if (bullet.y < 0) {
-      bullet.element.remove();
-      bullets = bullets.filter(b => b !== bullet);
+   if (bullet.x > container.clientWidth) {
+  bullet.element.remove();
+  bullets = bullets.filter(b => b !== bullet);
     } else {
       requestAnimationFrame(move);
     }
