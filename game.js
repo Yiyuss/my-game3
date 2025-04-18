@@ -1,5 +1,6 @@
 import { movePlayer } from './player.js';
-import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
+// import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
+import { moveEnemy, avoidEnemyCollision } from './enemy.js'; // ✅ 暫時移除 checkCollision，避免錯誤
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
 export const shootSound = document.getElementById('shoot-sound');
