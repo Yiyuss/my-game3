@@ -143,3 +143,36 @@ iframe {
   background-color: rgba(0, 0, 0, 0.6); /* 越高越暗，0.4~0.6 是常見值 */
   z-index: 1;
 }
+
+/* 美化選角標題 */
+#character-selection p {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 2px;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+/* 選角人物的容器置中 */
+#character-selection {
+  flex-direction: column; /* 讓標題與人物垂直排列 */
+}
+
+/* 包裝角色的容器 */
+#character-selection .character {
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+#character-selection .character:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
