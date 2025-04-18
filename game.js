@@ -49,9 +49,29 @@ export function checkExperienceCollision() {
   });
 }
 
+// 4. 檢查玩家與敵人碰撞邏輯
+export function checkPlayerEnemyCollision() {
+  enemies.forEach((enemy, i) => {
+    const playerRect = player.getBoundingClientRect();
+    const enemyRect = enemy.element.getBoundingClientRect();
+
+    if (
+      playerRect.left < enemyRect.right &&
+      playerRect.right > enemyRect.left &&
+      playerRect.top < enemyRect.bottom &&
+      playerRect.bottom > enemyRect.top
+    ) {
+      // 玩家與敵人碰撞，顯示結束影片
+      showVideo();
+      enemy.element.remove(); // 移除敵人
+      clearInterval(enemy.moveInterval); // 停止敵人的移動
+      enemies.splice(i, 1); // 從敵人陣列中移除敵人
+    }
+  });
+}
+
 // 現有的遊戲邏輯代碼開始
 import { movePlayer } from './player.js';
-// import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { moveEnemy, avoidEnemyCollision } from './enemy.js'; // ✅ 暫時移除 checkCollision，避免錯誤
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
@@ -86,6 +106,7 @@ export function updateGame() {
 
   movePlayer();
   checkExperienceCollision();  // 檢查經驗寶石的碰撞
+  checkPlayerEnemyCollision(); // 檢查玩家與敵人的碰撞
 }
 
 // 重置遊戲邏輯
