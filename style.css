@@ -167,6 +167,7 @@ iframe {
   display: none;
 }
 
+/* ✅ 子彈樣式 */
 .bullet {
   position: absolute;
   width: 10px;
@@ -180,15 +181,34 @@ iframe {
   transition: top 0.05s linear;
 }
 
+/* 經驗寶石樣式 */
 .experience-gem {
+  width: 20px;
+  height: 20px;
+  position: absolute; /* 確保寶石定位在遊戲畫面內 */
+  z-index: 10; /* 確保寶石位於玩家和敵人之上 */
   cursor: pointer;
   transition: transform 0.3s;
 }
 
+/* 當鼠標 hover 時放大效果 */
 .experience-gem:hover {
   transform: scale(1.2);
 }
 
+/* 寶石小顆粒 */
+#experience-gem-small {
+  background-image: url('https://raw.githubusercontent.com/Yiyuss/my-game/refs/heads/main/M1.png');
+  background-size: cover;
+}
+
+/* 寶石大顆粒 */
+#experience-gem-large {
+  background-image: url('https://raw.githubusercontent.com/Yiyuss/my-game/refs/heads/main/M2.png');
+  background-size: cover;
+}
+
+/* ✅ 升級菜單 */
 #upgrade-menu {
   position: fixed;
   top: 50%;
