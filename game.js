@@ -2,6 +2,8 @@ import { movePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
+export const shootSound = document.getElementById('shoot-sound');
+export const explodeSound = document.getElementById('explode-sound');
 export let score = 0;
 export let time = 0;
 export let playerPos = { x: 200, y: 200 };
@@ -132,6 +134,12 @@ function spawnBullet() {
   container.appendChild(bullet.element);
   bullets.push(bullet);
 
+  // 播放射擊音效
+  if (shootSound) {
+    shootSound.currentTime = 0; // 從頭開始播放
+    shootSound.play();
+  }
+
   const move = () => {
     if (!gameRunning) return;
 
@@ -147,6 +155,12 @@ function spawnBullet() {
         rect1.top < rect2.bottom &&
         rect1.bottom > rect2.top
       ) {
+        // 播放敵人爆炸音效
+        if (explodeSound) {
+          explodeSound.currentTime = 0;
+          explodeSound.play();
+        }
+
         enemy.element.remove();
         clearInterval(enemy.moveInterval);
         enemies.splice(i, 1);
@@ -156,9 +170,9 @@ function spawnBullet() {
       }
     });
 
-   if (bullet.x > container.clientWidth) {
-  bullet.element.remove();
-  bullets = bullets.filter(b => b !== bullet);
+    if (bullet.x > container.clientWidth) {
+      bullet.element.remove();
+      bullets = bullets.filter(b => b !== bullet);
     } else {
       requestAnimationFrame(move);
     }
