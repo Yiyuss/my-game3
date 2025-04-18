@@ -11,6 +11,7 @@ body {
   align-items: center;
   position: relative;
   overflow-x: hidden;
+  overflow-y: visible; /* ✅ 新增這行，讓 scoreboard 可以顯示在視窗外 */
 }
 
 /* 計分板固定在遊戲畫面正上方（視窗外） */
