@@ -4,8 +4,27 @@ body {
   background-color: #000;
   color: white;
   text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
+/* 計分板 */
+#scoreboard {
+  font-size: 20px;
+  margin: 10px auto;
+}
+
+/* 包裝遊戲容器，置中用 */
+#game-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 選角畫面置中 */
 #character-selection {
   display: flex;
   justify-content: center;
@@ -28,18 +47,19 @@ body {
   transform: scale(1.1);
 }
 
+/* 遊戲容器 */
 #game-container {
   position: relative;
   width: 1024px;
   height: 576px;
-  margin: 0 auto;
-  background-image: url('https://i.imgur.com/gIhNJmY.jpeg'); /* 背景圖片 */
+  background-image: url('https://i.imgur.com/gIhNJmY.jpeg');
   background-size: cover;
   background-position: center;
   border: 3px solid white;
   overflow: hidden;
 }
 
+/* 覆蓋影片 */
 #video-overlay {
   position: absolute;
   top: 0;
@@ -58,6 +78,7 @@ iframe {
   height: 100%;
 }
 
+/* 玩家與敵人樣式 */
 #player {
   background-size: cover;
   background-repeat: no-repeat;
@@ -68,9 +89,4 @@ iframe {
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
-}
-
-#scoreboard {
-  font-size: 20px;
-  margin: 10px;
 }
