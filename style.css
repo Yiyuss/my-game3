@@ -77,10 +77,10 @@ body {
   letter-spacing: 2px;
 }
 
-/* ✅ 角色容器：正中央排列角色 */
+/* ✅ 角色容器：往上調整 */
 .character-container {
   position: relative;
-  margin-top: auto;
+  margin-top: 60px; /* 原本是 auto，這裡往上移 */
   margin-bottom: auto;
   display: flex;
   flex-direction: row;
@@ -92,8 +92,8 @@ body {
 
 /* ✅ 單一角色樣式 */
 .character {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   background-size: cover;
   background-position: center;
   cursor: pointer;
