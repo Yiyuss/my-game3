@@ -1,24 +1,35 @@
-import { Game } from './game.js';
+import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
+import { isVideoPlaying } from './utils.js';
 
-let game = new Game();
-game.start();
+// 控制角色選擇
+const characterSelection = document.getElementById('character-selection');
+const gameContainer = document.getElementById('game-container');
+const playerDiv = document.getElementById('player');
 
-function resizeGameContainer() {
-    const gameContainer = document.getElementById('gameContainer');
-    const gameWidth = 1024;
-    const gameHeight = 576;
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    const scaleX = windowWidth / gameWidth;
-    const scaleY = windowHeight / gameHeight;
-    const scale = Math.min(scaleX, scaleY);
+// 角色選擇
+document.getElementById('character1').addEventListener('click', () => startGame('character1'));
+document.getElementById('character2').addEventListener('click', () => startGame('character2'));
 
-    gameContainer.style.transform = `scale(${scale})`;
-    gameContainer.style.transformOrigin = 'top left';
-    gameContainer.style.position = 'absolute';
-    gameContainer.style.left = `${(windowWidth - gameWidth * scale) / 2}px`;
-    gameContainer.style.top = `${(windowHeight - gameHeight * scale) / 2}px`;
+function startGame(characterId) {
+  // 選擇角色後隱藏選擇畫面，顯示遊戲畫面
+  characterSelection.style.display = 'none';
+  gameContainer.style.display = 'block';
+  document.getElementById('scoreboard').style.display = 'block';  // ✅ 顯示計時器
+
+  if (characterId === 'character1') {
+    playerDiv.style.backgroundImage = 'url("https://i.imgur.com/JFTxfva.png")';
+  } else if (characterId === 'character2') {
+    playerDiv.style.backgroundImage = 'url("https://i.imgur.com/NPnmEtr.png")';
+  }
+
+  resetGame();
 }
 
-window.addEventListener('load', resizeGameContainer);
-window.addEventListener('resize', resizeGameContainer);
+document.addEventListener('click', (e) => {
+  if (!gameRunning || isVideoPlaying()) return;
+
+  const rect = container.getBoundingClientRect();
+  targetPos.x = e.clientX - rect.left - player.offsetWidth / 2;
+  targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
+});
+
