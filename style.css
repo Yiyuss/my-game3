@@ -163,7 +163,18 @@ iframe {
 
 /* 選角人物的容器置中 */
 #character-selection {
-  flex-direction: column; /* 讓標題與人物垂直排列 */
+  flex-direction: column;
+}
+
+#character-selection p {
+  margin-bottom: 40px;
+}
+
+#character-selection .character-container {
+  display: flex;
+  flex-direction: row; /* ✅ 改成橫向排列角色 */
+  justify-content: center;
+  align-items: center;
 }
 
 /* 包裝角色的容器 */
