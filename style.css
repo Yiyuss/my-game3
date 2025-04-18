@@ -45,6 +45,8 @@ body {
   transform: translate(-50%, -50%); /* 讓選角畫面在遊戲容器內居中 */
   width: 100%;
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* 半透明背景，讓遊戲視窗可見 */
+  z-index: 100; /* 確保選角畫面在遊戲視窗上方 */
 }
 
 /* 角色樣式 */
