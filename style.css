@@ -46,9 +46,11 @@ body {
   background-image: url('https://i.imgur.com/gIhNJmY.jpeg');
   background-size: cover;
   background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex; /* ✅ 必加 */
+  flex-direction: column; /* ✅ 垂直排列標題與角色們 */
+  justify-content: flex-start; /* 標題靠上 */
+  align-items: center; /* 水平置中 */
+  padding-top: 60px;
   z-index: 5000;
 }
 
