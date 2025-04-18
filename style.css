@@ -31,6 +31,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding-top: 80px; /* 留出空間給計時器 */
+  position: relative; /* 確保子元素的定位是相對的 */
 }
 
 /* 選角畫面在遊戲視窗內置中 */
