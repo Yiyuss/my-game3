@@ -1,3 +1,55 @@
+// 1. 定義經驗寶石生成邏輯
+export function spawnExperienceGem() {
+  const gem = {
+    x: getRandomPosition().x,
+    y: getRandomPosition().y,
+    element: document.createElement('div'),
+  };
+
+  gem.element.classList.add('experience-gem');
+  Object.assign(gem.element.style, {
+    position: 'absolute',
+    width: '20px',
+    height: '20px',
+    backgroundColor: 'cyan',
+    borderRadius: '50%',
+    left: gem.x + 'px',
+    top: gem.y + 'px',
+    zIndex: 5
+  });
+
+  container.appendChild(gem.element);
+
+  // 返回經驗寶石對象
+  return gem;
+}
+
+// 2. 獲得經驗邏輯
+export function gainExperience() {
+  score += 10;  // 每顆寶石加 10 分
+  scoreEl.textContent = score;
+}
+
+// 3. 檢查玩家與經驗寶石碰撞邏輯
+export function checkExperienceCollision() {
+  document.querySelectorAll('.experience-gem').forEach(gemElement => {
+    const gemRect = gemElement.getBoundingClientRect();
+    const playerRect = player.getBoundingClientRect();
+
+    if (
+      playerRect.left < gemRect.right &&
+      playerRect.right > gemRect.left &&
+      playerRect.top < gemRect.bottom &&
+      playerRect.bottom > gemRect.top
+    ) {
+      // 玩家與經驗寶石碰撞，獲得經驗
+      gainExperience();
+      gemElement.remove(); // 移除經驗寶石
+    }
+  });
+}
+
+// 現有的遊戲邏輯代碼開始
 import { movePlayer } from './player.js';
 // import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { moveEnemy, avoidEnemyCollision } from './enemy.js'; // ✅ 暫時移除 checkCollision，避免錯誤
@@ -24,15 +76,19 @@ export const player = document.getElementById('player');
 export const hitSound = document.getElementById('hit-sound');
 export const container = document.getElementById('game-container');
 
+// 更新遊戲邏輯
 export function updateGame() {
   if (!gameRunning || isVideoPlaying()) return;
   time++;
   score++;
   timeEl.textContent = time;
   scoreEl.textContent = score;
+
   movePlayer();
+  checkExperienceCollision();  // 檢查經驗寶石的碰撞
 }
 
+// 重置遊戲邏輯
 export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
@@ -58,6 +114,7 @@ export function resetGame() {
   player.style.top = playerPos.y + 'px';
 
   spawnEnemy();
+  spawnExperienceGem(); // 在遊戲開始時生成經驗寶石
   enemyInterval = setInterval(spawnEnemy, 5000);
   bulletInterval = setInterval(spawnBullet, 500);
 
