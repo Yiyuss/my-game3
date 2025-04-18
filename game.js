@@ -7,8 +7,10 @@ export let time = 0;
 export let playerPos = { x: 200, y: 200 };
 export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
+export let bullets = [];
 export let enemyInterval;
 export let gameInterval;
+let bulletInterval;
 export let gameRunning = false;
 
 export const scoreEl = document.getElementById('score');
@@ -31,11 +33,16 @@ export function updateGame() {
 export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
+  clearInterval(bulletInterval);
+
   enemies.forEach(e => {
     e.element.remove();
     clearInterval(e.moveInterval);
   });
   enemies = [];
+
+  bullets.forEach(b => b.element.remove());
+  bullets = [];
 
   score = 0;
   time = 0;
@@ -49,6 +56,8 @@ export function resetGame() {
 
   spawnEnemy();
   enemyInterval = setInterval(spawnEnemy, 5000);
+  bulletInterval = setInterval(spawnBullet, 500);
+
   gameRunning = true;
   gameInterval = setInterval(updateGame, 1000 / 60);
 }
@@ -96,4 +105,64 @@ export function showVideo() {
     videoOverlay.style.display = 'none';
     resetGame();
   }, 9000);
+}
+
+function spawnBullet() {
+  if (!gameRunning || isVideoPlaying()) return;
+
+  const bullet = {
+    x: playerPos.x + 25 - 5,
+    y: playerPos.y,
+    speed: 8,
+    element: document.createElement('div'),
+  };
+
+  bullet.element.classList.add('bullet');
+  Object.assign(bullet.element.style, {
+    position: 'absolute',
+    width: '10px',
+    height: '20px',
+    backgroundColor: 'yellow',
+    borderRadius: '5px',
+    left: bullet.x + 'px',
+    top: bullet.y + 'px',
+    zIndex: 10
+  });
+
+  container.appendChild(bullet.element);
+  bullets.push(bullet);
+
+  const move = () => {
+    if (!gameRunning) return;
+
+    bullet.y -= bullet.speed;
+    bullet.element.style.top = bullet.y + 'px';
+
+    enemies.forEach((enemy, i) => {
+      const rect1 = bullet.element.getBoundingClientRect();
+      const rect2 = enemy.element.getBoundingClientRect();
+      if (
+        rect1.left < rect2.right &&
+        rect1.right > rect2.left &&
+        rect1.top < rect2.bottom &&
+        rect1.bottom > rect2.top
+      ) {
+        enemy.element.remove();
+        clearInterval(enemy.moveInterval);
+        enemies.splice(i, 1);
+
+        bullet.element.remove();
+        bullets = bullets.filter(b => b !== bullet);
+      }
+    });
+
+    if (bullet.y < 0) {
+      bullet.element.remove();
+      bullets = bullets.filter(b => b !== bullet);
+    } else {
+      requestAnimationFrame(move);
+    }
+  };
+
+  requestAnimationFrame(move);
 }
