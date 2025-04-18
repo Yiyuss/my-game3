@@ -17,13 +17,13 @@ function levelUp() {
 }
 
 export function showUpgradeMenu() {
-  // 顯示升級選單，選擇升級選項
-  const options = ['增加攻擊力', '增加移動速度', '增加最大血量'];
-  // 假設你有一個 DOM 元素來顯示升級選單
   const upgradeMenu = document.getElementById('upgrade-menu');
   upgradeMenu.style.display = 'block';
+  
+  // 先清空之前的選項
+  upgradeMenu.innerHTML = '<h2>升級選擇</h2>'; 
 
-  // 你可以根據選擇來給予玩家屬性加成
+  const options = ['增加攻擊力', '增加移動速度', '增加最大血量'];
   options.forEach((option, index) => {
     const optionElement = document.createElement('div');
     optionElement.textContent = option;
