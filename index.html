@@ -6,12 +6,6 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div id="character-selection">
-    <p>請選擇角色：</p>
-    <div class="character" id="character1" style="background-image: url('https://i.imgur.com/JFTxfva.png');"></div>
-    <div class="character" id="character2" style="background-image: url('https://i.imgur.com/NPnmEtr.png');"></div>
-  </div>
-
   <div id="scoreboard" style="display:none;">
     得分: <span id="score">0</span> |
     時間: <span id="time">0</span> 秒
@@ -20,6 +14,14 @@
   <!-- 包裝器，讓遊戲容器真正置中 -->
   <div id="game-wrapper">
     <div id="game-container" style="position: relative; display: none;">
+      
+      <!-- ✅ 選角畫面應放在這裡 -->
+      <div id="character-selection">
+        <p>請選擇角色：</p>
+        <div class="character" id="character1" style="background-image: url('https://i.imgur.com/JFTxfva.png');"></div>
+        <div class="character" id="character2" style="background-image: url('https://i.imgur.com/NPnmEtr.png');"></div>
+      </div>
+
       <!-- 影片覆蓋層 -->
       <div id="video-overlay" style="display:none;">
         <iframe id="end-video" width="100%" height="100%" src="" frameborder="0" allow="autoplay; fullscreen"></iframe>
