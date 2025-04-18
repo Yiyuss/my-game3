@@ -1,4 +1,5 @@
 import { playerPos, player, container, showVideo, hitSound, enemies } from './game.js';
+import { addExp } from './level.js'; // 引入addExp函數
 
 // 移動敵人
 export function moveEnemy(enemyObj) {
@@ -24,7 +25,7 @@ export function moveEnemy(enemyObj) {
 }
 
 // 檢查敵人是否碰到玩家
-export function checkCollision(enemyObj) {
+export function checkCollisionWithPlayer(enemyObj) {
   const rect1 = player.getBoundingClientRect();
   const rect2 = enemyObj.element.getBoundingClientRect();
 
@@ -69,12 +70,11 @@ export function avoidEnemyCollision(current) {
   });
 }
 
-import { addExp } from './level.js'; // 引入addExp函數
-
-export function checkCollision(enemy) {
-  // 撞擊敵人後，給予玩家經驗
+// 檢查敵人死亡並掉落經驗寶石
+export function checkEnemyDeathAndDropGem(enemy) {
   const rect1 = player.getBoundingClientRect();
   const rect2 = enemy.element.getBoundingClientRect();
+
   if (
     rect1.left < rect2.right &&
     rect1.right > rect2.left &&
@@ -85,11 +85,13 @@ export function checkCollision(enemy) {
     enemy.element.remove();
     clearInterval(enemy.moveInterval);
     enemies = enemies.filter(e => e !== enemy);
+
     addExp(50); // 增加玩家經驗
     dropExperienceGem(enemy.pos); // 掉落經驗寶石
   }
 }
 
+// 掉落經驗寶石
 function dropExperienceGem(enemyPos) {
   const gem = document.createElement('div');
   gem.classList.add('experience-gem');
