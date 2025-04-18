@@ -115,6 +115,15 @@ iframe {
 
 /* 進入遊戲前：讓 game-container 有空間但不可見也不能互動 */
 #game-container.initialized {
+  background: none;
+  border: none;
   opacity: 0;
   pointer-events: none;
+}
+
+/* 初始狀態不顯示玩家與敵人 */
+#game-container.initialized #player,
+#game-container.initialized #enemy,
+#game-container.initialized #video-overlay {
+  display: none;
 }
