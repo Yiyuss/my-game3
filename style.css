@@ -26,14 +26,13 @@ body {
 
 /* 包裝遊戲容器：中間偏上顯示 */
 #game-wrapper {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 80px; /* 留出空間給計時器 */
-  position: relative; /* 確保子元素的定位是相對的 */
-  width: 1024px;
-  height: 576px;
+  padding-top: 80px; /* 給 scoreboard 空間 */
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 /* 選角畫面在遊戲視窗內置中 */
