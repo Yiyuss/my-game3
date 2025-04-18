@@ -38,8 +38,9 @@ body {
 /* 選角畫面在遊戲視窗內置中 */
 #character-selection {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 1024px;
   height: 576px;
   background-image: url('https://i.imgur.com/gIhNJmY.jpeg');
