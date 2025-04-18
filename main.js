@@ -14,13 +14,14 @@ function startGame(characterId) {
   // 選擇角色後隱藏選擇畫面，顯示遊戲畫面
   characterSelection.style.display = 'none';
   gameContainer.style.display = 'block';
-  
+  document.getElementById('scoreboard').style.display = 'block';  // ✅ 顯示計時器
+
   if (characterId === 'character1') {
     playerDiv.style.backgroundImage = 'url("https://i.imgur.com/JFTxfva.png")';
   } else if (characterId === 'character2') {
     playerDiv.style.backgroundImage = 'url("https://i.imgur.com/NPnmEtr.png")';
   }
-  
+
   resetGame();
 }
 
