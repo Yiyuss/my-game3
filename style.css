@@ -112,3 +112,9 @@ iframe {
   background-repeat: no-repeat;
   position: absolute;
 }
+
+/* 進入遊戲前：讓 game-container 有空間但不可見也不能互動 */
+#game-container.initialized {
+  opacity: 0;
+  pointer-events: none;
+}
