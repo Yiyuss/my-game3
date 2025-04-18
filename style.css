@@ -230,17 +230,14 @@ iframe {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ 經驗條容器 */
+/* ✅ 經驗條外框容器（貼齊遊戲畫面寬度） */
 #experience-container {
-  width: 100%;
-  max-width: 1024px; /* 與遊戲畫面一致 */
-  height: 20px;
-  background-color: #ddd;
-  border-radius: 10px;
-  margin-top: 20px;
+  width: 150px;
+  height: 12px;
+  background-color: #444;
+  border-radius: 6px;
   overflow: hidden;
-  position: relative;
-  z-index: 20;
+  margin-top: 4px;
 }
 
 /* ✅ 經驗條背景（深綠色底） */
@@ -252,19 +249,20 @@ iframe {
   background-color: #4caf50;
 }
 
-/* ✅ 經驗條填充（亮綠動畫條） */
+/* ✅ 經驗條進度條（可視區塊） */
 #experience-fill {
+  width: 0%;                      /* 開始是空的，會動態更新 */
   height: 100%;
-  width: 0%;
-  background-color: #76d7c4;
-  border-radius: 10px;
+  background-color: #3f0;         /* 明亮綠，清楚代表經驗值 */
   transition: width 0.3s ease;
 }
 
-/* ✅ 等級顯示 */
-#level-display {
-  font-size: 18px;
-  margin-top: 10px;
-  color: #ffffff;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+/* ✅ 等級數字區塊（可放經驗條上方或左上角） */
+#level-ui {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  color: white;
+  font-size: 16px;
 }
