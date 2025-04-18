@@ -68,3 +68,43 @@ export function avoidEnemyCollision(current) {
     }
   });
 }
+
+import { addExp } from './level.js'; // 引入addExp函數
+
+export function checkCollision(enemy) {
+  // 撞擊敵人後，給予玩家經驗
+  const rect1 = player.getBoundingClientRect();
+  const rect2 = enemy.element.getBoundingClientRect();
+  if (
+    rect1.left < rect2.right &&
+    rect1.right > rect2.left &&
+    rect1.top < rect2.bottom &&
+    rect1.bottom > rect2.top
+  ) {
+    // 觸發敵人死亡
+    enemy.element.remove();
+    clearInterval(enemy.moveInterval);
+    enemies = enemies.filter(e => e !== enemy);
+    addExp(50); // 增加玩家經驗
+    dropExperienceGem(enemy.pos); // 掉落經驗寶石
+  }
+}
+
+function dropExperienceGem(enemyPos) {
+  const gem = document.createElement('div');
+  gem.classList.add('experience-gem');
+  gem.style.position = 'absolute';
+  gem.style.width = '20px';
+  gem.style.height = '20px';
+  gem.style.backgroundColor = 'purple';
+  gem.style.borderRadius = '50%';
+  gem.style.left = `${enemyPos.x}px`;
+  gem.style.top = `${enemyPos.y}px`;
+
+  container.appendChild(gem);
+
+  gem.addEventListener('click', () => {
+    gem.remove(); // 撿起後移除寶石
+    addExp(50); // 撿取後增加經驗
+  });
+}
