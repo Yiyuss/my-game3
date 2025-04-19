@@ -141,3 +141,7 @@ export function spawnEnemy() {
   // 返回創建的敵人對象（若需要）
   return enemyObj;
 }
+
+export function createEnemy() {
+  // 實作創建敵人的邏輯
+}
