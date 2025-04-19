@@ -17,6 +17,9 @@ const endVideo = document.getElementById('end-video');
 characterButtons.forEach(button => {
   button.addEventListener('click', () => {
     selectedCharacter = button.dataset.character;
+    // 播放音效
+    const characterSelectSound = document.getElementById('character-select-sound');
+    characterSelectSound.play();
     startGame();
   });
 });
