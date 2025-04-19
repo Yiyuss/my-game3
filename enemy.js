@@ -68,3 +68,23 @@ export function avoidEnemyCollision(current) {
     }
   });
 }
+
+
+// 敵人死亡後掉落經驗寶石的邏輯
+function dropExperienceGem(enemy) {
+    const gem = document.createElement('div');
+    gem.classList.add('experience-gem');
+    gem.style.left = `${enemy.offsetLeft}px`;
+    gem.style.top = `${enemy.offsetTop}px`;
+    document.body.appendChild(gem);
+
+    gem.addEventListener('click', function() {
+        collectExperience(gem);
+    });
+}
+
+// 當敵人死亡時，觸發掉寶
+function enemyDeath(enemy) {
+    dropExperienceGem(enemy);
+    enemy.remove();
+}
