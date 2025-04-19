@@ -1,3 +1,4 @@
+// 引入其他模塊
 import { playerPos, player, container, showVideo, hitSound, enemies } from './game.js';
 
 // 移動敵人
@@ -11,6 +12,7 @@ export function moveEnemy(enemyObj) {
 
   enemyObj.pos.x += vx;
   enemyObj.pos.y += vy;
+}
 
 // 檢查敵人是否碰到玩家
 export function checkCollision(enemyObj) {
