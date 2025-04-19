@@ -31,3 +31,17 @@ export function movePlayer() {
 export function updatePlayer() {
   // 尚未實作，預留位置避免報錯
 }
+
+export function createPlayer() {
+  // 實作創建角色的邏輯
+  const player = document.createElement('div');
+  player.classList.add('player');
+  player.style.position = 'absolute';
+  player.style.left = '50px'; // 初始位置
+  player.style.top = '50px';
+
+  document.body.appendChild(player); // 把角色加到頁面上
+  console.log("角色創建完成！");
+
+  return player;
+}
