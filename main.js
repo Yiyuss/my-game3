@@ -1,5 +1,7 @@
+// 引入其他模塊
 import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
 import { isVideoPlaying } from './utils.js';
+import { moveEnemy, checkCollision, avoidEnemyCollision } from './enemy.js'; // 正確引入 enemy.js 的函數
 
 // 控制角色選擇
 const characterSelection = document.getElementById('character-selection');
