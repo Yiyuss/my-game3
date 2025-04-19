@@ -39,8 +39,8 @@ function checkLevelUp() {
 }
 
 // 2. 獲得經驗邏輯
-export function gainExperience() {
-  experience += 10;  // 每顆寶石加 10 經驗
+export function gainExperience(amount = 10) {
+  experience += amount;
   checkLevelUp();
 }
 
