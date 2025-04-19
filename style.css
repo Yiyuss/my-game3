@@ -255,11 +255,11 @@ iframe {
 }
 
 /* ✅ 等級數字區塊（可放經驗條上方或左上角） */
-#level-ui {
-  position: absolute;
+#level {
+  position: fixed;
   top: 10px;
   left: 10px;
-  z-index: 10;
   color: white;
-  font-size: 16px;
+  font-size: 24px;
+  z-index: 999;
 }
