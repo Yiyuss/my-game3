@@ -110,3 +110,34 @@ function dropExperienceGem(enemyPos) {
     addExp(50); // 撿取後增加經驗
   });
 }
+
+// 假設你的敵人是以 `div` 來表示的
+export function spawnEnemy() {
+  // 創建敵人元素
+  const enemy = document.createElement('div');
+  enemy.classList.add('enemy'); // 假設有 .enemy 的 CSS 樣式來設定敵人的外觀
+
+  // 初始化敵人位置，這裡可以設定隨機位置或固定位置
+  const x = Math.random() * window.innerWidth;
+  const y = Math.random() * window.innerHeight;
+  enemy.style.position = 'absolute';
+  enemy.style.left = `${x}px`;
+  enemy.style.top = `${y}px`;
+
+  // 假設敵人有一個速度
+  const speed = 1 + Math.random() * 3; // 隨機速度
+  const enemyObj = {
+    element: enemy,
+    pos: { x, y },
+    speed: speed
+  };
+
+  // 把敵人元素加入到遊戲容器中
+  document.getElementById('game-container').appendChild(enemy);
+
+  // 儲存敵人的資訊
+  enemies.push(enemyObj);
+
+  // 返回創建的敵人對象（若需要）
+  return enemyObj;
+}
