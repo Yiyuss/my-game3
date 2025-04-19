@@ -27,7 +27,7 @@ function startGame(characterId) {
   }
 
   // 重置遊戲狀態
-  resetGame();
+  resetGame(); showUpgradeMenu(); // 👉 測試用：先顯示升級選單
 }
 
 document.addEventListener('click', (e) => {
