@@ -108,6 +108,27 @@ export function updateGame() {
   requestAnimationFrame(updateGame);
 }
 
+// 播放廣告影片
+function showVideo() {
+  videoOverlay.style.display = 'block';  // 顯示遮罩層
+  endVideo.style.display = 'block';      // 顯示影片
+  gameRunning = false;                   // 暫停遊戲
+
+  endVideo.play();                       // 播放影片
+  endVideo.onended = function() {        // 當影片播放完畢後，重啟遊戲
+    videoOverlay.style.display = 'none'; // 隱藏影片遮罩層
+    endVideo.style.display = 'none';     // 隱藏影片
+    resetGame();                         // 重啟遊戲
+  };
+}
+
+// 檢查玩家死亡並播放影片
+export function checkPlayerDeath() {
+  if (playerHealth <= 0) {
+    showVideo();  // 播放影片並暫停遊戲
+  }
+}
+
 // 重置遊戲邏輯
 export function resetGame() {
   clearInterval(gameInterval);
