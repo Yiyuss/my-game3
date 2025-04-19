@@ -136,7 +136,8 @@ function showVideo() {
 export function resetGame() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
-  clearInterval(bulletInterval);
+  stopFiring(); // ✅ 改為正確的控制方式
+
   registerGemUpdater(checkExperienceCollision);
 
   enemies.forEach(e => {
@@ -165,7 +166,7 @@ export function resetGame() {
   spawnEnemy();
   spawnExperienceGem(200, 200);
   enemyInterval = setInterval(spawnEnemy, 5000);
-  bulletInterval = setInterval(spawnBullet, 500);
+  startFiring(); // ✅ 取代 bulletInterval + spawnBullet
 
   gameRunning = true;
   gameInterval = setInterval(updateGame, 1000 / 60);
