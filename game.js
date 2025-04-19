@@ -4,7 +4,6 @@ import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem }
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 import { startFiring, stopFiring } from './bullet.js';
 import { addExp } from './level.js'; // 引入addExp函數
-import { spawnEnemy } from './enemy.js';
 
 // === DOM 元素 ===
 export const container = document.getElementById('game-container');
