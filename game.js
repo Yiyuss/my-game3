@@ -1,180 +1,105 @@
-import { movePlayer } from './player.js';
-import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
-import { getRandomPosition, isVideoPlaying } from './utils.js';
+import { movePlayer, updatePlayer } from './player.js';
+import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem } from './enemy.js';
+import { startFiring, stopFiring } from './bullet.js';
 
+export const container = document.getElementById('game-container');
+export const player = document.getElementById('player');
 export const shootSound = document.getElementById('shoot-sound');
 export const explodeSound = document.getElementById('explode-sound');
+export const scoreEl = document.getElementById('score');
+export const timeEl = document.getElementById('time');
+export const levelEl = document.getElementById('level');
+
 export let score = 0;
 export let time = 0;
+export let level = 1;
+export let experience = 0;
 export let playerPos = { x: 200, y: 200 };
 export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
 export let bullets = [];
-export let enemyInterval;
-export let gameInterval;
-let bulletInterval;
 export let gameRunning = false;
+let bulletInterval;
+let enemyInterval;
+let gameInterval;
 
-export const scoreEl = document.getElementById('score');
-export const timeEl = document.getElementById('time');
-export const videoOverlay = document.getElementById('video-overlay');
-export const endVideo = document.getElementById('end-video');
-export const player = document.getElementById('player');
-export const hitSound = document.getElementById('hit-sound');
-export const container = document.getElementById('game-container');
-
-export function updateGame() {
-  if (!gameRunning || isVideoPlaying()) return;
-  time++;
-  score++;
-  timeEl.textContent = time;
-  scoreEl.textContent = score;
-  movePlayer();
-}
-
-export function resetGame() {
-  clearInterval(gameInterval);
-  clearInterval(enemyInterval);
-  clearInterval(bulletInterval);
-
-  enemies.forEach(e => {
-    e.element.remove();
-    clearInterval(e.moveInterval);
+function updateGame() {
+  updatePlayer();
+  enemies.forEach(enemy => {
+    moveEnemy(enemy);
+    checkEnemyDeathAndDropGem(enemy);
+    avoidEnemyCollision(enemy);
   });
-  enemies = [];
-
-  bullets.forEach(b => b.element.remove());
-  bullets = [];
-
-  score = 0;
-  time = 0;
-  scoreEl.textContent = score;
-  timeEl.textContent = time;
-
-  playerPos = { x: 200, y: 200 };
-  targetPos = { x: 200, y: 200 };
-  player.style.left = playerPos.x + 'px';
-  player.style.top = playerPos.y + 'px';
-
-  spawnEnemy();
-  enemyInterval = setInterval(spawnEnemy, 5000);
-  bulletInterval = setInterval(spawnBullet, 500);
-
-  gameRunning = true;
-  gameInterval = setInterval(updateGame, 1000 / 60);
+  checkExperienceCollision();
+  requestAnimationFrame(updateGame);
 }
 
-export function spawnEnemy() {
-  const enemyObj = {
-    pos: getRandomPosition(),
-    speed: 2,
-    health: 3, // 設定敵人的血量為 3
-    element: document.createElement('div'),
-    moveInterval: null,
-  };
-
-  enemyObj.element.classList.add('enemy');
-  Object.assign(enemyObj.element.style, {
-    position: 'absolute',
-    width: '50px',
-    height: '50px',
-    backgroundImage: 'url("https://i.imgur.com/NPnmEtr.png")',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
-  });
-  container.appendChild(enemyObj.element);
-  enemyObj.element.style.left = enemyObj.pos.x + 'px';
-  enemyObj.element.style.top = enemyObj.pos.y + 'px';
-
-  enemyObj.moveInterval = setInterval(() => {
-    if (!gameRunning || isVideoPlaying()) return;
-    moveEnemy(enemyObj);
-    avoidEnemyCollision(enemyObj);
-    checkCollision(enemyObj);
-  }, 30);
-
-  enemies.push(enemyObj);
-}
-
-export function showVideo() {
-  gameRunning = false;
-  endVideo.src = 'https://www.youtube.com/embed/Qybud8_paik?autoplay=1';
-  videoOverlay.style.display = 'flex';
-
-  enemies.forEach(e => clearInterval(e.moveInterval));
-
-  setTimeout(() => {
-    endVideo.src = '';
-    videoOverlay.style.display = 'none';
-    resetGame();
-  }, 9000);
-}
-
-function spawnBullet() {
-  if (!gameRunning || isVideoPlaying()) return;
-
-  const bullet = {
-    x: playerPos.x + 25 - 5,
-    y: playerPos.y,
-    speed: 8,
+export function spawnExperienceGem(x, y) {
+  const gem = {
+    x,
+    y,
     element: document.createElement('div'),
   };
 
-  bullet.element.classList.add('bullet');
-  Object.assign(bullet.element.style, {
+  gem.element.className = 'experience-gem';
+  Object.assign(gem.element.style, {
     position: 'absolute',
-    width: '10px',
-    height: '20px',
-    backgroundColor: 'yellow',
-    borderRadius: '5px',
-    left: bullet.x + 'px',
-    top: bullet.y + 'px',
-    zIndex: 10
+    width: '16px',
+    height: '16px',
+    backgroundColor: 'cyan',
+    borderRadius: '50%',
+    left: `${x}px`,
+    top: `${y}px`,
+    zIndex: 5,
   });
 
-  container.appendChild(bullet.element);
-  bullets.push(bullet);
+  container.appendChild(gem.element);
+}
 
-  shootSound.play(); // 播放射擊音效
+function gainExperience(amount = 10) {
+  experience += amount;
+  const requiredExp = level * 30;
+  if (experience >= requiredExp) {
+    experience -= requiredExp;
+    level++;
+    levelEl.textContent = 'Lv. ' + level;
+  }
+  updateExpBar();
+}
 
-  const move = () => {
-    if (!gameRunning) return;
-
-    bullet.x += bullet.speed;
-    bullet.element.style.left = bullet.x + 'px';
-
-    enemies.forEach((enemy, i) => {
-      const rect1 = bullet.element.getBoundingClientRect();
-      const rect2 = enemy.element.getBoundingClientRect();
-      if (
-        rect1.left < rect2.right &&
-        rect1.right > rect2.left &&
-        rect1.top < rect2.bottom &&
-        rect1.bottom > rect2.top
-      ) {
-        // 碰撞，扣血
-        enemy.health -= 1;
-
-        if (enemy.health <= 0) {
-          enemy.element.remove();
-          clearInterval(enemy.moveInterval);
-          enemies.splice(i, 1);
-          explodeSound.play(); // 播放爆炸音效
-        }
-
-        bullet.element.remove();
-        bullets = bullets.filter(b => b !== bullet);
-      }
-    });
-
-    // 如果子彈飛出畫面，移除子彈
-    if (bullet.x > container.clientWidth) {
-      bullet.element.remove();
-      bullets = bullets.filter(b => b !== bullet);
-    } else {
-      requestAnimationFrame(move);
+function checkExperienceCollision() {
+  const gems = document.querySelectorAll('.experience-gem');
+  gems.forEach(gem => {
+    const gemRect = gem.getBoundingClientRect();
+    const playerRect = player.getBoundingClientRect();
+    if (
+      playerRect.left < gemRect.right &&
+      playerRect.right > gemRect.left &&
+      playerRect.top < gemRect.bottom &&
+      playerRect.bottom > gemRect.top
+    ) {
+      gainExperience();
+      gem.remove();
     }
-  };
+  });
+}
 
-  requestAnimationFrame(move);
+function updateExpBar() {
+  const fill = document.getElementById('experience-fill');
+  const requiredExp = level * 30;
+  const percentage = (experience / requiredExp) * 100;
+  fill.style.width = `${Math.min(percentage, 100)}%`;
+}
+
+export function initGame() {
+  levelEl.textContent = 'Lv. 1';
+  gameRunning = true;
+  spawnEnemy();
+  startFiring();
+  gameInterval = setInterval(() => {
+    time++;
+    timeEl.textContent = time;
+  }, 1000);
+  enemyInterval = setInterval(spawnEnemy, 5000);
+  requestAnimationFrame(updateGame);
 }
