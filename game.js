@@ -42,6 +42,7 @@ function checkLevelUp() {
 export function gainExperience(amount = 10) {
   experience += amount;
   checkLevelUp();
+  updateExpBar(); // 🔥 補上這行
 }
 
 // 3. 檢查玩家與經驗寶石碰撞邏輯
@@ -120,6 +121,13 @@ export function updateGame() {
   movePlayer();
   checkExperienceCollision();
   checkPlayerEnemyCollision();
+}
+
+function updateExpBar() {
+  const fill = document.getElementById('experience-fill');
+  const requiredExp = level * 30;
+  const percentage = (experience / requiredExp) * 100;
+  fill.style.width = `${Math.min(percentage, 100)}%`;
 }
 
 // 重置遊戲邏輯
