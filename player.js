@@ -27,3 +27,31 @@ export function movePlayer() {
   player.style.left = playerPos.x + 'px';
   player.style.top = playerPos.y + 'px';
 }
+
+// 升級系統：經驗與等級
+let currentXP = 0;
+let currentLevel = 1;
+
+function getXPForLevel(level) {
+  return level * 100;
+}
+
+function addXP(amount) {
+  currentXP += amount;
+  const xpForNextLevel = getXPForLevel(currentLevel);
+  if (currentXP >= xpForNextLevel) {
+    currentXP -= xpForNextLevel;
+    currentLevel++;
+    document.getElementById('level-display').textContent = `Level: ${currentLevel}`;
+  }
+  updateXPBar();
+}
+
+function updateXPBar() {
+  const xpForNextLevel = getXPForLevel(currentLevel);
+  const xpPercentage = (currentXP / xpForNextLevel) * 100;
+  document.getElementById('exp-fill').style.width = `${xpPercentage}%`;
+}
+
+// 暴露給外部使用
+export { addXP, updateXPBar };
