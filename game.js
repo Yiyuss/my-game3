@@ -167,3 +167,33 @@ export function initGame(selectedCharacter) {
   // 根據 selectedCharacter 做初始化處理
   // 這裡是初始化遊戲邏輯的其他代碼...
 }
+
+// 在 game.js 中新增主遊戲循環
+export const startGameLoop = () => {
+  // 這是一個遊戲循環的基本框架
+  function gameLoop() {
+    // 你可以在這裡更新遊戲狀態，例如玩家移動、敵人行為、碰撞檢測等
+    updateGameState();
+
+    // 重新繪製遊戲畫面
+    renderGame();
+
+    // 下一幀呼叫 gameLoop
+    requestAnimationFrame(gameLoop);
+  }
+
+  // 開始遊戲循環
+  gameLoop();
+};
+
+// 更新遊戲邏輯的函數
+function updateGameState() {
+  // 例如，更新玩家位置、檢查碰撞等
+  // 這些函數根據你的遊戲需求來寫
+}
+
+// 渲染遊戲畫面的函數
+function renderGame() {
+  // 更新畫面顯示，例如重新繪製元素
+  // 根據你的遊戲結構來渲染畫面
+}
