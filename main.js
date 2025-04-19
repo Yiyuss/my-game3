@@ -1,50 +1,45 @@
-import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
+import { resetGame, gameRunning, container, player, targetPos, registerGemUpdater } from './game.js';
 import { isVideoPlaying } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log("✅ DOM 已就緒，開始初始化");
 
-  // 控制角色選擇
   const characterSelection = document.getElementById('character-selection');
   const gameContainer = document.getElementById('game-container');
   const playerDiv = document.getElementById('player');
   const characterImages = document.querySelectorAll('.character');
   const selectSound = document.getElementById('character-select-sound');
 
+  // ✅ 強制設定遊戲背景圖，避免黑畫面
+  gameContainer.style.backgroundImage = 'url("your-background-image.jpg")'; // 替換為你的背景圖連結
+  gameContainer.style.backgroundSize = 'cover';
+  gameContainer.style.backgroundPosition = 'center';
+
   // 角色選擇事件
   document.getElementById('character1').addEventListener('click', () => startGame('character1'));
   document.getElementById('character2').addEventListener('click', () => startGame('character2'));
 
-  // 經驗相關
+  // 經驗與等級
   let currentExperience = 0;
   let currentLevel = 1;
-  const experienceToLevelUp = 100; // 每個等級所需經驗值
+  const experienceToLevelUp = 100;
 
-  // 更新經驗條
   function updateExperience(experience) {
     currentExperience += experience;
-
-    // 計算經驗條進度
     let progress = (currentExperience / experienceToLevelUp) * 100;
-    if (progress > 100) {
-      progress = 100;
+    if (progress >= 100) {
       levelUp();
+      progress = 0;
     }
-
-    // 更新經驗條填充
     document.getElementById('experience-fill').style.width = progress + '%';
   }
 
-  // 等級提升邏輯
   function levelUp() {
     currentLevel++;
-    currentExperience = 0; // 重置經驗
-
-    // 更新等級顯示
+    currentExperience = 0;
     document.getElementById('level-ui').textContent = `Lv. ${currentLevel}`;
   }
 
-  // 開始遊戲
   function startGame(characterId) {
     characterSelection.style.display = 'none';
     gameContainer.style.display = 'block';
@@ -60,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resetGame();
   }
 
-  // 滑鼠移上角色播放音效
   characterImages.forEach(character => {
     character.addEventListener('mouseenter', () => {
       selectSound.play();
@@ -75,46 +69,49 @@ document.addEventListener('DOMContentLoaded', () => {
     targetPos.y = e.clientY - rect.top - player.offsetHeight / 2;
   });
 
-  // 撿取經驗物品
-  function onExperienceGemCollected(experienceValue) {
-    updateExperience(experienceValue); // 撿取經驗物品後增加經驗
+  // ✅ 經驗寶石系統（集中管理）
+  const experienceGems = [];
+
+  function spawnExperienceGem(x, y) {
+    const gem = document.createElement('div');
+    gem.classList.add('experience-gem');
+    gem.style.left = `${x}px`;
+    gem.style.top = `${y}px`;
+    gameContainer.appendChild(gem);
+    experienceGems.push(gem);
   }
 
-  // 敵人死亡後掉落經驗物品的邏輯
-  function spawnExperienceGem(x, y) {
-    const experienceGem = document.createElement('div');
-    experienceGem.classList.add('experience-gem');
-    experienceGem.style.left = `${x}px`;
-    experienceGem.style.top = `${y}px`;
+  function onExperienceGemCollected(value = 20) {
+    updateExperience(value);
+  }
 
-    // 添加到遊戲容器中
-    gameContainer.appendChild(experienceGem);
+  function isColliding(rect1, rect2) {
+    return !(
+      rect1.right < rect2.left ||
+      rect1.left > rect2.right ||
+      rect1.bottom < rect2.top ||
+      rect1.top > rect2.bottom
+    );
+  }
 
-    // 監聽玩家與經驗物品的碰撞
-    const experienceGemRect = experienceGem.getBoundingClientRect();
-    document.addEventListener('mousemove', () => {
-      // 檢查玩家是否碰到經驗物品
-      if (isColliding(player.getBoundingClientRect(), experienceGemRect)) {
-        onExperienceGemCollected(20); // 假設每個經驗物品給 20 點經驗
-        gameContainer.removeChild(experienceGem); // 撿取後移除該物品
+  // ✅ 將更新邏輯註冊給 game.js 中的主循環
+  registerGemUpdater(() => {
+    experienceGems.forEach((gem, index) => {
+      const gemRect = gem.getBoundingClientRect();
+      const playerRect = player.getBoundingClientRect();
+      if (isColliding(playerRect, gemRect)) {
+        onExperienceGemCollected(20);
+        gameContainer.removeChild(gem);
+        experienceGems.splice(index, 1);
       }
     });
-  }
+  });
 
-  // 撞擊檢測函數，檢查玩家與經驗物品是否碰撞
-  function isColliding(playerRect, gemRect) {
-    return !(playerRect.right < gemRect.left || 
-             playerRect.left > gemRect.right || 
-             playerRect.bottom < gemRect.top || 
-             playerRect.top > gemRect.bottom);
-  }
-
-  // 假設敵人死亡後會觸發掉落經驗物品
-  function onEnemyDefeated(enemy) {
-    const enemyPosition = enemy.getBoundingClientRect();
-    spawnExperienceGem(enemyPosition.left + enemy.offsetWidth / 2, enemyPosition.top + enemy.offsetHeight / 2);
-  }
-
-  // 當敵人死亡時，會呼叫 `onEnemyDefeated`
-  // 這樣會在敵人死亡後生成經驗物品，玩家可以透過碰撞來撿取並獲得經驗
+  // 提供外部調用的 API，讓敵人死亡後呼叫此方法
+  window.onEnemyDefeated = (enemy) => {
+    const rect = enemy.getBoundingClientRect();
+    const x = rect.left + enemy.offsetWidth / 2;
+    const y = rect.top + enemy.offsetHeight / 2;
+    spawnExperienceGem(x, y);
+  };
 });
