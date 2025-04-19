@@ -50,3 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+import { initUpgradeMenu } from './upgradeMenu.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  initUpgradeMenu();
+});
