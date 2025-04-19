@@ -202,3 +202,26 @@ function chooseUpgrade(type) {
     }
     document.querySelector('.upgrade-menu').remove(); // 關閉升級選單
 }
+
+let playerLevel = 1;  // 玩家等級
+let playerExperience = 0;  // 玩家經驗
+const levelUpThreshold = 100; // 升級所需經驗值
+let experienceBar = document.createElement('div');
+experienceBar.classList.add('experience-bar');
+document.body.appendChild(experienceBar);
+
+// 顯示玩家等級與經驗條
+function updateExperienceBar() {
+    const experiencePercentage = (playerExperience / levelUpThreshold) * 100;
+    experienceBar.style.width = `${experiencePercentage}%`;
+    const levelDisplay = document.querySelector('.level-display');
+    levelDisplay.innerHTML = `Level: ${playerLevel}`;
+}
+
+// 當玩家升級
+function playerLevelUp() {
+    playerLevel++;
+    playerExperience = 0; // 重置經驗
+    updateExperienceBar();
+    showUpgradeMenu(); // 顯示升級選單
+}
