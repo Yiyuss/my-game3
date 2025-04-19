@@ -1,8 +1,9 @@
 // upgradeMenu.js
+let upgradeMenu;
+let upgradeOptionsContainer;
+let onUpgradeSelectedCallback = null;
 
-let upgradeMenu = null;
-
-// 初始化選單 DOM 並插入到畫面
+// 初始化升級選單 UI
 export function initUpgradeMenu() {
   upgradeMenu = document.createElement('div');
   upgradeMenu.id = 'upgrade-menu';
@@ -11,40 +12,46 @@ export function initUpgradeMenu() {
   upgradeMenu.style.left = '50%';
   upgradeMenu.style.transform = 'translate(-50%, -50%)';
   upgradeMenu.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-  upgradeMenu.style.border = '2px solid white';
   upgradeMenu.style.padding = '20px';
-  upgradeMenu.style.display = 'none';
-  upgradeMenu.style.flexDirection = 'column';
-  upgradeMenu.style.alignItems = 'center';
+  upgradeMenu.style.border = '2px solid white';
   upgradeMenu.style.zIndex = '9999';
+  upgradeMenu.style.display = 'none';
 
-  // 加入三個按鈕（可先固定）
-  const options = [
-    { text: '增加最大血量 +10', apply: () => alert('血量增加！') },
-    { text: '技能A：範圍攻擊', apply: () => alert('技能A獲得！') },
-    { text: '技能B：擊退敵人', apply: () => alert('技能B獲得！') }
-  ];
+  const title = document.createElement('h2');
+  title.innerText = '選擇一個升級';
+  upgradeMenu.appendChild(title);
 
-  options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.textContent = opt.text;
-    btn.style.margin = '10px';
-    btn.onclick = () => {
-      opt.apply();
-      hideUpgradeMenu();
-    };
-    upgradeMenu.appendChild(btn);
-  });
+  upgradeOptionsContainer = document.createElement('div');
+  upgradeOptionsContainer.style.display = 'flex';
+  upgradeOptionsContainer.style.flexDirection = 'column';
+  upgradeOptionsContainer.style.gap = '10px';
 
+  upgradeMenu.appendChild(upgradeOptionsContainer);
   document.body.appendChild(upgradeMenu);
 }
 
-// 顯示升級選單
-export function showUpgradeMenu() {
-  upgradeMenu.style.display = 'flex';
+// 顯示升級選單（外部呼叫）
+export function showUpgradeMenu(options, onSelect) {
+  upgradeOptionsContainer.innerHTML = '';
+  onUpgradeSelectedCallback = onSelect;
+
+  options.forEach(option => {
+    const btn = document.createElement('button');
+    btn.innerText = option.label;
+    btn.style.padding = '10px';
+    btn.style.fontSize = '18px';
+    btn.addEventListener('click', () => {
+      hideUpgradeMenu();
+      if (onUpgradeSelectedCallback) {
+        onUpgradeSelectedCallback(option);
+      }
+    });
+    upgradeOptionsContainer.appendChild(btn);
+  });
+
+  upgradeMenu.style.display = 'block';
 }
 
 // 隱藏升級選單
 export function hideUpgradeMenu() {
-  upgradeMenu.style.display = 'none';
-}
+  upgradeMenu.style
