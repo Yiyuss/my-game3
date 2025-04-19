@@ -2,7 +2,7 @@
 import { movePlayer, updatePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
-import { spawnBullet, updateBullets } from './bullet.js';
+import { startFiring, stopFiring } from './bullet.js';
 
 // === DOM 元素 ===
 export const container = document.getElementById('game-container');
