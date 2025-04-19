@@ -111,16 +111,23 @@ export const hitSound = document.getElementById('hit-sound');
 export const container = document.getElementById('game-container');
 
 // 更新遊戲邏輯
-export function updateGame() {
-  if (!gameRunning || isVideoPlaying()) return;
-  time++;
-  score++;
-  timeEl.textContent = time;
-  scoreEl.textContent = score;
+// 在 updateGame 上方加入這段
+let gemUpdateCallbacks = [];
 
-  movePlayer();
-  checkExperienceCollision();
-  checkPlayerEnemyCollision();
+export function registerGemUpdater(callback) {
+  gemUpdateCallbacks.push(callback);
+}
+
+// 主循環
+export function updateGame() {
+  updatePlayer();
+  updateEnemies();
+  updateBullets();
+
+  // 呼叫所有經驗寶石的更新 callback
+  gemUpdateCallbacks.forEach(cb => cb());
+
+  requestAnimationFrame(updateGame);
 }
 
 export function updateExpBar() {
