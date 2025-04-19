@@ -40,7 +40,7 @@ export function checkCollisionWithPlayer(enemyObj) {
   // 播放碰撞音效並顯示視頻
   if (isColliding) {
     hitSound.play();
-    showVideo();
+    showVideo(); // 顯示廣告影片並暫停遊戲
   }
 }
 
