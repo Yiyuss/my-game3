@@ -17,9 +17,12 @@ const endVideo = document.getElementById('end-video');
 characterButtons.forEach(button => {
   button.addEventListener('click', () => {
     selectedCharacter = button.dataset.character;
+    console.log("選擇的角色：", selectedCharacter);  // 確保這裡顯示的角色是正確的
+
     // 播放音效
     const characterSelectSound = document.getElementById('character-select-sound');
     characterSelectSound.play();
+
     startGame();
   });
 });
