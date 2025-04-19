@@ -42,9 +42,9 @@
   <!-- 主邏輯 -->
   <script type="module" src="./main.js"></script>
 
-  <div class="level-display"></div>
-<div class="experience-bar-background">
-    <div class="experience-bar"></div>
+<div id="levelDisplay" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10; font-size: 20px; color: white;">Level: 1</div>
+<div id="expBarContainer" style="position: absolute; top: 50px; left: 50%; transform: translateX(-50%); width: 80%; height: 10px; background-color: #ccc; z-index: 5;">
+    <div id="expBar" style="height: 100%; width: 0; background-color: green;"></div>
 </div>
 
 </body>
