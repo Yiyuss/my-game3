@@ -68,3 +68,14 @@ export function avoidEnemyCollision(current) {
     }
   });
 }
+
+enemy.hp = 3; // 每隻敵人初始 3 滴血
+
+enemy.takeDamage = function (amount) {
+  this.hp -= amount;
+
+  if (this.hp <= 0) {
+    this.element.remove(); // 移除敵人
+    enemies = enemies.filter(e => e !== this); // 從陣列中移除
+  }
+};
