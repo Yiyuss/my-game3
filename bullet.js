@@ -36,15 +36,19 @@ function updateBullets() {
     }
 
     // 碰撞檢查
-    enemies.forEach(enemy => {
-      if (isColliding(bullet, enemy.element)) {
-        enemy.takeDamage?.(1);  // 扣1滴血
-        bullet.remove();
-        bullets.splice(index, 1);
-      }
-    });
-  });
-}
+import { addXP } from './player.js'; // 放最上面
+
+enemies.forEach(enemy => {
+  if (isColliding(bullet, enemy.element)) {
+    enemy.takeDamage?.(1); // 扣1滴血
+    bullet.remove();
+    bullets.splice(index, 1);
+
+    if (enemy.hp <= 0) {
+      addXP(50); // 擊殺敵人才加經驗
+    }
+  }
+});
 
 // 播放循環
 function startFiring() {
