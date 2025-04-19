@@ -178,3 +178,27 @@ function spawnBullet() {
 
   requestAnimationFrame(move);
 }
+
+function showUpgradeMenu() {
+    const upgradeMenu = document.createElement('div');
+    upgradeMenu.classList.add('upgrade-menu');
+    upgradeMenu.innerHTML = `
+        <h2>選擇升級選項</h2>
+        <button onclick="chooseUpgrade('health')">提升生命</button>
+        <button onclick="chooseUpgrade('damage')">提升傷害</button>
+        <button onclick="chooseUpgrade('speed')">提升移動速度</button>
+    `;
+    document.body.appendChild(upgradeMenu);
+}
+
+// 玩家選擇升級
+function chooseUpgrade(type) {
+    if (type === 'health') {
+        playerHealth += 20;
+    } else if (type === 'damage') {
+        playerDamage += 10;
+    } else if (type === 'speed') {
+        playerSpeed += 5;
+    }
+    document.querySelector('.upgrade-menu').remove(); // 關閉升級選單
+}
