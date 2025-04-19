@@ -16,7 +16,6 @@ let bulletInterval;
 export let gameRunning = false;
 
 export const scoreEl = document.getElementById('score');
-export const timeEl = document.getElementById('time');
 export const videoOverlay = document.getElementById('video-overlay');
 export const endVideo = document.getElementById('end-video');
 export const player = document.getElementById('player');
