@@ -205,13 +205,14 @@ iframe {
   transition: width 0.3s ease;
 }
 
-/* 等級與經驗條容器 */
+/* 經驗條容器 */
 #levelUI {
   position: absolute;
   top: 20px;
   left: 20px;
   width: 200px;
   z-index: 1000;
+  color: white;
 }
 
 /* 等級文字 */
@@ -235,7 +236,7 @@ iframe {
 /* 經驗條進度 */
 #expBar {
   height: 100%;
-  width: 0%;
+  width: 0%;  /* 需要動態更新 */
   background-color: #00ccff;
   transition: width 0.2s ease;
 }
