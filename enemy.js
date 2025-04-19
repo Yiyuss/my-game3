@@ -12,17 +12,6 @@ export function moveEnemy(enemyObj) {
   enemyObj.pos.x += vx;
   enemyObj.pos.y += vy;
 
-  // 確保敵人不會移動到遊戲區域之外
-  const maxX = container.clientWidth - 50;
-  const maxY = container.clientHeight - 50;
-  enemyObj.pos.x = Math.max(0, Math.min(enemyObj.pos.x, maxX));
-  enemyObj.pos.y = Math.max(0, Math.min(enemyObj.pos.y, maxY));
-
-  // 更新敵人位置
-  enemyObj.element.style.left = enemyObj.pos.x + 'px';
-  enemyObj.element.style.top = enemyObj.pos.y + 'px';
-}
-
 // 檢查敵人是否碰到玩家
 export function checkCollision(enemyObj) {
   const rect1 = player.getBoundingClientRect();
@@ -41,6 +30,38 @@ export function checkCollision(enemyObj) {
     hitSound.play();
     showVideo();
   }
+
+  // 當敵人與玩家碰撞時，減少敵人血量
+  if (isColliding) {
+    enemyObj.health -= 1;  // 每次碰撞減少1血量
+
+    // 檢查敵人是否死亡
+    if (enemyObj.health <= 0) {
+      // 觸發敵人死亡邏輯
+      handleEnemyDeath(enemyObj);
+    }
+  }
+}
+
+// 處理敵人死亡
+function handleEnemyDeath(enemyObj) {
+  // 移除敵人
+  enemyObj.element.remove();
+  
+  // 播放死亡動畫或效果
+  showDeathEffect(enemyObj);
+
+  // 給玩家加經驗（假設每個敵人掉 10 經驗）
+  addExp(10);
+}
+
+// 增加經驗的函式
+function addExp(expAmount) {
+  // 假設你已經在 `exp.js` 有這個函式，可以直接使用
+  currentExp += expAmount;  // 增加經驗
+
+  // 更新經驗顯示
+  updateExpDisplay();
 }
 
 // 避免敵人之間的碰撞
