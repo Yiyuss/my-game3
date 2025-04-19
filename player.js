@@ -27,3 +27,7 @@ export function movePlayer() {
   player.style.left = playerPos.x + 'px';
   player.style.top = playerPos.y + 'px';
 }
+
+export function updatePlayer() {
+  // 尚未實作，預留位置避免報錯
+}
