@@ -55,3 +55,32 @@ function updateXPBar() {
 
 // 暴露給外部使用
 export { addXP, updateXPBar };
+
+// 升級系統資料
+let level = 1;            // 玩家等級
+let currentXP = 0;        // 當前經驗
+let xpToNextLevel = 100;  // 升級所需經驗
+
+// 經驗條與等級文字的 DOM
+const levelText = document.getElementById('levelText');
+const expBar = document.getElementById('expBar');
+
+// 增加經驗值並檢查是否升級
+export function addXP(amount) {
+  currentXP += amount;
+
+  // 如果經驗值超過升級所需，就升級
+  while (currentXP >= xpToNextLevel) {
+    currentXP -= xpToNextLevel;
+    level++;
+    xpToNextLevel = Math.floor(xpToNextLevel * 1.2);  // 每次升級提高門檻
+
+    // TODO：你可以在這裡加入升級特效，例如回血或變強
+    console.log('升級！當前等級：', level);
+  }
+
+  // 更新畫面上的經驗條與等級
+  levelText.textContent = `Lv. ${level}`;
+  const progressPercent = (currentXP / xpToNextLevel) * 100;
+  expBar.style.width = `${progressPercent}%`;
+}
