@@ -1,3 +1,4 @@
+// === 引入模組與工具 ===
 import { playerPos, player, container, hitSound, enemies } from './game.js';
 import { addExp } from './level.js'; // 引入addExp函數
 
@@ -111,7 +112,7 @@ function dropExperienceGem(enemyPos) {
   });
 }
 
-// 假設你的敵人是以 `div` 來表示的
+// 創建敵人
 export function spawnEnemy() {
   // 創建敵人元素
   const enemy = document.createElement('div');
@@ -140,10 +141,4 @@ export function spawnEnemy() {
 
   // 返回創建的敵人對象（若需要）
   return enemyObj;
-}
-
-export function createEnemy() {
-  // 實作創建敵人的邏輯
-  console.log("創建敵人！");
-  // 這裡可以填入創建敵人的具體邏輯
 }
