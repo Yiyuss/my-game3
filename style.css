@@ -174,3 +174,31 @@ iframe {
 .bullet {
   transition: top 0.05s linear;
 }
+
+.experience-gem {
+    width: 20px;
+    height: 20px;
+    background-color: gold;
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.upgrade-menu {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.upgrade-menu button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
