@@ -225,3 +225,13 @@ function playerLevelUp() {
     updateExperienceBar();
     showUpgradeMenu(); // 顯示升級選單
 }
+
+function collectExperience(gem) {
+    playerExperience += 10; // 每顆經驗寶石給10點經驗
+    gem.remove();
+    updateExperienceBar(); // 更新經驗條
+
+    if (playerExperience >= levelUpThreshold) {
+        playerLevelUp();
+    }
+}
