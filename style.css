@@ -228,3 +228,27 @@ iframe {
     border-radius: 10px;
     transition: width 0.5s;
 }
+
+/* 經驗寶石的基本樣式 */
+.experience-gem {
+    width: 20px;
+    height: 20px;
+    background-color: #FFD700; /* 金色 */
+    border-radius: 50%; /* 圓形 */
+    position: absolute;
+    z-index: 10; /* 保證經驗寶石顯示在其他元素上方 */
+}
+
+/* 撿起後的動畫效果 */
+@keyframes gemPickup {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.5);
+    }
+}
+
+.experience-gem.picked-up {
+    animation: gemPickup 0.3s ease-out forwards;
+}
