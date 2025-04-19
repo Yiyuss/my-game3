@@ -202,3 +202,29 @@ iframe {
     font-size: 16px;
 }
 
+.level-display {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: white;
+    z-index: 10;
+}
+
+.experience-bar-background {
+    position: fixed;
+    top: 40px;
+    left: 10px;
+    width: 200px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.experience-bar {
+    height: 100%;
+    width: 0;
+    background-color: #76c7c0;
+    border-radius: 10px;
+    transition: width 0.5s;
+}
