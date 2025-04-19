@@ -122,19 +122,6 @@ export function checkPlayerDeath() {
   }
 }
 
-function showVideo() {
-  videoOverlay.style.display = 'block';
-  endVideo.style.display = 'block';
-  gameRunning = false;
-
-  endVideo.play();
-  endVideo.onended = function () {
-    videoOverlay.style.display = 'none';
-    endVideo.style.display = 'none';
-    resetGameState();
-  };
-}
-
 // === 遊戲重置邏輯 ===
 export function resetGameState() {
   clearInterval(gameInterval);
