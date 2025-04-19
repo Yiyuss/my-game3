@@ -1,4 +1,4 @@
-import { movePlayer } from './player.js';
+import { movePlayer, addXP } from './player.js';
 import { moveEnemy, avoidEnemyCollision, checkCollision } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 
