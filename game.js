@@ -179,6 +179,8 @@ function startGame() {
   if (gameStarted || !selectedCharacter) return;
   gameStarted = true;
 
+  console.log("遊戲開始...");  // 這行可以幫助你確認 startGame 是否有被觸發
+
   startScreen.style.display = 'none';
   gameContainer.style.display = 'block';
   timerContainer.style.display = 'flex';
