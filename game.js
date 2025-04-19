@@ -130,16 +130,15 @@ function showVideo() {
   endVideo.onended = function () {
     videoOverlay.style.display = 'none';
     endVideo.style.display = 'none';
-    resetGame();
+    resetGameState();
   };
 }
 
 // === 遊戲重置邏輯 ===
-export function resetGame() {
+export function resetGameState() {
   clearInterval(gameInterval);
   clearInterval(enemyInterval);
-  stopFiring(); // ✅ 改為正確的控制方式
-
+  stopFiring();
   registerGemUpdater(checkExperienceCollision);
 
   enemies.forEach(e => {
@@ -168,25 +167,10 @@ export function resetGame() {
   spawnEnemy();
   spawnExperienceGem(200, 200);
   enemyInterval = setInterval(spawnEnemy, 5000);
-  startFiring(); // ✅ 取代 bulletInterval + spawnBullet
+  startFiring();
 
   gameRunning = true;
   gameInterval = setInterval(updateGame, 1000 / 60);
-}
-
-// === 遊戲啟動邏輯 ===
-function startGame() {
-  if (gameStarted || !selectedCharacter) return;
-  gameStarted = true;
-
-  console.log("遊戲開始...");  // 這行可以幫助你確認 startGame 是否有被觸發
-
-  startScreen.style.display = 'none';
-  gameContainer.style.display = 'block';
-  timerContainer.style.display = 'flex';
-
-  initGame(selectedCharacter);
-  startGameLoop();
 }
 
 // 確保 initGame 函數已正確定義並導出
