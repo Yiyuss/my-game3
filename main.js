@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentExperience = 0; // 重置經驗
 
     // 更新等級顯示
-    document.getElementById('level-ui').textContent = `Lv. ${currentLevel}`;
+    document.getElementById('level-display').textContent = `Lv. ${currentLevel}`;
   }
 
   // 開始遊戲
