@@ -123,7 +123,7 @@ export function updateGame() {
   checkPlayerEnemyCollision();
 }
 
-function updateExpBar() {
+export function updateExpBar() {
   const fill = document.getElementById('experience-fill');
   const requiredExp = level * 30;
   const percentage = (experience / requiredExp) * 100;
