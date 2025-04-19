@@ -89,3 +89,23 @@ export function avoidEnemyCollision(current) {
     }
   });
 }
+
+// 創建敵人的函式
+function createEnemy() {
+  // 初始化敵人物件
+  const enemy = {
+    element: document.createElement('div'),  // 創建對應的HTML元素
+    pos: { x: 100, y: 100 },                // 初始位置
+    speed: 1,                               // 速度
+    health: 10,                             // 血量
+  };
+
+  // 設置敵人元素的樣式
+  enemy.element.style.position = 'absolute';
+  enemy.element.style.left = `${enemy.pos.x}px`;
+  enemy.element.style.top = `${enemy.pos.y}px`;
+  enemy.element.classList.add('enemy'); // 可選：為了後續樣式處理
+  document.body.appendChild(enemy.element); // 將敵人元素加到頁面中
+
+  return enemy;  // 回傳創建的敵人物件
+}
