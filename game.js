@@ -236,3 +236,11 @@ function pickUpExpGem() {
 function onEnemyDefeated() {
     pickUpExpGem();
 }
+
+function dropExperience(x, y) {
+    let expGem = document.createElement('div');
+    expGem.classList.add('exp-gem');
+    expGem.style.left = `${x}px`;
+    expGem.style.top = `${y}px`;
+    document.body.appendChild(expGem);
+}
