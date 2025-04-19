@@ -144,4 +144,6 @@ export function spawnEnemy() {
 
 export function createEnemy() {
   // 實作創建敵人的邏輯
+  console.log("創建敵人！");
+  // 這裡可以填入創建敵人的具體邏輯
 }
