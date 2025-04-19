@@ -25,10 +25,7 @@ export const container = document.getElementById('game-container');
 
 export function updateGame() {
   if (!gameRunning || isVideoPlaying()) return;
-  time++;
-  score++;
-  timeEl.textContent = time;
-  scoreEl.textContent = score;
+
   movePlayer();
 }
 
@@ -48,8 +45,6 @@ export function resetGame() {
 
   score = 0;
   time = 0;
-  scoreEl.textContent = score;
-  timeEl.textContent = time;
 
   playerPos = { x: 200, y: 200 };
   targetPos = { x: 200, y: 200 };
