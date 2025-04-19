@@ -252,3 +252,11 @@ iframe {
 .experience-gem.picked-up {
     animation: gemPickup 0.3s ease-out forwards;
 }
+
+#timer {
+    position: fixed;
+    top: 0;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 10; /* 確保它在其他元素之上 */
+}
