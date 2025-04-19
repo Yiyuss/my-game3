@@ -1,70 +1,49 @@
-import { playerPos, player, container, showVideo, hitSound, enemies } from './game.js';
+import { container, player, enemies, explodeSound, spawnExperienceGem } from './game.js';
 
-// 移動敵人
-export function moveEnemy(enemyObj) {
-  const dx = playerPos.x - enemyObj.pos.x;
-  const dy = playerPos.y - enemyObj.pos.y;
-  const angle = Math.atan2(dy, dx);
+export function spawnEnemy() {
+  const enemy = document.createElement('div');
+  enemy.className = 'enemy';
+  enemy.style.position = 'absolute';
+  enemy.style.width = '30px';
+  enemy.style.height = '30px';
+  enemy.style.backgroundColor = 'red';
+  enemy.style.left = Math.random() * 800 + 'px';
+  enemy.style.top = Math.random() * 500 + 'px';
+  container.appendChild(enemy);
 
-  const vx = Math.cos(angle) * enemyObj.speed;
-  const vy = Math.sin(angle) * enemyObj.speed;
-
-  enemyObj.pos.x += vx;
-  enemyObj.pos.y += vy;
-
-  // 確保敵人不會移動到遊戲區域之外
-  const maxX = container.clientWidth - 50;
-  const maxY = container.clientHeight - 50;
-  enemyObj.pos.x = Math.max(0, Math.min(enemyObj.pos.x, maxX));
-  enemyObj.pos.y = Math.max(0, Math.min(enemyObj.pos.y, maxY));
-
-  // 更新敵人位置
-  enemyObj.element.style.left = enemyObj.pos.x + 'px';
-  enemyObj.element.style.top = enemyObj.pos.y + 'px';
+  enemies.push({ element: enemy, hp: 30, x: 0, y: 0 });
 }
 
-// 檢查敵人是否碰到玩家
-export function checkCollision(enemyObj) {
-  const rect1 = player.getBoundingClientRect();
-  const rect2 = enemyObj.element.getBoundingClientRect();
+export function moveEnemy(enemy) {
+  const playerRect = player.getBoundingClientRect();
+  const enemyRect = enemy.element.getBoundingClientRect();
+  const dx = playerRect.left - enemyRect.left;
+  const dy = playerRect.top - enemyRect.top;
+  const dist = Math.hypot(dx, dy);
+  const speed = 1;
 
-  // 判斷是否發生碰撞
-  const isColliding = !(
-    rect1.right < rect2.left ||
-    rect1.left > rect2.right ||
-    rect1.bottom < rect2.top ||
-    rect1.top > rect2.bottom
-  );
-
-  // 播放碰撞音效並顯示視頻
-  if (isColliding) {
-    hitSound.play();
-    showVideo();
+  // 防止除以 0
+  if (dist > 0) {
+    enemy.x += (dx / dist) * speed;
+    enemy.y += (dy / dist) * speed;
   }
+
+  enemy.element.style.transform = `translate(${enemy.x}px, ${enemy.y}px)`;
 }
 
-// 避免敵人之間的碰撞
-export function avoidEnemyCollision(current) {
-  enemies.forEach(other => {
-    if (other === current) return;  // 跳過自身
+export function avoidEnemyCollision(enemy) {
+  // 預留處理碰撞（可忽略）
+}
 
-    const dx = other.pos.x - current.pos.x;
-    const dy = other.pos.y - current.pos.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+export function checkEnemyDeathAndDropGem(enemy) {
+  if (enemy.hp <= 0) {
+    explodeSound.play();
 
-    const minDistance = 50;  // 最小碰撞距離
+    const rect = enemy.element.getBoundingClientRect();
+    spawnExperienceGem(rect.left, rect.top);
 
-    // 當敵人之間的距離小於最小距離時，避免重疊
-    if (distance < minDistance && distance > 0) {
-      const angle = Math.atan2(dy, dx);
-      const overlap = minDistance - distance;
-
-      current.pos.x -= Math.cos(angle) * overlap;
-      current.pos.y -= Math.sin(angle) * overlap;
-
-      // 更新位置
-      current.element.style.left = current.pos.x + 'px';
-      current.element.style.top = current.pos.y + 'px';
-    }
-  });
+    enemy.element.remove();
+    const index = enemies.indexOf(enemy);
+    if (index !== -1) enemies.splice(index, 1);
+  }
 }
