@@ -207,21 +207,21 @@ iframe {
 
 /* ✅ 經驗條容器：移到遊戲畫面內部，置中偏下 */
 #experience-bar {
-  width: 180px;
-  height: 12px;
-  background-color: #333;
-  border-radius: 6px;
+  width: 200px;
+  height: 10px;
+  background-color: #444;
+  border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 0 3px #000;
+  box-shadow: 0 0 2px #000;
 }
 
 /* ✅ 經驗條填充 */
 #experience-fill {
   height: 100%;
-  background-color: #4caf50;
   width: 0%;
+  background-color: #4caf50;
   transition: width 0.3s ease;
-  border-radius: 6px 0 0 6px;
+  border-radius: 5px 0 0 5px;
 }
 
 /* ✅ 升級菜單 */
@@ -249,17 +249,18 @@ iframe {
 /* ✅ 等級數字區塊（可放經驗條上方或左上角） */
 #level-ui {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   z-index: 10;
   font-family: Arial, sans-serif;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 8px; /* LV 與經驗條間距 */
 }
 
 #level-display {
   color: white;
   font-size: 16px;
   font-weight: bold;
+  white-space: nowrap;
 }
