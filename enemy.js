@@ -142,3 +142,17 @@ export function spawnEnemy() {
   // 返回創建的敵人對象（若需要）
   return enemyObj;
 }
+
+export function createEnemy() {
+  // 實作創建敵人的邏輯
+  const enemy = document.createElement('div');
+  enemy.classList.add('enemy');
+  enemy.style.position = 'absolute';
+  enemy.style.left = `${Math.random() * window.innerWidth}px`;
+  enemy.style.top = `${Math.random() * window.innerHeight}px`;
+
+  document.body.appendChild(enemy); // 把敵人加到頁面上
+  console.log("敵人創建完成！");
+
+  return enemy;
+}
