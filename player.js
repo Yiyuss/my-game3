@@ -27,3 +27,22 @@ export function movePlayer() {
   player.style.left = playerPos.x + 'px';
   player.style.top = playerPos.y + 'px';
 }
+
+let playerExperience = 0;
+const levelUpThreshold = 100; // 升級所需的經驗值
+
+// 收集經驗寶石後提升經驗值
+function collectExperience(gem) {
+    playerExperience += 10; // 每顆經驗寶石給10點經驗
+    gem.remove();
+
+    if (playerExperience >= levelUpThreshold) {
+        playerLevelUp();
+    }
+}
+
+// 升級功能
+function playerLevelUp() {
+    playerExperience = 0; // 重置經驗
+    showUpgradeMenu(); // 顯示升級選單
+}
