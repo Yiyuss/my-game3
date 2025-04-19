@@ -1,3 +1,4 @@
+import { initUpgradeMenu, showUpgradeMenu } from './upgradeMenu.js';
 import { resetGame, gameRunning, gameInterval, enemyInterval, updateGame, spawnEnemy, container, player, targetPos } from './game.js';
 import { isVideoPlaying } from './utils.js';
 
