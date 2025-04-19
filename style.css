@@ -208,6 +208,25 @@ iframe {
   background-size: cover;
 }
 
+#experience-bar {
+  position: fixed;
+  top: 50px; /* 可以根據需要調整 */
+  left: 10px;
+  width: 200px;
+  height: 20px;
+  background-color: #444;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 999;
+}
+
+#experience-fill {
+  width: 0%;
+  height: 100%;
+  background-color: lime;
+  transition: width 0.3s ease;
+}
+
 /* ✅ 升級菜單 */
 #upgrade-menu {
   position: fixed;
