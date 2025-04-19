@@ -31,10 +31,9 @@ export function spawnExperienceGem(x, y) {
 
 // 🔥 新增：升級判斷與等級提升
 function checkLevelUp() {
-  const requiredExp = level * 30;
-  if (experience >= requiredExp) {
+  while (experience >= level * 30) {
+    experience -= level * 30;
     level++;
-    experience = 0;
     levelEl.textContent = 'Lv. ' + level;
   }
 }
