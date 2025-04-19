@@ -1,6 +1,6 @@
 // === 引入模組與工具 ===
 import { movePlayer, updatePlayer } from './player.js';
-import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem } from './enemy.js';
+import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem, createEnemy } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 import { startFiring, stopFiring } from './bullet.js';
 import { addExp } from './level.js'; // 引入addExp函數
