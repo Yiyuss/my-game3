@@ -5,7 +5,6 @@ import { getRandomPosition, isVideoPlaying } from './utils.js';
 export const shootSound = document.getElementById('shoot-sound');
 export const explodeSound = document.getElementById('explode-sound');
 export let score = 0;
-export let time = 0;
 export let playerPos = { x: 200, y: 200 };
 export let targetPos = { x: 200, y: 200 };
 export let enemies = [];
@@ -43,7 +42,6 @@ export function resetGame() {
   bullets = [];
 
   score = 0;
-  time = 0;
 
   playerPos = { x: 200, y: 200 };
   targetPos = { x: 200, y: 200 };
@@ -101,7 +99,7 @@ export function showVideo() {
     endVideo.src = '';
     videoOverlay.style.display = 'none';
     resetGame();
-  }, 9000);
+  }, 9500);
 }
 
 function spawnBullet() {
