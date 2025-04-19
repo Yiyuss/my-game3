@@ -24,12 +24,23 @@
       width: 200px;
       height: 20px;
       background-color: #333;
+      border-radius: 5px;
+      overflow: hidden;
     }
 
     #experience-fill {
       height: 100%;
       background-color: #0f0;
-      width: 0; /* 從 0 開始，根據經驗進度更新 */
+      width: 0%; /* 從 0 開始，根據經驗進度更新 */
+      transition: width 0.3s ease; /* 使經驗條變化平滑 */
+    }
+
+    /* 遊戲容器 */
+    #game-container {
+      position: relative;
+      width: 1024px;
+      height: 576px;
+      background-color: #333;
     }
   </style>
 </head>
