@@ -172,3 +172,15 @@ export function updateExpBar() {
   const percentage = (experience / requiredExp) * 100;
   fill.style.width = `${Math.min(percentage, 100)}%`;
 }
+
+function startGame() {
+  if (gameStarted || !selectedCharacter) return;
+  gameStarted = true;
+
+  startScreen.style.display = 'none';
+  gameContainer.style.display = 'block';
+  timerContainer.style.display = 'flex';
+
+  initGame(selectedCharacter);  // 確保初始化遊戲邏輯
+  startGameLoop();  // 開始遊戲循環
+}
