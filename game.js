@@ -4,6 +4,7 @@ import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem, 
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 import { startFiring, stopFiring } from './bullet.js';
 import { addExp } from './level.js'; // 引入addExp函數
+import { showVideo } from './main.js'; // ✅ 呼叫 main 中的影片顯示函數
 
 // === DOM 元素 ===
 export const container = document.getElementById('game-container');
@@ -117,7 +118,7 @@ export function updateExpBar() {
 // === 玩家死亡/影片廣告 ===
 export function checkPlayerDeath() {
   if (playerHealth <= 0) {
-    showVideo();
+    showVideo(); // ✅ 改為呼叫 main 的
   }
 }
 
