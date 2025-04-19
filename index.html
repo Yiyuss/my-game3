@@ -4,6 +4,33 @@
   <meta charset="UTF-8">
   <title>遊戲</title>
   <link rel="stylesheet" href="./style.css">
+  <style>
+    /* 添加內嵌 CSS 用於排版調整 */
+    #level-ui {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+    }
+
+    #level-display {
+      font-size: 16px;
+      color: white;
+    }
+
+    #experience-bar {
+      width: 200px;
+      height: 20px;
+      background-color: #333;
+      margin-top: 5px;
+    }
+
+    #experience-fill {
+      height: 100%;
+      background-color: #0f0;
+      width: 0; /* 從 0 開始，根據經驗進度更新 */
+    }
+  </style>
 </head>
 <body>
 
@@ -26,6 +53,7 @@
   <div id="game-wrapper">
     <div id="game-container" class="initialized">
 
+      <!-- 調整後的 LV 和 經驗條排版 -->
       <div id="level-ui">
         <div id="level-display"><span id="level">Level: 1</span></div>
         <div id="experience-bar">
