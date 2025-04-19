@@ -186,3 +186,10 @@ function startGame() {
   initGame(selectedCharacter);
   startGameLoop();
 }
+
+// 確保 initGame 函數已正確定義並導出
+export function initGame(selectedCharacter) {
+  console.log("初始化遊戲，角色：", selectedCharacter);
+  // 根據 selectedCharacter 做初始化處理
+  // 這裡是初始化遊戲邏輯的其他代碼...
+}
