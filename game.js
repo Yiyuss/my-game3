@@ -3,6 +3,7 @@ import { movePlayer, updatePlayer } from './player.js';
 import { moveEnemy, avoidEnemyCollision, spawnEnemy, checkEnemyDeathAndDropGem } from './enemy.js';
 import { getRandomPosition, isVideoPlaying } from './utils.js';
 import { startFiring, stopFiring } from './bullet.js';
+import { addExp } from './level.js'; // 引入addExp函數
 
 // === DOM 元素 ===
 export const container = document.getElementById('game-container');
@@ -87,6 +88,7 @@ export function gainExperience(amount = 10) {
   experience += amount;
   checkLevelUp();
   updateExpBar();
+  addExp(amount); // 新增這行，將經驗值加到角色的經驗系統中
 }
 
 export function checkExperienceCollision() {
