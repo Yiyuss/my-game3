@@ -5,24 +5,25 @@
   <title>遊戲</title>
   <link rel="stylesheet" href="./style.css">
   <style>
-    /* 添加內嵌 CSS 用於排版調整 */
+    /* 調整 LV 文字和經驗條的排版，保持在遊戲畫面內 */
     #level-ui {
       position: absolute;
-      top: 10px;
+      top: 10px; /* 控制位置不會超出 */
       left: 10px;
       z-index: 10;
+      color: white;
+      font-family: Arial, sans-serif;
     }
 
     #level-display {
       font-size: 16px;
-      color: white;
+      margin-bottom: 5px; /* LV 文字與經驗條間距 */
     }
 
     #experience-bar {
       width: 200px;
       height: 20px;
       background-color: #333;
-      margin-top: 5px;
     }
 
     #experience-fill {
