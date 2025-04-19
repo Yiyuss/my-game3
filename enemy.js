@@ -1,4 +1,4 @@
-import { playerPos, player, container, showVideo, hitSound, enemies } from './game.js';
+import { playerPos, player, container, hitSound, enemies } from './game.js';
 import { addExp } from './level.js'; // 引入addExp函數
 
 // 移動敵人
